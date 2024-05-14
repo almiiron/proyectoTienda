@@ -1,17 +1,13 @@
 <?php
-// class Pagination
-// {
-//     public function Paginate($table, $conexion)
-//     {
-//         try {
-//             $query = "SELECT count(*) as TotalRows FROM " . $table;
-//             $stmt = $conexion->ejecutarConsulta($query);
-//             $rows = $stmt->fetch_assoc(); // Obtener el resultado de la consulta
-//             return $rows;
-//         } catch (Exception $e) {
-//             echo 'Excepción capturada: ', $e->getMessage(), "\n";
-//         }
-//     }
-// }
+class Pagination
+{
+    public function getTotalRows($table, $conexion, $where_clause = '')
+    {
+        $query = "SELECT COUNT(*) as TotalRows FROM $table $where_clause";
+        $resultado = $conexion->ejecutarConsulta($query);
+        $totalRows = $resultado->fetch_assoc();
+        return $totalRows['TotalRows'];
+    }
+}
 
 ?>

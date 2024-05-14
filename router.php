@@ -1,5 +1,4 @@
 <?php
-
 class Router
 {
     private $controller;

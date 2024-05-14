@@ -1,24 +1,26 @@
 <?php
-// require_once ('./model/classPagination.php');
-// require_once ('./model/classConexion.php');
+require_once ('./model/classPagination.php');
 
-// class controllerPagination
-// {
-//     private $pm;
-//     private $conexion;
+class ControllerPagination
+{
+    private $paginationModel;
+    public $size;
+    public function __construct()
+    {
+        $this->paginationModel = new Pagination;
+        $this->size = 30;
+    }
 
-//     public function __construct($conexion)
-//     {
-//         $this->pm = new Pagination();
-//         $this->conexion = $conexion;
-//     }
+    public function getTotalRows($table, $conexion, $where_clause = '')
+    {
+        return $this->paginationModel->getTotalRows($table, $conexion, $where_clause);
+    }
 
-//     public function Paginate($table, $size)
-//     {
-//         $rows = $this->pm->Paginate($table, $this->conexion); 
-//         $pages = $rows['TotalRows'] / $size;
-//         return $pages;
-//     }
-// }
+    public function getTotalPages($totalRows, $size)
+    {
+        return ceil($totalRows / $size);
+    }
+}
+
 
 ?>

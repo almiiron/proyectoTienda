@@ -72,7 +72,7 @@ function cambiarEstado(id, estadoActual) {
     }).then(function (confirmDelete) {
         if (confirmDelete) {
             var metodo = $('#metodo').val();
-            var url = 'procesarCambiarEstado' + metodo; // Concatenando la variable método a la URL
+            var url = 'http://localhost/proyectoTienda/page/procesarCambiarEstado' + metodo; // Concatenando la variable método a la URL
 
             console.log('URL:', url);
             var formData = {
@@ -141,7 +141,7 @@ function mostrar(value) {
 
 function enviarFiltros(url, datos) {
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: url,
         data: datos,
         success: function (response) {
@@ -167,4 +167,3 @@ $(document).ready(function () {
         enviarFiltros(url, filtro);
     });
 });
-

@@ -50,49 +50,45 @@ class ControllerCategoria
     }
 
 
-    public function listarCategorias()
+    public function listarCategorias($numPage, $paginationController)
     {
-        ///////////////////////////
         $categoria = new Categorias(null, null);
-        $lista = $categoria->listarCategorias($this->conexion);
-        if ($lista) {
-            //si hay categorias para mostrar, ejecuta esto
+        if ($numPage == "" || $numPage <= 0) {
+            $start = 0;
+            header('location:http://localhost/proyectoTienda/page/listarCategorias/1');
+            //si en mi url el numPage es letra o numero menor a 0, entonces me redirecciona
+        } else {
+            $start = $numPage * $paginationController->size - $paginationController->size;
+        }
 
+        $totalRows = $paginationController->getTotalRows('categorias', $this->conexion); // el total de filas para la paginación
+        $pages = $paginationController->getTotalPages($totalRows, $paginationController->size); //la cantidad de paginas
+        $lista = $categoria->listarCategorias($start, $paginationController->size, $this->conexion); //los datos a mostrar
+
+        if ($lista) { //si hay categorias para mostrar, ejecuta esto
             $ids = []; // Inicializar un array para almacenar los IDs
             foreach ($lista as $fila) {
                 $ids[] = $fila['id_categoria']; // Agregar cada ID al array
             }
-
-            // Ahora puedes pasar tanto la lista como los IDs a la vista
-            $contenedor = "Categoria";
-            $titulo = "Categoria";
-            $limpiarFiltros = False;
-            $tituloTabla = "Categorias";
-            $encabezados = array("ID Categoria", "Nombre de la Categoria");
-            require_once ('./views/layouts/header.php');
-            require_once ('./views/listar/listar-table.php');
-            require_once ('./views/layouts/footer.php');
-        } else {
-            //si hay categorias para mostrar, ejecuta esto
-
-
-
-            // Ahora puedes pasar tanto la lista como los IDs a la vista
-            $contenedor = "Categoria";
-            $titulo = "Categoria";
-            $tituloTabla = "Categorias";
-            $limpiarFiltros = False;
-            $encabezados = array("ID Categoria", "Nombre de la Categoria");
-            require_once ('./views/layouts/header.php');
-            require_once ('./views/listar/listar-table.php');
-            require_once ('./views/layouts/footer.php');
         }
+
+        $limpiarFiltros = False;
+        $base_url = 'http://localhost/proyectoTienda/page/listarCategorias';
+        $tituloTabla = "Categorias";
+        $contenedor = "Categoria";
+        $titulo = "Categoria";
+        $tituloTabla = "Categorias";
+        $encabezados = array("ID Categoria", "Nombre de la Categoria");
+
+        require_once ('./views/layouts/header.php');
+        require_once ('./views/listar/listar-table.php');
+        require_once ('./views/layouts/footer.php');
     }
 
     public function mostrarCategorias()
     {
         $categoria = new Categorias(null, null);
-        $lista = $categoria->listarCategorias($this->conexion);
+        $lista = $categoria->listarCategorias('0', '100000000', $this->conexion);
         if ($lista) {
             // Si hay categorías, devuelve la lista
             return $lista;
@@ -161,56 +157,37 @@ class ControllerCategoria
     }
 
 
-    public function filtrarListarCategorias($filtro)
+    public function filtrarListarCategorias($filtro, $numPage, $paginationController)
     {
         $categoria = new Categorias(null, null);
-
-        // Preparar los filtros
-        $where_clause = $categoria->prepararFiltrosCategorias($filtro);
-
-
-        // Llamar al método listaFiltradaCategorias con los filtros y ordenamientos
-        $lista = $categoria->listaFiltradaCategorias($where_clause, $this->conexion);
-
-        if ($lista) {
-            // Si hay categorías para mostrar, ejecuta esto
-
-            $ids = []; // Inicializar un array para almacenar los IDs
-            foreach ($lista as $fila) {
-                $ids[] = $fila['id_categoria']; // Agregar cada ID al array
-            }
-            $estados = [];
-            foreach ($lista as $fila) {
-                $estados[] = $fila['estado'];
-            }
-
-            // Ahora puedes pasar tanto la lista como los IDs a la vista
-            $contenedor = "Categoria";
-            $titulo = "Categoria";
-            $tituloTabla = "Categorias";
-            $encabezados = array("ID Categoria", "Nombre de la Categoria");
-            $limpiarFiltros = True;
-            require_once ('./views/layouts/header.php');
-            require_once ('./views/listar/listar-table.php');
-            require_once ('./views/layouts/footer.php');
+        if ($numPage == "" || $numPage <= 0) {
+            $start = 0;
+            header('location:http://localhost/proyectoTienda/page/filtrarListarCategorias/1');
         } else {
-            // Si no hay categorías para mostrar, ejecuta esto
+            $start = $numPage * $paginationController->size - $paginationController->size;
+        }
+        $where_clause = $categoria->prepararFiltrosCategorias($filtro); //preparo los filtros
+        $totalRows = $paginationController->getTotalRows('categorias', $this->conexion, $where_clause); //obtengo el total de filas con el filtro para paginar
+        $pages = $paginationController->getTotalPages($totalRows, $paginationController->size); //obtengo el numero total de paginas
+        $lista = $categoria->listaFiltradaCategorias($where_clause, $start, $paginationController->size, $this->conexion); //obtengo los datos filtrados
 
+        if ($lista) { //si hay categorias para mostrar, ejecuta esto
             $ids = []; // Inicializar un array para almacenar los IDs
             foreach ($lista as $fila) {
                 $ids[] = $fila['id_categoria']; // Agregar cada ID al array
             }
-
-            // Ahora puedes pasar tanto la lista como los IDs a la vista
-            $contenedor = "Categoria";
-            $titulo = "Categoria";
-            $tituloTabla = "Categorias";
-            $limpiarFiltros = True;
-            $encabezados = array("ID Categoria", "Nombre de la Categoria");
-            require_once ('./views/layouts/header.php');
-            require_once ('./views/listar/listar-table.php');
-            require_once ('./views/layouts/footer.php');
         }
+
+        $limpiarFiltros = True;
+        $base_url = 'http://localhost/proyectoTienda/page/filtrarListarCategorias';
+        $tituloTabla = "Categorias";
+        $contenedor = "Categoria";
+        $titulo = "Categoria";
+        $tituloTabla = "Categorias";
+        $encabezados = array("ID Categoria", "Nombre de la Categoria");
+        require_once ('./views/layouts/header.php');
+        require_once ('./views/listar/listar-table.php');
+        require_once ('./views/layouts/footer.php');
     }
 }
 

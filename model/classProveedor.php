@@ -47,12 +47,12 @@ class Proveedores
     }
 
 
-    public function listarProveedores($conexion)
+    public function listarProveedores($start, $size, $conexion)
     {
 
         // aca hago una consulta para traer todas mis proveedores de la bd
         // Construye la consulta SQL con los filtros
-        $query = "SELECT p.id_proveedor, p.nombre, c.telefono, p.estado FROM proveedores p INNER JOIN contactos c ON c.id_contacto = p.id_contacto; ";
+        $query = "SELECT p.id_proveedor, p.nombre, c.telefono, p.estado FROM proveedores p INNER JOIN contactos c ON c.id_contacto = p.id_contacto LIMIT " . $start . ',' . $size;
         $resultado = $conexion->ejecutarConsulta($query);
 
         //creo un array para guardar las proveedores
@@ -108,9 +108,10 @@ class Proveedores
         }
     }
 
-    public function listaFiltradaProveedores($where_clause, $conexion)
+    public function listaFiltradaProveedores($where_clause, $start, $size, $conexion)
     {
-        $query = "SELECT p.id_proveedor, p.nombre, c.telefono, p.estado FROM proveedores p INNER JOIN contactos c ON c.id_contacto = p.id_contacto $where_clause";
+        $query = "SELECT p.id_proveedor, p.nombre, c.telefono, p.estado FROM proveedores p INNER JOIN contactos c ON c.id_contacto = p.id_contacto $where_clause 
+        LIMIT " . $start . "," . $size;
         $resultado = $conexion->ejecutarConsulta($query);
         $proveedores = array();
         while ($row = mysqli_fetch_assoc($resultado)) {

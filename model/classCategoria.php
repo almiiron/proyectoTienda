@@ -58,12 +58,12 @@ class Categorias
 
     }
 
-    public function listarCategorias($conexion)
+    public function listarCategorias($start, $size, $conexion)
     {
 
         // aca hago una consulta para traer todas mis categorias de la bd
         // Construye la consulta SQL con los filtros
-        $query = "SELECT * FROM categorias";
+        $query = "SELECT * FROM categorias LIMIT " . $start . ',' . $size;
         $resultado = $conexion->ejecutarConsulta($query);
 
         //creo un array para guardar las categorias
@@ -77,6 +77,13 @@ class Categorias
         }
         return $categorias;
     }
+    public function totalFilasListarCategorias($conexion)
+    {
+        $query = "SELECT count(*) as TotalRows FROM categorias;";
+        $resultado = $conexion->ejecutarConsulta($query);
+        $totalRows = $resultado->fetch_assoc();
+        return $totalRows;
+    }
     public function productoConCategoria($id, $conexion)
     {
         //busco algun producto con esa categoria
@@ -88,10 +95,10 @@ class Categorias
             return False;
         }
     }
-    public function listaFiltradaCategorias($where_clause, $conexion)
+    public function listaFiltradaCategorias($where_clause, $start, $size, $conexion)
     {
         // Construye la consulta SQL con los filtros y ordenamientos
-        $query = "SELECT * FROM categorias $where_clause";
+        $query = "SELECT * FROM categorias $where_clause LIMIT " . $start . "," . $size;
         $resultado = $conexion->ejecutarConsulta($query);
 
         // Crea un array para guardar las categorías
@@ -100,6 +107,13 @@ class Categorias
             $categorias[] = $row; // Agrega el resultado al array
         }
         return $categorias;
+    }
+    public function totalFilaslistaFiltradaCategorias($where_clause, $conexion)
+    {
+        $query = "SELECT count(*) as TotalRows FROM categorias ".$where_clause;
+        $resultado = $conexion->ejecutarConsulta($query);
+        $totalRows = $resultado->fetch_assoc();
+        return $totalRows;
     }
     public function prepararFiltrosCategorias($filtro)
     {

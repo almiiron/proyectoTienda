@@ -63,45 +63,43 @@ class ControllerProveedor
         }
     }
 
-    public function listarProveedores()
+    public function listarProveedores($numPage, $paginationController)
     {
         ///////////////////////////
         $proveedor = new Proveedores(null, null, null);
-        $lista = $proveedor->listarProveedores($this->conexion);
-        if ($lista) {
-            //si hay categorias para mostrar, ejecuta esto
+        if ($numPage == "" || $numPage <= 0) {
+            $start = 0;
+            header('location:http://localhost/proyectoTienda/page/listarProveedores/1');
+            //si en mi url el numPage es letra o numero menor a 0, entonces me redirecciona
+        } else {
+            $start = $numPage * $paginationController->size - $paginationController->size;
+        }
+        $innerJoin = " INNER JOIN contactos c ON c.id_contacto = p.id_contacto";
+        $totalRows = $paginationController->getTotalRows('proveedores p' . $innerJoin, $this->conexion); // el total de filas para la paginación
+        $pages = $paginationController->getTotalPages($totalRows, $paginationController->size); //la cantidad de paginas
+        $lista = $proveedor->listarProveedores($start, $paginationController->size, $this->conexion);
 
+        if ($lista) {   //si hay proveedores para mostrar, ejecuta esto
             $ids = []; // Inicializar un array para almacenar los IDs
             foreach ($lista as $fila) {
                 $ids[] = $fila['id_proveedor']; // Agregar cada ID al array
             }
-
-            // Ahora puedes pasar tanto la lista como los IDs a la vista
-            $contenedor = "Proveedor";
-            $titulo = "Proveedor";
-            $tituloTabla = "Proveedores";
-            $limpiarFiltros = False;
-            $encabezados = array("ID Proveedor", "Nombre Proveedor", "Contacto");
-            require_once ('./views/layouts/header.php');
-            require_once ('./views/listar/listar-table.php');
-            require_once ('./views/layouts/footer.php');
-        } else {
-            //si no hay categorias que mostrar, ejecuta esto
-            $contenedor = "Proveedor";
-            $titulo = "Proveedor";
-            $tituloTabla = "Proveedores";
-            $limpiarFiltros = False;
-            $encabezados = array("ID Proveedor", "Nombre Proveedor", "Contacto");
-            require_once ('./views/layouts/header.php');
-            require_once ('./views/listar/listar-table.php');
-            require_once ('./views/layouts/footer.php');
         }
+        $contenedor = "Proveedor";
+        $base_url = 'http://localhost/proyectoTienda/page/listarProveedores';
+        $titulo = "Proveedor";
+        $tituloTabla = "Proveedores";
+        $limpiarFiltros = False;
+        $encabezados = array("ID Proveedor", "Nombre Proveedor", "Contacto");
+        require_once ('./views/layouts/header.php');
+        require_once ('./views/listar/listar-table.php');
+        require_once ('./views/layouts/footer.php');
     }
 
     public function mostrarProveedores()
     {
         $proveedor = new Proveedores(null, null, null);
-        $lista = $proveedor->listarProveedores($this->conexion);
+        $lista = $proveedor->listarProveedores('0', '1000000', $this->conexion);
         if ($lista) {
             // Si hay proveedores, devuelve la lista
             return $lista;
@@ -264,47 +262,43 @@ class ControllerProveedor
 
 
 
-    public function filtrarListarProveedores($filtro)
+    public function filtrarListarProveedores($filtro, $numPage, $paginationController)
     {
         $proveedor = new Proveedores(null, null, null);
-
-        // Preparar los filtros
+        if ($numPage == "" || $numPage <= 0) {
+            $start = 0;
+            header('location:http://localhost/proyectoTienda/page/filtrarListarProveedores/1');
+        } else {
+            $start = $numPage * $paginationController->size - $paginationController->size;
+        }
         $where_clause = $proveedor->prepararFiltrosProveedores($filtro);
-
+        $where_clause_Pagination = " INNER JOIN contactos c ON c.id_contacto = p.id_contacto " . $where_clause;
+        $totalRows = $paginationController->getTotalRows('proveedores p', $this->conexion, $where_clause_Pagination); //obtengo el total de filas con el filtro para paginar
+        $pages = $paginationController->getTotalPages($totalRows, $paginationController->size); //obtengo el numero total de paginas
 
         // Llamar al método listaFiltradaCategorias con los filtros y ordenamientos
-        $lista = $proveedor->listaFiltradaProveedores($where_clause, $this->conexion);
+        $lista = $proveedor->listaFiltradaProveedores($where_clause, $start, $paginationController->size, $this->conexion);
 
         if ($lista) {
             // Si hay proveedores para mostrar, ejecuta esto
-
             $ids = []; // Inicializar un array para almacenar los IDs
             foreach ($lista as $fila) {
                 $ids[] = $fila['id_proveedor']; // Agregar cada ID al array
             }
-
-            // Ahora puedes pasar tanto la lista como los IDs a la vista
-            $contenedor = "Proveedor";
-            $titulo = "Proveedor";
-            $tituloTabla = "Proveedores";
-            $limpiarFiltros = True;
-            $encabezados = array("ID Proveedor", "Nombre Proveedor", "Contacto");
-            require_once ('./views/layouts/header.php');
-            require_once ('./views/listar/listar-table.php');
-            require_once ('./views/layouts/footer.php');
-        } else {
-            // Si no hay proveedores para mostrar, ejecuta esto
-
-            // Ahora puedes pasar tanto la lista como los IDs a la vista
-            $contenedor = "Proveedor";
-            $titulo = "Proveedor";
-            $tituloTabla = "Proveedores";
-            $limpiarFiltros = True;
-            $encabezados = array("ID Proveedor", "Nombre Proveedor", "Contacto");
-            require_once ('./views/layouts/header.php');
-            require_once ('./views/listar/listar-table.php');
-            require_once ('./views/layouts/footer.php');
         }
+        // Si no hay proveedores para mostrar, ejecuta esto
+
+        // Ahora puedes pasar tanto la lista como los IDs a la vista
+        $contenedor = "Proveedor";
+        $titulo = "Proveedor";
+        $base_url = 'http://localhost/proyectoTienda/page/filtrarListarProveedores';
+        $tituloTabla = "Proveedores";
+        $limpiarFiltros = True;
+        $encabezados = array("ID Proveedor", "Nombre Proveedor", "Contacto");
+        require_once ('./views/layouts/header.php');
+        require_once ('./views/listar/listar-table.php');
+        require_once ('./views/layouts/footer.php');
+
     }
 }
 ?>

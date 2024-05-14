@@ -51,39 +51,39 @@ class ControllerProducto
 
     }
 
-    public function listarProductos()
+    public function listarProductos($numPage, $paginationController)
     {
         $Producto = new Productos(null, null, null, null, null, null);
-        $lista = $Producto->listarProductos($this->conexion);
+        if ($numPage == "" || $numPage <= 0) {
+            $start = 0;
+            header('location:http://localhost/proyectoTienda/page/listarProductos/1');
+            //si en mi url el numPage es letra o numero menor a 0, entonces me redirecciona
+        } else {
+            $start = $numPage * $paginationController->size - $paginationController->size;
+        }
+        $innerJoin = "  INNER JOIN categorias c ON c.id_categoria = prod.id_categoria
+        INNER JOIN proveedores prov ON prod.id_proveedor = prov.id_proveedor ";
+        $totalRows = $paginationController->getTotalRows('productos prod' . $innerJoin, $this->conexion); // el total de filas para la paginación
+        $pages = $paginationController->getTotalPages($totalRows, $paginationController->size); //la cantidad de paginas
 
-        if ($lista) {
-            //si hay categorias para mostrar, ejecuta esto
+        $lista = $Producto->listarProductos($start, $paginationController->size, $this->conexion);
 
+        if ($lista) { //si hay productos para mostrar, ejecuta esto
             $ids = []; // Inicializar un array para almacenar los IDs
             foreach ($lista as $fila) {
                 $ids[] = $fila['id_producto']; // Agregar cada ID al array
             }
-
-            // Ahora puedes pasar tanto la lista como los IDs a la vista
-            $contenedor = "Producto";
-            $titulo = "Producto";
-            $tituloTabla = "Productos";
-            $limpiarFiltros = False;
-            $encabezados = array("ID Producto", "Nombre del  Producto", "Categoria", "Proveedor", "Precio", "Stock");
-            require_once ('./views/layouts/header.php');
-            require_once ('./views/listar/listar-table.php');
-            require_once ('./views/layouts/footer.php');
-        } else {
-            //si no hay categorias que mostrar, ejecuta esto
-            $contenedor = "Producto";
-            $titulo = "Producto";
-            $tituloTabla = "Productos";
-            $limpiarFiltros = False;    
-            $encabezados = array("ID Producto", "Nombre del Producto", "Categoria", "Proveedor", "Precio", "Stock");
-            require_once ('./views/layouts/header.php');
-            require_once ('./views/listar/listar-table.php');
-            require_once ('./views/layouts/footer.php');
         }
+        $contenedor = "Producto";
+        $base_url = 'http://localhost/proyectoTienda/page/listarProductos';
+        $titulo = "Producto";
+        $tituloTabla = "Productos";
+        $limpiarFiltros = False;
+        $encabezados = array("ID Producto", "Nombre del Producto", "Categoria", "Proveedor", "Precio", "Stock");
+        require_once ('./views/layouts/header.php');
+        require_once ('./views/listar/listar-table.php');
+        require_once ('./views/layouts/footer.php');
+
     }
 
     public function mostrarModificarProducto($id)
@@ -146,40 +146,40 @@ class ControllerProducto
         echo json_encode(array('success' => $estado, 'message' => $message));
     }
 
-    public function filtrarListarProductos($filtro)
+    public function filtrarListarProductos($filtro, $numPage, $paginationController)
     {
         $Producto = new Productos(null, null, null, null, null, null);
+        if ($numPage == "" || $numPage <= 0) {
+            $start = 0;
+            header('location:http://localhost/proyectoTienda/page/filtrarListarProductoss/1');
+        } else {
+            $start = $numPage * $paginationController->size - $paginationController->size;
+        }
+
         $where_clause = $Producto->prepararFiltrosProductos($filtro);
+        $where_clause_Pagination = "  INNER JOIN categorias c ON c.id_categoria = prod.id_categoria
+        INNER JOIN proveedores prov ON prod.id_proveedor = prov.id_proveedor " . $where_clause;
+        $totalRows = $paginationController->getTotalRows('productos prod', $this->conexion, $where_clause_Pagination); //obtengo el total de filas con el filtro para paginar
+        $pages = $paginationController->getTotalPages($totalRows, $paginationController->size); //obtengo el numero total de paginas
         $lista = $Producto->listaFiltradaProductos($where_clause, $this->conexion);
 
-        if ($lista) {
-            //si hay categorias para mostrar, ejecuta esto
-
+        if ($lista) {   //si hay productos para mostrar, ejecuta esto
             $ids = []; // Inicializar un array para almacenar los IDs
             foreach ($lista as $fila) {
                 $ids[] = $fila['id_producto']; // Agregar cada ID al array
             }
-
-            // Ahora puedes pasar tanto la lista como los IDs a la vista
-            $contenedor = "Producto";
-            $titulo = "Producto";
-            $tituloTabla = "Productos";
-            $limpiarFiltros = True;
-            $encabezados = array("ID Producto", "Nombre del  Producto", "Categoria", "Proveedor", "Precio", "Stock");
-            require_once ('./views/layouts/header.php');
-            require_once ('./views/listar/listar-table.php');
-            require_once ('./views/layouts/footer.php');
-        } else {
-            //si no hay categorias que mostrar, ejecuta esto
-            $contenedor = "Producto";
-            $titulo = "Producto";
-            $tituloTabla = "Productos";
-            $limpiarFiltros = True;
-            $encabezados = array("ID Producto", "Nombre del Producto", "Categoria", "Proveedor", "Precio", "Stock");
-            require_once ('./views/layouts/header.php');
-            require_once ('./views/listar/listar-table.php');
-            require_once ('./views/layouts/footer.php');
         }
+        //si no hay categorias que mostrar, ejecuta esto
+        $contenedor = "Producto";
+        $titulo = "Producto";
+        $tituloTabla = "Productos";
+        $base_url = 'http://localhost/proyectoTienda/page/filtrarListarProductos';
+        $limpiarFiltros = True;
+        $encabezados = array("ID Producto", "Nombre del Producto", "Categoria", "Proveedor", "Precio", "Stock");
+        require_once ('./views/layouts/header.php');
+        require_once ('./views/listar/listar-table.php');
+        require_once ('./views/layouts/footer.php');
+
     }
 
     public function procesarCambiarEstadoProducto($id, $estadoActual)
