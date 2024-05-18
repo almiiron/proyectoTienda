@@ -34,20 +34,24 @@ class ControllerProducto
             $cargarProducto = $Producto->cargarProducto($IdCategoriaProducto, $IdProveedorProducto, $nombreProducto, $precioProducto, $stockProducto, $this->conexion);
             if ($cargarProducto) {
                 //si la funcion devuelve true es porque se cargó el producto
-                $estado = True;
+                // $estado = True;
                 $message = "¡El producto fue cargado con éxito!";
+                header('Content-Type: application/json');
+                echo json_encode(array('success' => $cargarProducto, 'message' => $message));
             } else {
                 $estado = False;
                 $message = "¡Hubo un problema al cargar el producto!";
+                header('Content-Type: application/json');
+                echo json_encode(array('success' => $cargarProducto, 'message' => $message));
             }
         } else {
             //hay una coincidencia en la bd con ese nombre, muestra un mensaje
             $estado = False;
             $message = "¡El producto ya fue cargado!";
+            header('Content-Type: application/json');
+            echo json_encode(array('success' => $estado, 'message' => $message));
         }
 
-        header('Content-Type: application/json');
-        echo json_encode(array('success' => $estado, 'message' => $message));
 
     }
 
@@ -79,6 +83,7 @@ class ControllerProducto
         $titulo = "Producto";
         $tituloTabla = "Productos";
         $limpiarFiltros = False;
+        $mostrarBuscadorEnNavbar = true;
         $encabezados = array("ID Producto", "Nombre del Producto", "Categoria", "Proveedor", "Precio", "Stock");
         require_once ('./views/layouts/header.php');
         require_once ('./views/listar/listar-table.php');
@@ -161,7 +166,7 @@ class ControllerProducto
         INNER JOIN proveedores prov ON prod.id_proveedor = prov.id_proveedor " . $where_clause;
         $totalRows = $paginationController->getTotalRows('productos prod', $this->conexion, $where_clause_Pagination); //obtengo el total de filas con el filtro para paginar
         $pages = $paginationController->getTotalPages($totalRows, $paginationController->size); //obtengo el numero total de paginas
-        $lista = $Producto->listaFiltradaProductos($where_clause, $this->conexion);
+        $lista = $Producto->listaFiltradaProductos($where_clause, $start, $paginationController->size, $this->conexion);
 
         if ($lista) {   //si hay productos para mostrar, ejecuta esto
             $ids = []; // Inicializar un array para almacenar los IDs
@@ -172,6 +177,7 @@ class ControllerProducto
         //si no hay categorias que mostrar, ejecuta esto
         $contenedor = "Producto";
         $titulo = "Producto";
+        $mostrarBuscadorEnNavbar = true;
         $tituloTabla = "Productos";
         $base_url = 'http://localhost/proyectoTienda/page/filtrarListarProductos';
         $limpiarFiltros = True;

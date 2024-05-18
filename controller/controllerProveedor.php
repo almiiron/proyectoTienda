@@ -39,12 +39,12 @@ class ControllerProveedor
                         $estado = True;
                         $message = "¡El proveedor se cargó con éxito!";
                         header('Content-Type: application/json');
-                        echo json_encode(array('success' => $estado, 'message' => $message));
+                        echo json_encode(array('success' => $cargarProveedor, 'message' => $message));
                     } else {
                         $estado = False;
                         $message = "¡Hubo un error al cargar el Proveedor!";
                         header('Content-Type: application/json');
-                        echo json_encode(array('success' => $estado, 'message' => $message));
+                        echo json_encode(array('success' => $cargarProveedor, 'message' => $message));
                     }
                 } else {
                     $estado = False;
@@ -89,6 +89,7 @@ class ControllerProveedor
         $base_url = 'http://localhost/proyectoTienda/page/listarProveedores';
         $titulo = "Proveedor";
         $tituloTabla = "Proveedores";
+        $mostrarBuscadorEnNavbar = true;
         $limpiarFiltros = False;
         $encabezados = array("ID Proveedor", "Nombre Proveedor", "Contacto");
         require_once ('./views/layouts/header.php');
@@ -293,6 +294,7 @@ class ControllerProveedor
         $titulo = "Proveedor";
         $base_url = 'http://localhost/proyectoTienda/page/filtrarListarProveedores';
         $tituloTabla = "Proveedores";
+        $mostrarBuscadorEnNavbar = true;
         $limpiarFiltros = True;
         $encabezados = array("ID Proveedor", "Nombre Proveedor", "Contacto");
         require_once ('./views/layouts/header.php');

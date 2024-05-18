@@ -1,45 +1,13 @@
-function enviarFormulario(url, formData, successCallback) {
-    $.ajax({
-        type: 'POST',
-        url: url,
-        data: formData,
-        success: successCallback,
-        error: function (xhr, status, error) {
-            console.error(xhr.responseText);
-        }
-    });
-}
-
 $(document).ready(function () {
-    // Agrega el evento de clic a los botones de enviar formulario.
-    $('#input-submit').click(function (e) {
+    // Captura el evento de envío del formulario
+    $('form.ajax-form').submit(function (e) {
         e.preventDefault(); // Evita que se envíe el formulario de manera predeterminada.
 
-        var form = $(this).closest('form');
+        var form = $(this);
         var url = form.attr('action');
         var formData = form.serialize();
 
-        // Verifica si algún campo dentro del formulario está vacío
-        var inputs = form.find('input');
-        var isEmpty = false;
-        inputs.each(function () {
-            if ($(this).val() === '') {
-                isEmpty = true;
-                return false; // Sale del bucle si encuentra un campo vacío
-            }
-        });
-
-        if (isEmpty) {
-            swal({
-                title: 'Error',
-                text: 'Por favor, completa todos los campos del formulario.',
-                icon: 'error',
-                confirmButtonText: 'Aceptar'
-            });
-            return; // Evita enviar el formulario si algún campo está vacío
-        }
-
-        // Llama a la función para enviar el formulario.
+        // Llama a la función para enviar el formulario de forma asíncrona.
         enviarFormulario(url, formData, function (response) {
             if (response.success) {
                 swal({
@@ -47,6 +15,10 @@ $(document).ready(function () {
                     text: response.message || 'La operación se realizó correctamente.',
                     icon: 'success',
                     confirmButtonText: 'Aceptar'
+                }).then((result) => {
+                    if (result) {
+                        location.reload(); // Recarga la página después de cerrar el Sweet Alert
+                    }
                 });
             } else {
                 swal({
@@ -60,6 +32,20 @@ $(document).ready(function () {
     });
 });
 
+// Función para enviar el formulario de forma asíncrona utilizando AJAX.
+function enviarFormulario(url, formData, successCallback) {
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: formData,
+        success: successCallback,
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+}
+
+
 // funcion generica para eliminar elementos 
 function cambiarEstado(id, estadoActual) {
     // Mostrar confirmación antes de eliminar
@@ -71,7 +57,7 @@ function cambiarEstado(id, estadoActual) {
         dangerMode: true,
     }).then(function (confirmDelete) {
         if (confirmDelete) {
-            var metodo = $('#metodo').val();
+            var metodo = $('#metodoEstado').val();
             var url = 'http://localhost/proyectoTienda/page/procesarCambiarEstado' + metodo; // Concatenando la variable método a la URL
 
             console.log('URL:', url);
@@ -165,5 +151,14 @@ $(document).ready(function () {
         var filtro = $(this).val();
         console.log(filtro);
         enviarFiltros(url, filtro);
+    });
+});
+
+$(document).ready(function () {
+    $("#IdProveedorProducto").select2({
+        dropdownParent: $("#cargarProducto")
+    });
+    $("#IdCategoriaProducto").select2({
+        dropdownParent: $("#cargarProducto")
     });
 });

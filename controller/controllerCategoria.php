@@ -10,43 +10,28 @@ class ControllerCategoria
         $this->conexion = $conexion;
     }
 
-    public function mostrarCargarCategoria()
-    {
-        require_once ('./views/layouts/header.php');
-        require_once ('./views/cargar/cargar-categoria.php');
-        require_once ('./views/layouts/footer.php');
-
-    }
     public function procesarCargarCategoria($nombreCategoria)
     {
-        // Este método es para cargar una nueva categoría.
-        // Se instancia un nuevo objeto de la clase Categorias que es el modelo.
+        // este método es para cargar una nueva categoría
         $nuevaCategoria = new Categorias(null, $nombreCategoria);
-        $id = "";
-        $categoriaCargada = $nuevaCategoria->buscarCategoria($id, $nombreCategoria, $this->conexion);
-        if ($categoriaCargada == False) {
-            //significa que la categoria no existe en la bd
+        $categoriaCargada = $nuevaCategoria->buscarCategoria(null, $nombreCategoria, $this->conexion);
+        if ($categoriaCargada == False) { //significa que la categoria no existe en la bd
             $cargarCategoria = $nuevaCategoria->cargarCategoria($nombreCategoria, $this->conexion);
             if ($cargarCategoria) {
-                //se cargó la categoria
-                // Devuelve la respuesta como un JSON.
+                $estado = True;
                 $message = "Se cargó correctamente la categoria";
-                header('Content-Type: application/json');
-                echo json_encode(array('success' => $cargarCategoria, 'message' => $message));
+
             } else {
                 $message = "Hubo un error al cargar la categoria";
-                // Devuelve la respuesta como un JSON.
-                header('Content-Type: application/json');
-                echo json_encode(array('success' => $cargarCategoria, 'message' => $message));
+                $estado = False;
             }
         } else {
-            //significa La categoria cargada ya existe
-            // Devuelve la respuesta como un JSON.
             $estado = False;
             $message = 'La categoria cargada ya existe.';
-            header('Content-Type: application/json');
-            echo json_encode(array('success' => $estado, 'message' => $message));
         }
+
+        header('Content-Type: application/json');
+        echo json_encode(array('success' => $estado, 'message' => $message));
     }
 
 
@@ -76,6 +61,7 @@ class ControllerCategoria
         $base_url = 'http://localhost/proyectoTienda/page/listarCategorias';
         $tituloTabla = "Categorias";
         $contenedor = "Categoria";
+        $mostrarBuscadorEnNavbar = true;
         $titulo = "Categoria";
         $tituloTabla = "Categorias";
         $encabezados = array("ID Categoria", "Nombre de la Categoria");
@@ -109,27 +95,20 @@ class ControllerCategoria
         }
         $cambiarEstadoCategoria = $categoria->cambiarEstadoCategoria($id, $nuevoEstado, $this->conexion);
         if ($cambiarEstadoCategoria) {
-            //se eliminó la categoria
-            // echo 'se eliminó';
-            // Devuelve la respuesta como un JSON.
+            $estado = True;
             $message = '¡La categoría se modificó correctamente!';
-            header('Content-Type: application/json');
-            echo json_encode(array('success' => $cambiarEstadoCategoria, 'message' => $message));
         } else {
-            //se intentó eliminar pero hubo un error
-            // Devuelve la respuesta como un JSON.
+            $estado = False;
             $message = 'Hubo un error al intentar modificar la categoría.';
-            header('Content-Type: application/json');
-            echo json_encode(array('success' => $cambiarEstadoCategoria, 'message' => $message));
         }
-
+        header('Content-Type: application/json');
+        echo json_encode(array('success' => $estado, 'message' => $message));
     }
 
     public function mostrarModificarCategoria($id)
     {
-        $nombreCategoria = "";
-        $Categoria = new Categorias($id, $nombreCategoria);
-        $buscarCategoria = $Categoria->listarUnaCategoria($id, $nombreCategoria, $this->conexion);
+        $Categoria = new Categorias($id, null);
+        $buscarCategoria = $Categoria->listarUnaCategoria($id, null, $this->conexion);
         require_once ('./views/layouts/header.php');
         require_once ('./views/modificar/modificar-categoria.php');
         require_once ('./views/layouts/footer.php');
@@ -137,10 +116,10 @@ class ControllerCategoria
 
     public function procesarModificarCategoria($id, $nombre_categoria)
     {
-        $idVacio = ""; //para buscar si la categoria existe, si existe no modifico
 
         $Categoria = new Categorias($id, $nombre_categoria);
-        $categoriaCargada = $Categoria->buscarCategoria($idVacio, $nombre_categoria, $this->conexion);
+        
+        $categoriaCargada = $Categoria->buscarCategoria(null, $nombre_categoria, $this->conexion);
         if ($categoriaCargada == False) {
             $modificarCategoria = $Categoria->procesarModificarCategoria($id, $nombre_categoria, $this->conexion);
             if ($modificarCategoria) {
@@ -182,6 +161,7 @@ class ControllerCategoria
         $base_url = 'http://localhost/proyectoTienda/page/filtrarListarCategorias';
         $tituloTabla = "Categorias";
         $contenedor = "Categoria";
+        $mostrarBuscadorEnNavbar = true;
         $titulo = "Categoria";
         $tituloTabla = "Categorias";
         $encabezados = array("ID Categoria", "Nombre de la Categoria");

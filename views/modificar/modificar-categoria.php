@@ -1,5 +1,5 @@
 <div class="containerForm">
-    <form action="procesarModificarCategoria" method="post" class="form">
+    <form action="procesarModificarCategoria" method="post" class="form ajax-form">
         <div class="form-group mb-4">
             <label for="nombreCategoria">Nombre de la Categoria</label>
             <input type="text" class="form-control" id="nombreCategoria" name="nombreCategoria"

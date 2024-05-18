@@ -1,32 +1,22 @@
-function visibleSubmenu(i) {
-    var menu = document.querySelectorAll(".menu-vertical");
-    if (i == 1) {
-        menu[0].classList.add("activo");
-    } else if (i == 2) {
-        menu[1].classList.add("activo");
-    } else if (i == 3) {
-        menu[2].classList.add("activo");
-    } else if (i == 4) {
-        menu[3].classList.add("activo");
-    } else if (i == 5) {
-        menu[4].classList.add("activo");
-    }
-}
+document.addEventListener("DOMContentLoaded", function() {
+    // Obtener el elemento de la imagen de la barra de navegación
+    var flecha = document.querySelector(".imgNavBar");
 
-function invisibleSubmenu(i) {
-    var menu = document.querySelectorAll(".menu-vertical");
-    if (i == 1) {
-        menu[0].classList.remove("activo");
-    } else if (i == 2) {
-        menu[1].classList.remove("activo");
-    } else if (i == 3) {
-        menu[2].classList.remove("activo");
-    } else if (i == 4) {
-        menu[3].classList.remove("activo");
-    } else if (i == 5) {
-        menu[4].classList.remove("activo");
-    }
-}
+    // Escuchar el evento 'show.bs.dropdown' cuando se abre el dropdown
+    document.querySelectorAll(".dropdown").forEach(function(dropdown) {
+        dropdown.addEventListener("show.bs.dropdown", function() {
+            flecha.classList.add("imgNavBarActivo");
+        });
+    });
+
+    // Escuchar el evento 'hide.bs.dropdown' cuando se cierra el dropdown
+    document.querySelectorAll(".dropdown").forEach(function(dropdown) {
+        dropdown.addEventListener("hide.bs.dropdown", function() {
+            flecha.classList.remove("imgNavBarActivo");
+        });
+    });
+});
+
 
 // validaar que solo ingrese letras
 function sololetras(e) {
@@ -83,3 +73,7 @@ function validaambos(e) {
         }
     }
 }
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})

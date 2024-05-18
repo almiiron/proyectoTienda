@@ -14,7 +14,7 @@ class Contactos
 
     public function cargarContacto($telefono, $conexion)
     {
-        $query = "INSERT INTO contactos (telefono) VALUES ('$telefono')";
+        $query = "INSERT INTO contactos (telefono,estado) VALUES ('$telefono','Activo')";
         $resultado = $conexion->ejecutarConsulta($query);
         if ($resultado) {
             return True;

@@ -10,90 +10,34 @@ body {
   background-color: rgba(233, 231, 231, 0.564);
 }
 
-.titleHeader {
-  background-color: #008afd;
-  height: 50px;
-  /* border-bottom: 0.5px solid; */
-  border-color: white;
-}
-
-.titleHeader h1 {
-  text-align: center;
-  color: white;
-  font-size: 40px;
-}
-
 /* barra de navegacion */
-.menu_nav {
-  background-color: #008afd;
-  width: 100.5%;
-  height: 80px;
-  margin-top: -20px;
-  margin-left: -8px;
+.menu-hor {
+  background-color: rgba(107, 107, 107, 0.737) !important;
 }
 
-.menu-horizontal {
-  font-size: 20px;
-  list-style: none;
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
+.menu-hor>li>a {
+  color: white !important;
 }
 
-.menu-horizontal>li>a {
-  display: block;
-  padding: 15px 20px;
-  color: white;
-  text-decoration: none;
-  margin-top: 12px;
+.menu-hor>li>:hover {
+  background-color: rgba(107, 107, 107, 0) !important;
 }
 
-.boton {
-  background-color: #00000000;
-  border: none;
-  color: white;
-  /* font-family: 'Courier New', Courier, monospace; */
-  font-size: 18px;
-  text-align: left;
-  cursor: pointer;
-  height: 50px;
-}
-
-.boton:hover {
-  margin-left: 5px;
+.menu-hor>li:hover {
+  margin-left: 10px !important;
   transition: all 100ms linear;
 }
 
-.menu-horizontal>li:hover {
-  background-color: rgba(222, 221, 221, .1);
-  border-radius: 10px;
+.dropdown>a>img {
+  margin-left: 3px;
+  width: 15px;
+  height: 15px;
+  transition: all 300ms linear;
 }
 
-.menu-vertical {
-  position: absolute;
-  display: none;
-  list-style: none;
-  /* background-color: rgba(0, 138, 253, .5); */
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  z-index: 1;
-}
-
-.activo {
-  display: block;
-}
-
-.menu-vertical li a {
-  text-align: left;
-  display: block;
-  color: white;
-  padding: 15px 15px 15px 20px;
-  text-decoration: none;
-}
-
-.menu-vertical li a:hover {
-  margin-left: 15px;
-  transition: all 100ms linear;
+.imgNavBarActivo {
+  transform: rotate(-180deg);
+  transition: all 300ms linear;
 }
 
 /* barra de navegacion */
@@ -241,7 +185,7 @@ body {
   display: grid;
   box-shadow: 0px 5px 5px 1px rgb(125, 125, 125);
   border-radius: 5px;
-  margin: -30px auto;
+  margin: 55px auto;
 
 }
 
@@ -385,6 +329,6 @@ body {
 
 /* tabla productos */
 
-.btn img:hover{
+.btn img:hover {
   color: red;
 }

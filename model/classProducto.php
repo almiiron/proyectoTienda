@@ -119,12 +119,12 @@ class Productos
         OR prov.nombre LIKE '%$filtro%' OR prod.precio LIKE '%$filtro%' OR prod.stock LIKE '%$filtro%' OR prod.estado LIKE '%$filtro%'";
         return $where_clause;
     }
-    public function listaFiltradaProductos($where_clause, $conexion)
+    public function listaFiltradaProductos($where_clause, $start, $size, $conexion)
     {
         $query = "SELECT prod.id_producto, prod.nombre_producto, c.nombre_categoria, prov.nombre, prod.precio, prod.stock, prod.estado FROM productos prod
         INNER JOIN categorias c ON c.id_categoria = prod.id_categoria
         INNER JOIN proveedores prov ON prod.id_proveedor = prov.id_proveedor
-        $where_clause";
+        $where_clause LIMIT ".$start.",".$size;
         $resultado = $conexion->ejecutarConsulta($query);
 
         $productos = array(); // Array para almacenar las categorías

@@ -1,5 +1,5 @@
 <div class="containerForm">
-    <form action="procesarModificarProveedor" class="form" method="post">
+    <form action="procesarModificarProveedor" class="form ajax-form" method="post">
         <div class="form-group mb-4">
             <label for="nombreProveedor">Nombre del Proveedor</label>
             <input type="text" class="form-control" id="nombreProveedor" placeholder="Nombre del Proveedor..." required

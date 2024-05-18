@@ -1,5 +1,5 @@
 <div class="containerForm">
-    <form action="procesarModificarProducto" method="post" class="form">
+    <form action="procesarModificarProducto" method="post" class="form ajax-form">
         <div class="form-group mb-4">
             <label for="nombreProducto">Nombre del Producto</label>
             <input type="text" class="form-control" id="nombreProducto" name="nombreProducto"
