@@ -2,8 +2,8 @@
 <?php
 $conexion = new Conexion();
 $conexion->obtenerConexion();
-$proveedores = new controllerProveedor($conexion);
-$categorias = new ControllerCategoria($conexion);
+$proveedores = new ServiceProveedor($conexion);
+$categorias = new ServiceCategoria($conexion);
 $listaProveedores = $proveedores->mostrarProveedores();
 $listaCategorias = $categorias->mostrarCategorias();
 ?>
@@ -28,7 +28,8 @@ $listaCategorias = $categorias->mostrarCategorias();
 
                     <div class="form-group mb-4">
                         <label for="IdCategoriaProducto" class="col-6">Categoría del Producto</label>
-                        <select class="form-control col-6 w-50" id="IdCategoriaProducto" name="IdCategoriaProducto" required>
+                        <select class="form-control col-6 w-50" id="IdCategoriaProducto" name="IdCategoriaProducto"
+                            required>
                             <option value="" disabled selected>Selecciona una categoría...</option>
                             <?php foreach ($listaCategorias as $categoria): ?>
                                 <option value="<?php echo $categoria['id_categoria']; ?>">
@@ -40,7 +41,8 @@ $listaCategorias = $categorias->mostrarCategorias();
 
                     <div class="form-group mb-4">
                         <label for="IdProveedorProducto" class="col-6">Proveedor del Producto</label>
-                        <select class="form-control col-6 w-50" id="IdProveedorProducto" name="IdProveedorProducto" required>
+                        <select class="form-control col-6 w-50" id="IdProveedorProducto" name="IdProveedorProducto"
+                            required>
                             <option value="" disabled selected>Selecciona un proveedor...</option>
                             <?php foreach ($listaProveedores as $proveedor): ?>
                                 <option value="<?php echo $proveedor['id_proveedor']; ?>">

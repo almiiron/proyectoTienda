@@ -1,7 +1,7 @@
 <?php
-require ('../model/classConexion.php');
-require ('../model/classPersona.php');
-require ('../model/classContacto.php');
+require ('../models/classConexion.php');
+require ('../models/classPersona.php');
+require ('../models/classContacto.php');
 
 
 class ControllerPersona

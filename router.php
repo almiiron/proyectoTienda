@@ -21,7 +21,7 @@ class Router
         // echo $this->numPage;
 
         $this->controller = 'controller' . $this->controller;
-        require_once (__DIR__ . '/controller/' . $this->controller . '.php');
+        require_once (__DIR__ . '/controllers/' . $this->controller . '.php');
 
     }
     public function run()

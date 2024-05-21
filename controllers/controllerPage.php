@@ -4,7 +4,6 @@ require_once 'controllerProducto.php';
 require_once 'controllerCategoria.php';
 require_once 'controllerProveedor.php';
 require_once 'controllerPagination.php';
-
 class ControllerPage
 {
     private $conexion;
@@ -12,7 +11,6 @@ class ControllerPage
     private $productoController;
     private $categoriaController;
     private $proveedorController;
-    private $paginationController;
     private $numPage;
 
     public function __construct($conexion, $numPage)
@@ -22,7 +20,6 @@ class ControllerPage
         $this->productoController = new ControllerProducto($conexion);
         $this->categoriaController = new ControllerCategoria($conexion);
         $this->proveedorController = new ControllerProveedor($conexion);
-        $this->paginationController = new ControllerPagination();
         $this->numPage = $numPage;
     }
 
@@ -33,11 +30,6 @@ class ControllerPage
     }
 
     //   metodos de categoria //
-    public function mostrarCargarCategoria()
-    {
-        // Mostrar formulario de carga de categoría
-        $this->categoriaController->mostrarCargarCategoria();
-    }
 
     public function procesarCargarCategoria()
     {
@@ -46,7 +38,7 @@ class ControllerPage
     }
     public function listarCategorias()
     {
-        $this->categoriaController->listarCategorias($this->numPage, $this->paginationController); // Pasar $this->numPage al método listarCategorias()
+        $this->categoriaController->listarCategorias($this->numPage); // Pasar $this->numPage al método listarCategorias()
     }
 
     public function filtrarListarCategorias()
@@ -56,7 +48,7 @@ class ControllerPage
             $filtro = $_GET['filtro'];
         }
         // echo $filtro;
-        $this->categoriaController->filtrarListarCategorias($filtro, $this->numPage, $this->paginationController);
+        $this->categoriaController->filtrarListarCategorias($filtro, $this->numPage);
     }
 
     public function procesarCambiarEstadoCategoria()
@@ -80,10 +72,7 @@ class ControllerPage
     //   metodos de categoria //
 
     // metodos de proveedor //
-    public function mostrarCargarProveedor()
-    {
-        $this->proveedorController->mostrarCargarProveedor();
-    }
+   
     public function procesarCargarProveedor()
     {
         $nombreProveedor = $_POST['nombreProveedor'];
@@ -92,7 +81,7 @@ class ControllerPage
     }
     public function listarProveedores()
     {
-        $this->proveedorController->listarProveedores($this->numPage, $this->paginationController);
+        $this->proveedorController->listarProveedores($this->numPage);
     }
 
 
@@ -102,7 +91,7 @@ class ControllerPage
         if (!empty($_GET['filtro'])) {
             $filtro = $_GET['filtro'];
         }
-        $this->proveedorController->filtrarListarProveedores($filtro, $this->numPage, $this->paginationController);
+        $this->proveedorController->filtrarListarProveedores($filtro, $this->numPage);
     }
 
     public function procesarCambiarEstadoProveedor()
@@ -129,10 +118,7 @@ class ControllerPage
     // metodos de proveedor //
 
     // metodos de productos //
-    public function mostrarCargarProducto()
-    {
-        $this->productoController->mostrarCargarProducto();
-    }
+   
     public function procesarCargarProducto()
     {
         $nombreProducto = $_POST['nombreProducto'];
@@ -145,7 +131,7 @@ class ControllerPage
     }
     public function listarProductos()
     {
-        $this->productoController->listarProductos($this->numPage, $this->paginationController);
+        $this->productoController->listarProductos($this->numPage);
     }
     public function mostrarModificarProducto()
     {
@@ -171,7 +157,7 @@ class ControllerPage
         if (!empty($_GET['filtro'])) {
             $filtro = $_GET['filtro'];
         }
-        $this->productoController->filtrarListarProductos($filtro, $this->numPage, $this->paginationController);
+        $this->productoController->filtrarListarProductos($filtro, $this->numPage);
     }
 
     public function procesarCambiarEstadoProducto()
