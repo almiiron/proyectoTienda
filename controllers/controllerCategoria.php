@@ -62,6 +62,10 @@ class ControllerCategoria
 
     public function mostrarModificarCategoria($id)
     {
+        if (empty($id)) {
+            header('location:http://localhost/proyectoTienda/page/listarCategorias/1');
+            exit();
+        }
         // $buscarCategoria = $this->modeloCategorias->listarUnaCategoria($id, null, $this->conexion);
         $buscarCategoria = $this->serviceCategoria->listarUnaCategoria($id, null);
         require_once ('./views/layouts/header.php');

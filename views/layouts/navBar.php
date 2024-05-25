@@ -35,7 +35,10 @@
                         </li>
                     </ul>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link active text-light" aria-current="page"
+                        href="/proyectoTienda/page/listarClientes">Clientes</a>
+                </li>
             </ul>
             <!-- la condición para mostrar el buscador en el navbar -->
             <?php if (isset($mostrarBuscadorEnNavbar) && $mostrarBuscadorEnNavbar) { ?>

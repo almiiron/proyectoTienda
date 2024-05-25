@@ -10,6 +10,7 @@
         <?php require_once ('./views/cargar/cargar-categoria.php'); ?>
         <?php require_once ('./views/cargar/cargar-proveedor.php'); ?>
         <?php require_once ('./views/cargar/cargar-producto.php'); ?>
+        <?php require_once ('./views/cargar/cargar-cliente.php'); ?>
 
         <table class="table table-success table-striped" style="box-shadow: 1px 1px 10px 1px rgba(125, 125, 125, 0.5);">
             <thead style="height:80px;">

@@ -52,6 +52,10 @@ class ControllerProveedor
 
     public function mostrarModificarProveedor($id)
     {
+        if (empty($id)) {
+            header('location:http://localhost/proyectoTienda/page/listarProveedores/1');
+            exit();
+        }
         $buscarProveedor = $this->serviceProveedor->listarUnProveedor($id);
         require_once ('./views/layouts/header.php');
         require_once ('./views/modificar/modificar-proveedor.php');

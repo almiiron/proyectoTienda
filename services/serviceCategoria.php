@@ -16,18 +16,18 @@ class ServiceCategoria
     {
         $categoriaCargada = $this->modeloCategorias->buscarCategoria(null, $nombreCategoria);
 
-        if ($categoriaCargada == False) { //significa que la categoria no existe en la bd
+        if ($categoriaCargada) { //significa que la categoria no existe en la bd
             $estado = False;
-            $message = 'La categoria cargada ya existe.';
+            $message = '¡La categoria cargada ya existe!';
             return ['success' => $estado, 'message' => $message];
         }
 
         $cargarCategoria = $this->modeloCategorias->cargarCategoria($nombreCategoria);
         if ($cargarCategoria) {
             $estado = True;
-            $message = "Se cargó correctamente la categoria";
+            $message = "¡Se cargó correctamente la categoria!";
         } else {
-            $message = "Hubo un error al cargar la categoria";
+            $message = "¡Hubo un error al cargar la categoria!";
             $estado = False;
         }
         return ['success' => $estado, 'message' => $message];
@@ -65,7 +65,7 @@ class ServiceCategoria
         $modificarCategoria = $this->modeloCategorias->procesarModificarCategoria($id, $nombreCategoria);
         if ($modificarCategoria) {
             $estado = True;
-            $message = '¡La categoria se modificó con éxito!';
+            $message = '¡La categoria se modificó con correctamente!';
         } else {
             $estado = False;
             $message = 'Hubo un error al intentar modificar la categoría.';

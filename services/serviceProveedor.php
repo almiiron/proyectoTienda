@@ -48,7 +48,7 @@ class ServiceProveedor
             $cargarProveedor = $this->modeloProveedores->cargarProveedor($idContacto, $nombreProveedor);
             if ($cargarProveedor) {
                 $estado = True;
-                $message = "¡El proveedor se cargó con éxito!";
+                $message = "¡El proveedor se cargó con correctamente!";
             } else {
                 $estado = False;
                 $message = "¡Hubo un error al cargar el Proveedor!";
@@ -81,9 +81,11 @@ class ServiceProveedor
         } else if ($estadoActual == 'Inactivo') {
             $nuevoEstado = "Activo";
         }
-
+        $proveedor = $this->listarUnProveedor($id);
+        $idContacto = $proveedor['id_contacto'];
+        $cambiarEstadoContacto = $this->serviceContacto->cambiarEstadoContacto($idContacto, $nuevoEstado);
         $cambiarEstadoProveedor = $this->modeloProveedores->cambiarEstadoProveedor($id, $nuevoEstado);
-        if ($cambiarEstadoProveedor) {
+        if ($cambiarEstadoContacto && $cambiarEstadoProveedor) {
             $estado = True;
             $message = "¡Se modificó correctamente el Proveedor!";
         } else {
@@ -142,10 +144,10 @@ class ServiceProveedor
                 $message = "¡El nombre y contacto cargados ya existen!";
             } else if ($busquedaContacto == True) {
                 $estado = False;
-                $message = "¡El contacto cargado ya existe!";
+                $message = "¡El contacto ya existe!";
             } else if ($busquedaProveedor == True) {
                 $estado = False;
-                $message = "¡El nombre de Proveedor cargado ya existe!";
+                $message = "¡El nombre de Proveedor ya existe!";
             }
 
         } else if ($buscarContacto == False) {
@@ -164,7 +166,7 @@ class ServiceProveedor
                 }
             } else {
                 $estado = False;
-                $message = "¡El contacto del proveedor ya fue cargado!";
+                $message = "¡El contacto del proveedor ya existe!";
             }
 
         } else if ($buscarProveedor == False) {
@@ -190,7 +192,7 @@ class ServiceProveedor
                 }
             } else {
                 $estado = False;
-                $message = "¡El nombre de proveedor ya fue cargado!";
+                $message = "¡El nombre de proveedor ya existe!";
             }
 
         }
@@ -240,5 +242,6 @@ class ServiceProveedor
         $proveedor = $this->modeloProveedores->listarUnProveedor($id);
         return $proveedor;
     }
+
 }
 ?>

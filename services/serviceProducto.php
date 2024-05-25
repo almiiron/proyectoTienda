@@ -5,10 +5,12 @@ class ServiceProducto
 {
     private $conexion;
     private $modeloProductos;
+    private $paginationController;
 
     public function __construct($conexion)
     {
         $this->conexion = $conexion;
+        $this->paginationController = new ControllerPagination($this->conexion, 30);
         $this->modeloProductos = new Productos($this->conexion);
     }
 
@@ -21,15 +23,15 @@ class ServiceProducto
             if ($cargarProducto) {
                 //si la funcion devuelve true es porque se cargó el producto
                 $estado = True;
-                $message = "¡El producto fue cargado con éxito!";
+                $message = "¡El producto se cargó correctamente!";
             } else {
                 $estado = False;
-                $message = "¡Hubo un problema al cargar el producto!";
+                $message = "¡Hubo un error al cargar el producto!";
             }
         } else {
             //hay una coincidencia en la bd con ese nombre, muestra un mensaje
             $estado = False;
-            $message = "¡El producto ya fue cargado!";
+            $message = "¡El producto ya existe!";
         }
         return ['success' => $estado, 'message' => $message];
     }
@@ -53,7 +55,7 @@ class ServiceProducto
                     $message = "¡El producto fue modificado con éxito!";
                 } else {
                     $estado = False;
-                    $message = "¡Hubo un problema al modificar el producto!";
+                    $message = "¡Hubo un problemerror al modificar el producto!";
                 }
             } else {
                 $estado = False;
@@ -68,10 +70,10 @@ class ServiceProducto
             if ($modificarProducto) {
                 //si la funcion devuelve true es porque se cargó el producto
                 $estado = True;
-                $message = "¡El producto fue modificado con éxito!";
+                $message = "¡El producto fue modificado correctamente!";
             } else {
                 $estado = False;
-                $message = "¡Hubo un problema al modificar el producto!";
+                $message = "¡Hubo un error al modificar el producto!";
             }
         }
 
@@ -96,6 +98,52 @@ class ServiceProducto
             $message = "¡Hubo un error al modificar el Producto!";
         }
         return ['success' => $estado, 'message' => $message];
+    }
+
+    public function listarProductos($numPage)
+    {
+        $start = $numPage * $this->paginationController->size - $this->paginationController->size;
+
+        $innerJoin = "  INNER JOIN categorias c ON c.id_categoria = prod.id_categoria
+        INNER JOIN proveedores prov ON prod.id_proveedor = prov.id_proveedor ";
+        $totalRows = $this->paginationController->getTotalRows('productos prod' . $innerJoin); // el total de filas para la paginación
+        $pages = $this->paginationController->getTotalPages($totalRows, $this->paginationController->size); //la cantidad de paginas
+
+        $lista = $this->modeloProductos->listarProductos($start, $this->paginationController->size);
+
+        $ids = []; // Inicializar un array para almacenar los IDs
+        if ($lista) { //si hay productos para mostrar, ejecuta esto
+            foreach ($lista as $fila) {
+                $ids[] = $fila['id_producto']; // Agregar cada ID al array
+            }
+        }
+        return [$lista, $pages, $ids];
+    }
+
+    public function filtrarListarProductos($filtro, $numPage)
+    {
+        $start = $numPage * $this->paginationController->size - $this->paginationController->size;
+
+
+        $where_clause = $this->modeloProductos->prepararFiltrosProductos($filtro);
+        $where_clause_Pagination = "  INNER JOIN categorias c ON c.id_categoria = prod.id_categoria
+        INNER JOIN proveedores prov ON prod.id_proveedor = prov.id_proveedor " . $where_clause;
+        $totalRows = $this->paginationController->getTotalRows('productos prod', $where_clause_Pagination); //obtengo el total de filas con el filtro para paginar
+        $pages = $this->paginationController->getTotalPages($totalRows, $this->paginationController->size); //obtengo el numero total de paginas
+        $lista = $this->modeloProductos->listaFiltradaProductos($where_clause, $start, $this->paginationController->size);
+
+        $ids = []; // Inicializar un array para almacenar los IDs
+        if ($lista) {   //si hay productos para mostrar, ejecuta esto
+            foreach ($lista as $fila) {
+                $ids[] = $fila['id_producto']; // Agregar cada ID al array
+            }
+        }
+        return [$lista, $pages, $ids];
+    }
+
+    public function listarUnProducto($id){
+        $resultado = $this->modeloProductos->listarUnProducto($id);
+        return $resultado;
     }
 }
 

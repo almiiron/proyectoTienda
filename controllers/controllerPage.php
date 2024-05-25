@@ -4,6 +4,7 @@ require_once 'controllerProducto.php';
 require_once 'controllerCategoria.php';
 require_once 'controllerProveedor.php';
 require_once 'controllerPagination.php';
+require_once 'controllerCliente.php';
 class ControllerPage
 {
     private $conexion;
@@ -12,15 +13,16 @@ class ControllerPage
     private $categoriaController;
     private $proveedorController;
     private $numPage;
+    private $clienteController;
 
     public function __construct($conexion, $numPage)
     {
-        $this->conexion = $conexion;
         $this->homeController = new ControllerHome();
         $this->productoController = new ControllerProducto($conexion);
         $this->categoriaController = new ControllerCategoria($conexion);
         $this->proveedorController = new ControllerProveedor($conexion);
         $this->numPage = $numPage;
+        $this->clienteController = new ControllerCliente($conexion);
     }
 
     public function home()
@@ -72,7 +74,7 @@ class ControllerPage
     //   metodos de categoria //
 
     // metodos de proveedor //
-   
+
     public function procesarCargarProveedor()
     {
         $nombreProveedor = $_POST['nombreProveedor'];
@@ -118,7 +120,7 @@ class ControllerPage
     // metodos de proveedor //
 
     // metodos de productos //
-   
+
     public function procesarCargarProducto()
     {
         $nombreProducto = $_POST['nombreProducto'];
@@ -169,6 +171,48 @@ class ControllerPage
 
     // metodos de productos //
 
+    // metodos de clientes //
+    public function listarClientes()
+    {
+        $this->clienteController->listarClientes($this->numPage);
+    }
 
+    public function procesarCargarCliente()
+    {
+        $nombreCliente = $_POST['nombreCliente'];
+        $apellidoCliente = $_POST['apellidoCliente'];
+        $telefonoCliente = $_POST['telefonoCliente'];
+        $this->clienteController->procesarCargarCliente($nombreCliente, $apellidoCliente, $telefonoCliente);
+    }
+    public function procesarCambiarEstadoCliente()
+    {
+        $id = $_POST['id'];
+        $estadoActual = $_POST['estadoActual'];
+        $this->clienteController->procesarCambiarEstadoCliente($id, $estadoActual);
+    }
+
+    public function mostrarModificarCliente()
+    {
+        $id = $_POST['idModificar'];
+        $this->clienteController->mostrarModificarCliente($id);
+    }
+
+    public function procesarModificarCliente()
+    {
+        $idCliente = $_POST['idCliente'];
+        $idPersona = $_POST['idPersona'];
+        $nombrePersona = $_POST['nombreCliente'];
+        $apellidoPersona = $_POST['apellidoCliente'];
+        $idContacto = $_POST['idContacto'];
+        $telefono = $_POST['telefonoCliente'];
+
+        $this->clienteController->procesarModificarCliente($idCliente, $idPersona, $nombrePersona, $apellidoPersona, $idContacto, $telefono);
+    }
+    public function filtrarListarClientes()
+    {
+        $filtro = (empty($_GET['filtro'])) ? null : $_GET['filtro'];
+        $this->clienteController->filtrarListarClientes($filtro, $this->numPage);
+    }
+    // metodos de clientes //
 }
 ?>

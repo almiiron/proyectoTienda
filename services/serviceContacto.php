@@ -42,5 +42,17 @@ class ServiceContacto
             return False;
         }
     }
+
+    public function cambiarEstadoContacto($idContacto, $nuevoEstado)
+    {
+        $resultado = $this->modeloContacto->cambiarEstadoCliente($idContacto, $nuevoEstado);
+        return $resultado;
+    }
+
+    public function obtenerDatosSimpleContacto($idContacto)
+    {
+        $resultado = $this->modeloContacto->obtenerDatosSimpleContacto($idContacto);
+        return $resultado;
+    }
 }
 ?>

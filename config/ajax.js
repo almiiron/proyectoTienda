@@ -157,8 +157,11 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#IdProveedorProducto").select2({
         dropdownParent: $("#cargarProducto")
+        
     });
     $("#IdCategoriaProducto").select2({
         dropdownParent: $("#cargarProducto")
     });
+    $("#IdProveedorProductoModificar").select2();
+    $("#IdCategoriaProductoModificar").select2();
 });

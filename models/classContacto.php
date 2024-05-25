@@ -63,6 +63,23 @@ class Contactos
             return False;
         }
     }
+
+    public function cambiarEstadoCliente($idContacto, $nuevoEstado){
+        $query = "UPDATE contactos SET estado='$nuevoEstado' WHERE id_contacto = '$idContacto';";
+        $resultado = $this->conexion->ejecutarConsulta($query);
+        if ($resultado) {
+            return True;
+        } else {
+            return False;
+        }
+    }
+
+    public function obtenerDatosSimpleContacto($idContacto){
+        $query ="SELECT * FROM contactos WHERE id_contacto = '$idContacto';";
+        $resultado = $this->conexion->ejecutarConsulta($query);
+        $contacto = $resultado->fetch_assoc();
+        return $contacto;
+    }
 }
 
 ?>

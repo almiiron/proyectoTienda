@@ -162,7 +162,7 @@ class Categorias
     public function mostrarCategorias()
     {
         // aca hago una consulta para traer todas mis categorias de la bd
-        $query = "SELECT * FROM categorias";
+        $query = "SELECT id_categoria, nombre_categoria, estado FROM categorias";
         $resultado = $this->conexion->ejecutarConsulta($query);
 
         //creo un array para guardar las categorias

@@ -58,7 +58,7 @@ class Productos
 
     public function listarUnProducto($id)
     {
-        $query = "SELECT prod.id_producto, prod.nombre_producto, c.nombre_categoria, prov.nombre, prod.precio, prod.stock FROM productos prod
+        $query = "SELECT prod.id_producto, prod.nombre_producto, prod.id_categoria, prod.id_proveedor, c.nombre_categoria, prov.nombre, prod.precio, prod.stock FROM productos prod
         INNER JOIN categorias c ON c.id_categoria = prod.id_categoria
         INNER JOIN proveedores prov ON prod.id_proveedor = prov.id_proveedor
         WHERE prod.id_producto = '$id'
