@@ -1,18 +1,19 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Obtener el elemento de la imagen de la barra de navegación
-    var flecha = document.querySelector(".imgNavBar");
-
     // Escuchar el evento 'show.bs.dropdown' cuando se abre el dropdown
     document.querySelectorAll(".dropdown").forEach(function(dropdown) {
         dropdown.addEventListener("show.bs.dropdown", function() {
-            flecha.classList.add("imgNavBarActivo");
+            var flecha = this.querySelector('[data-flecha]');
+            if (flecha) {
+                flecha.classList.add("imgNavBarActivo");
+            }
         });
-    });
 
-    // Escuchar el evento 'hide.bs.dropdown' cuando se cierra el dropdown
-    document.querySelectorAll(".dropdown").forEach(function(dropdown) {
+        // Escuchar el evento 'hide.bs.dropdown' cuando se cierra el dropdown
         dropdown.addEventListener("hide.bs.dropdown", function() {
-            flecha.classList.remove("imgNavBarActivo");
+            var flecha = this.querySelector('[data-flecha]');
+            if (flecha) {
+                flecha.classList.remove("imgNavBarActivo");
+            }
         });
     });
 });
@@ -77,3 +78,5 @@ var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggl
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
 })
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

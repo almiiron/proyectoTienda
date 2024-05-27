@@ -31,6 +31,7 @@ class ControllerCliente
         $encabezados = array("ID Cliente", "Nombre del Cliente", "Apellido del Cliente", "Contacto");
 
         require_once ('./views/layouts/header.php');
+        require_once ('./views/layouts/navBar.php');
         require_once ('./views/listar/listar-table.php');
         require_once ('./views/layouts/footer.php');
     }
@@ -57,6 +58,7 @@ class ControllerCliente
         $idContacto = $resultados[3];
         $telefono = $resultados[4];
         require_once ('./views/layouts/header.php');
+        require_once ('./views/layouts/navBar.php');
         require_once ('./views/modificar/modificar-cliente.php');
         require_once ('./views/layouts/footer.php');
 
@@ -87,6 +89,7 @@ class ControllerCliente
         $encabezados = array("ID Cliente", "Nombre del Cliente", "Apellido del Cliente", "Contacto");
 
         require_once ('./views/layouts/header.php');
+        require_once ('./views/layouts/navBar.php');
         require_once ('./views/listar/listar-table.php');
         require_once ('./views/layouts/footer.php');
     }

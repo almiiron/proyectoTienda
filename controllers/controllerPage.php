@@ -5,6 +5,8 @@ require_once 'controllerCategoria.php';
 require_once 'controllerProveedor.php';
 require_once 'controllerPagination.php';
 require_once 'controllerCliente.php';
+require_once 'controllerUserLogin.php';
+require_once 'controllerEmpleado.php';
 class ControllerPage
 {
     private $conexion;
@@ -14,6 +16,8 @@ class ControllerPage
     private $proveedorController;
     private $numPage;
     private $clienteController;
+    private $userLoginController;
+    private $empleadoController;
 
     public function __construct($conexion, $numPage)
     {
@@ -23,6 +27,8 @@ class ControllerPage
         $this->proveedorController = new ControllerProveedor($conexion);
         $this->numPage = $numPage;
         $this->clienteController = new ControllerCliente($conexion);
+        $this->userLoginController = new ControllerUserLogin($conexion);
+        $this->empleadoController = new ControllerEmpleado($conexion);
     }
 
     public function home()
@@ -214,5 +220,30 @@ class ControllerPage
         $this->clienteController->filtrarListarClientes($filtro, $this->numPage);
     }
     // metodos de clientes //
+
+    // metodos de login //
+    public function iniciarSesion()
+    {
+        $this->userLoginController->iniciarSesion();
+    }
+    public function procesarIniciarSesion()
+    {
+        $user = $_POST['user'];
+        $password = $_POST['password'];
+        $this->userLoginController->procesarIniciarSesion($user, $password);
+    }
+
+    public function cerrarSesion()
+    {
+        $this->userLoginController->procesarCerrarSesion();
+    }
+    // metodos de login //
+
+    // metodos de empleado //
+    public function listarEmpleados()
+    {
+        $this->empleadoController->listarEmpleados($this->numPage);
+    }
+    // metodos de empleado //
 }
 ?>

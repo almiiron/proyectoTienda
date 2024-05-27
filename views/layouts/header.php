@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -17,6 +17,3 @@
 
 <body>
 
-    <?php
-    require_once ('navBar.php')
-        ?>

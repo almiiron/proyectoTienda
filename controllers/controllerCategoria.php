@@ -43,6 +43,7 @@ class ControllerCategoria
         $encabezados = array("ID Categoria", "Nombre de la Categoria");
 
         require_once ('./views/layouts/header.php');
+        require_once ('./views/layouts/navBar.php');
         require_once ('./views/listar/listar-table.php');
         require_once ('./views/layouts/footer.php');
     }
@@ -69,6 +70,7 @@ class ControllerCategoria
         // $buscarCategoria = $this->modeloCategorias->listarUnaCategoria($id, null, $this->conexion);
         $buscarCategoria = $this->serviceCategoria->listarUnaCategoria($id, null);
         require_once ('./views/layouts/header.php');
+        require_once ('./views/layouts/navBar.php');
         require_once ('./views/modificar/modificar-categoria.php');
         require_once ('./views/layouts/footer.php');
     }
@@ -102,6 +104,7 @@ class ControllerCategoria
         $tituloTabla = "Categorias";
         $encabezados = array("ID Categoria", "Nombre de la Categoria");
         require_once ('./views/layouts/header.php');
+        require_once ('./views/layouts/navBar.php');
         require_once ('./views/listar/listar-table.php');
         require_once ('./views/layouts/footer.php');
     }

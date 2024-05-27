@@ -45,6 +45,7 @@ class ControllerProducto
         $mostrarBuscadorEnNavbar = true;
         $encabezados = array("ID Producto", "Nombre del Producto", "Categoria", "Proveedor", "Precio", "Stock");
         require_once ('./views/layouts/header.php');
+        require_once ('./views/layouts/navBar.php');
         require_once ('./views/listar/listar-table.php');
         require_once ('./views/layouts/footer.php');
 
@@ -63,6 +64,7 @@ class ControllerProducto
         $buscarProducto = $this->serviceProducto->listarUnProducto($id);
         $datosProducto = $buscarProducto;
         require_once ('./views/layouts/header.php');
+        require_once ('./views/layouts/navBar.php');
         require_once ('./views/modificar/modificar-producto.php');
         require_once ('./views/layouts/footer.php');
     }
@@ -97,6 +99,7 @@ class ControllerProducto
         $limpiarFiltros = True;
         $encabezados = array("ID Producto", "Nombre del Producto", "Categoria", "Proveedor", "Precio", "Stock");
         require_once ('./views/layouts/header.php');
+        require_once ('./views/layouts/navBar.php');
         require_once ('./views/listar/listar-table.php');
         require_once ('./views/layouts/footer.php');
 

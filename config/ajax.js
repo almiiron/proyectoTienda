@@ -157,7 +157,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#IdProveedorProducto").select2({
         dropdownParent: $("#cargarProducto")
-        
+
     });
     $("#IdCategoriaProducto").select2({
         dropdownParent: $("#cargarProducto")
@@ -165,3 +165,51 @@ $(document).ready(function () {
     $("#IdProveedorProductoModificar").select2();
     $("#IdCategoriaProductoModificar").select2();
 });
+
+$(document).ready(function () {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            
+            form.classList.add('was-validated')
+        }, false)
+    })
+});
+
+$(document).ready(function () {
+    $('#buttonIniciarSesion').click(function (e) {
+        e.preventDefault();
+        var alertLogin = document.getElementById('alert-login');
+        var form = $(this).closest('form');
+        var url = form.attr('action');
+        var formData = form.serialize();
+        var user = $(this).closest('form').find('input[name="user"]').val();
+        var password = $(this).closest('form').find('input[name="password"]').val();
+        console.log(user);
+        console.log(password);
+        console.log(url);
+        console.log(formData);
+        
+        // Llama a la función para enviar el formulario de forma asíncrona.
+        enviarFormulario(url, formData, function (response) {
+            if (response.success) {
+                location.href ="http://localhost/proyectoTienda/page/home";
+            } else {
+                alertLogin.classList.remove('invalid-feedback');
+            }
+        });
+    });
+});
+function addClassAlertLogin(){
+    var alertLogin = document.getElementById('alert-login');
+    alertLogin.classList.add('invalid-feedback');
+}

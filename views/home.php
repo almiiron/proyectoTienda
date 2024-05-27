@@ -1,5 +1,4 @@
 <?php
-require_once ('layouts/header.php');
 ?>
 <div class="container-buttons-home">
     <a href="" class="button-home">
@@ -16,5 +15,5 @@ require_once ('layouts/header.php');
 </div>
 
 <?php
-require_once ('layouts/footer.php');
+
 ?>

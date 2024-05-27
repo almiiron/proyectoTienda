@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/middlewares/AuthMiddleware.php');
 class Router
 {
     private $controller;
@@ -26,6 +27,7 @@ class Router
     }
     public function run()
     {
+        AuthMiddleware::check($this->method);   
         $controller = new $this->controller($this->conexion, NUM_PAGE); // Pasar NUM_PAGE al constructor del controlador
         $method = $this->method;
     

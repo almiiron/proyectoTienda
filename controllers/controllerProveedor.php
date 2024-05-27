@@ -33,6 +33,7 @@ class ControllerProveedor
         $limpiarFiltros = False;
         $encabezados = array("ID Proveedor", "Nombre Proveedor", "Contacto");
         require_once ('./views/layouts/header.php');
+        require_once ('./views/layouts/navBar.php');
         require_once ('./views/listar/listar-table.php');
         require_once ('./views/layouts/footer.php');
     }
@@ -58,6 +59,7 @@ class ControllerProveedor
         }
         $buscarProveedor = $this->serviceProveedor->listarUnProveedor($id);
         require_once ('./views/layouts/header.php');
+        require_once ('./views/layouts/navBar.php');
         require_once ('./views/modificar/modificar-proveedor.php');
         require_once ('./views/layouts/footer.php');
     }
@@ -89,6 +91,7 @@ class ControllerProveedor
         $limpiarFiltros = True;
         $encabezados = array("ID Proveedor", "Nombre Proveedor", "Contacto");
         require_once ('./views/layouts/header.php');
+        require_once ('./views/layouts/navBar.php');
         require_once ('./views/listar/listar-table.php');
         require_once ('./views/layouts/footer.php');
 
