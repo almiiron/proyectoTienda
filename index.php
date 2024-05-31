@@ -3,7 +3,7 @@ session_start();
 require_once(__DIR__. '/config.php');
 require_once(__DIR__. '/router.php');
 
-require_once('./models/classConexion.php');
+require_once('./modules/conexion/model/classConexion.php');
 $conexion = new Conexion();
 $conexion->obtenerConexion();
 

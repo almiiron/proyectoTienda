@@ -155,6 +155,7 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    //los select con buscador, para que se carguen los select al abrir el modal
     $("#IdProveedorProducto").select2({
         dropdownParent: $("#cargarProducto")
 
@@ -164,6 +165,11 @@ $(document).ready(function () {
     });
     $("#IdProveedorProductoModificar").select2();
     $("#IdCategoriaProductoModificar").select2();
+    ////////////////////////////////////////////
+    $("#IdRolUsuario").select2({
+        dropdownParent: $("#cargarEmpleado")
+    });
+    $("#IdRolUsuarioModificar").select2();
 });
 
 $(document).ready(function () {
