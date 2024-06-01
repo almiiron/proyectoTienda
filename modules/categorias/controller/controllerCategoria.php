@@ -41,18 +41,9 @@ class ControllerCategoria
         $titulo = "Categoria";
         $tituloTabla = "Categorias";
         $encabezados = array("ID Categoria", "Nombre de la Categoria");
-
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/views/listar/listar-table.php');
-        require_once ('./modules/views/layouts/footer.php');
+        $view = './modules/views/listar/listar-table.php';
+        require_once ('./modules/views/layouts/main.php');
     }
-
-    // public function mostrarCategorias()
-    // {
-    //     $lista = $this->serviceCategoria->mostrarCategorias();
-    //     return $lista;
-    // }
 
     public function procesarCambiarEstadoCategoria($id, $estadoActual)
     {
@@ -69,10 +60,8 @@ class ControllerCategoria
         }
         // $buscarCategoria = $this->modeloCategorias->listarUnaCategoria($id, null, $this->conexion);
         $buscarCategoria = $this->serviceCategoria->listarUnaCategoria($id, null);
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/categorias/views/modificar-categoria.php');
-        require_once ('./modules/views/layouts/footer.php');
+        $view = './modules/categorias/views/modificar-categoria.php';
+        require_once ('./modules/views/layouts/main.php');
     }
 
     public function procesarModificarCategoria($id, $nombre_categoria)
@@ -103,10 +92,8 @@ class ControllerCategoria
         $titulo = "Categoria";
         $tituloTabla = "Categorias";
         $encabezados = array("ID Categoria", "Nombre de la Categoria");
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/views/listar/listar-table.php');
-        require_once ('./modules/views/layouts/footer.php');
+        $view = './modules/views/listar/listar-table.php';
+        require_once ('./modules/views/layouts/main.php');
     }
 }
 

@@ -44,10 +44,9 @@ class ControllerProducto
         $limpiarFiltros = False;
         $mostrarBuscadorEnNavbar = true;
         $encabezados = array("ID Producto", "Nombre del Producto", "Categoria", "Proveedor", "Precio", "Stock");
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/views/listar/listar-table.php');
-        require_once ('./modules/views/layouts/footer.php');
+    
+        $view = './modules/views/listar/listar-table.php';
+        require_once ('./modules/views/layouts/main.php');
 
     }
 
@@ -63,10 +62,8 @@ class ControllerProducto
 
         $buscarProducto = $this->serviceProducto->listarUnProducto($id);
         $datosProducto = $buscarProducto;
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/productos/views/modificar-producto.php');
-        require_once ('./modules/views/layouts/footer.php');
+        $view = './modules/productos/views/modificar-producto.php';
+        require_once ('./modules/views/layouts/main.php');
     }
 
     public function procesarModificarProducto($IdProducto, $nombreProducto, $IdCategoriaProducto, $IdProveedorProducto, $precioProducto, $stockProducto)
@@ -98,10 +95,8 @@ class ControllerProducto
         $base_url = 'http://localhost/proyectoTienda/page/filtrarListarProductos';
         $limpiarFiltros = True;
         $encabezados = array("ID Producto", "Nombre del Producto", "Categoria", "Proveedor", "Precio", "Stock");
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/views/listar/listar-table.php');
-        require_once ('./modules/views/layouts/footer.php');
+        $view = './modules/views/listar/listar-table.php';
+        require_once ('./modules/views/layouts/main.php');
 
     }
 

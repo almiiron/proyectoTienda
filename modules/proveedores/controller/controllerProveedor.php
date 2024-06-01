@@ -32,17 +32,9 @@ class ControllerProveedor
         $mostrarBuscadorEnNavbar = true;
         $limpiarFiltros = False;
         $encabezados = array("ID Proveedor", "Nombre Proveedor", "Contacto");
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/views/listar/listar-table.php');
-        require_once ('./modules/views/layouts/footer.php');
+        $view = './modules/views/listar/listar-table.php';
+        require_once ('./modules/views/layouts/main.php');
     }
-
-    // public function mostrarProveedores()
-    // {
-    //     $lista = $this->serviceProveedor->mostrarProveedores();
-    //     return $lista;
-    // }
 
     public function procesarCambiarEstadoProveedor($id, $estadoActual)
     {
@@ -58,10 +50,8 @@ class ControllerProveedor
             exit();
         }
         $buscarProveedor = $this->serviceProveedor->listarUnProveedor($id);
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/proveedores/views/modificar-proveedor.php');
-        require_once ('./modules/views/layouts/footer.php');
+        $view = './modules/proveedores/views/modificar-proveedor.php';
+        require_once ('./modules/views/layouts/main.php');
     }
 
     public function procesarModificarProveedor($idProveedor, $idContacto, $nombreProveedor, $contactoProveedor)
@@ -90,10 +80,8 @@ class ControllerProveedor
         $mostrarBuscadorEnNavbar = true;
         $limpiarFiltros = True;
         $encabezados = array("ID Proveedor", "Nombre Proveedor", "Contacto");
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/views/listar/listar-table.php');
-        require_once ('./modules/views/layouts/footer.php');
+        $view = './modules/views/listar/listar-table.php';
+        require_once ('./modules/views/layouts/main.php');
 
     }
 }

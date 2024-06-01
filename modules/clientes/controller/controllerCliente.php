@@ -29,11 +29,8 @@ class ControllerCliente
         $titulo = "Cliente";
         $tituloTabla = "Clientes";
         $encabezados = array("ID Cliente", "Nombre del Cliente", "Apellido del Cliente", "Contacto");
-
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/views/listar/listar-table.php');
-        require_once ('./modules/views/layouts/footer.php');
+        $view = './modules/views/listar/listar-table.php';
+        require_once ('./modules/views/layouts/main.php');
     }
 
     public function procesarCargarCliente($nombreCliente, $apellidoCliente, $telefonoCliente)
@@ -57,10 +54,8 @@ class ControllerCliente
         $apellidoPersona = $resultados[2];
         $idContacto = $resultados[3];
         $telefono = $resultados[4];
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/clientes/views/modificar-cliente.php');
-        require_once ('./modules/views/layouts/footer.php');
+        $view = './modules/clientes/views/modificar-cliente.php';
+        require_once ('./modules/views/layouts/main.php');
     }
     public function procesarModificarCliente($idCliente, $idPersona, $nombrePersona, $apellidoPersona, $idContacto, $telefono)
     {
@@ -87,10 +82,8 @@ class ControllerCliente
         $tituloTabla = "Clientes";
         $encabezados = array("ID Cliente", "Nombre del Cliente", "Apellido del Cliente", "Contacto");
 
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/views/listar/listar-table.php');
-        require_once ('./modules/views/layouts/footer.php');
+        $view = './modules/views/listar/listar-table.php';
+        require_once ('./modules/views/layouts/main.php');
     }
 
 }

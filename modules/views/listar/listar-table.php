@@ -1,5 +1,5 @@
 <div class="container my-5 ">
-    <div class="table-responsive ">
+    <div class="table-responsive " style="height:400px;">
         <button type="button" class="btn btn-primary mb-1 text-center float-end" data-bs-toggle="modal"
             data-bs-placement="bottom" data-bs-title="Nuevo <?php echo $contenedor; ?>"
             data-bs-target="#cargar<?php echo $contenedor; ?>" id="abrirModal">

@@ -27,10 +27,8 @@ class ControllerEmpleado
         $limpiarFiltros = False;
         $mostrarBuscadorEnNavbar = true;
         $encabezados = array("ID Empleado", "Nombre del Empleado", "Apellido del Empleado", "Nombre de Usuario", "Contacto");
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/views/listar/listar-table.php');
-        require_once ('./modules/views/layouts/footer.php');
+        $view = './modules/views/listar/listar-table.php';
+        require_once ('./modules/views/layouts/main.php');
     }
 
     public function procesarCargarEmpleado($nombreEmpleado, $apellidoEmpleado, $contactoEmpleado, $idRol, $usuarioEmpleado, $passwordEmpleado)
@@ -68,10 +66,8 @@ class ControllerEmpleado
         $base_url = 'http://localhost/proyectoTienda/page/filtrarListarEmpleados';
         $limpiarFiltros = True;
         $encabezados = array("ID Empleado", "Nombre del Empleado", "Apellido del Empleado", "Nombre de Usuario", "Contacto");
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/views/listar/listar-table.php');
-        require_once ('./modules/views/layouts/footer.php');
+        $view = './modules/views/listar/listar-table.php';
+        require_once ('./modules/views/layouts/main.php');
     }
 
     public function mostrarModificarEmpleado($id)
@@ -85,10 +81,9 @@ class ControllerEmpleado
         $roles = $resultados[5];
         $idUsuario = $resultados[6];
         $idRol = $resultados[7];
-        require_once ('./modules/views/layouts/header.php');
-        require_once ('./modules/views/layouts/navBar.php');
-        require_once ('./modules/empleados/views/modificar-empleado.php');
-        require_once ('./modules/views/layouts/footer.php');
+
+        $view= './modules/empleados/views/modificar-empleado.php';
+        require_once ('./modules/views/layouts/main.php');
     }
 
     public function procesarModificarEmpleado($nombreEmpleado, $apellidoEmpleado, $contactoEmpleado, $idRol, $idEmpleado, $idPersona, $idContacto, $idUsuario)
