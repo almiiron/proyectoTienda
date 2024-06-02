@@ -35,13 +35,9 @@ class ControllerCategoria
         $ids = $resultado[2];
         $limpiarFiltros = False;
         $base_url = 'http://localhost/proyectoTienda/page/listarCategorias';
-        $tituloTabla = "Categorias";
-        $contenedor = "Categoria";
         $mostrarBuscadorEnNavbar = true;
-        $titulo = "Categoria";
         $tituloTabla = "Categorias";
-        $encabezados = array("ID Categoria", "Nombre de la Categoria");
-        $view = './modules/views/listar/listar-table.php';
+        $view = './modules/categorias/views/listar-categorias.php';
         require_once ('./modules/views/layouts/main.php');
     }
 
@@ -83,16 +79,11 @@ class ControllerCategoria
         $lista = $resultado[0];
         $pages = $resultado[1];
         $ids = $resultado[2];
-
         $limpiarFiltros = True;
         $base_url = 'http://localhost/proyectoTienda/page/filtrarListarCategorias';
-        $tituloTabla = "Categorias";
-        $contenedor = "Categoria";
         $mostrarBuscadorEnNavbar = true;
-        $titulo = "Categoria";
         $tituloTabla = "Categorias";
-        $encabezados = array("ID Categoria", "Nombre de la Categoria");
-        $view = './modules/views/listar/listar-table.php';
+        $view = './modules/categorias/views/listar-categorias.php';
         require_once ('./modules/views/layouts/main.php');
     }
 }

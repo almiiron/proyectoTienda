@@ -20,15 +20,16 @@ class ControllerEmpleado
         $lista = $resultado[0];
         $pages = $resultado[1];
         $ids = $resultado[2];
-        $contenedor = "Empleado";
         $base_url = 'http://localhost/proyectoTienda/page/listarEmpleados';
-        $titulo = "Empleado";
         $tituloTabla = "Empleados";
         $limpiarFiltros = False;
         $mostrarBuscadorEnNavbar = true;
-        $encabezados = array("ID Empleado", "Nombre del Empleado", "Apellido del Empleado", "Nombre de Usuario", "Contacto");
-        $view = './modules/views/listar/listar-table.php';
+        $view = './modules/empleados/views/listar-empleados.php';
+        require_once ('./modules/conexion/model/classConexion.php');
+        $conexion = new Conexion();
+        $conexion->obtenerConexion();
         require_once ('./modules/views/layouts/main.php');
+
     }
 
     public function procesarCargarEmpleado($nombreEmpleado, $apellidoEmpleado, $contactoEmpleado, $idRol, $usuarioEmpleado, $passwordEmpleado)
@@ -82,14 +83,22 @@ class ControllerEmpleado
         $idUsuario = $resultados[6];
         $idRol = $resultados[7];
 
-        $view= './modules/empleados/views/modificar-empleado.php';
+        $view = './modules/empleados/views/modificar-empleado.php';
         require_once ('./modules/views/layouts/main.php');
     }
 
     public function procesarModificarEmpleado($nombreEmpleado, $apellidoEmpleado, $contactoEmpleado, $idRol, $idEmpleado, $idPersona, $idContacto, $idUsuario)
     {
-        $resultado = $this->serviceEmpleado->procesarModificarEmpleado($nombreEmpleado, $apellidoEmpleado, 
-        $contactoEmpleado, $idRol, $idEmpleado, $idPersona, $idContacto, $idUsuario);
+        $resultado = $this->serviceEmpleado->procesarModificarEmpleado(
+            $nombreEmpleado,
+            $apellidoEmpleado,
+            $contactoEmpleado,
+            $idRol,
+            $idEmpleado,
+            $idPersona,
+            $idContacto,
+            $idUsuario
+        );
         header('Content-Type: application/json');
         echo json_encode($resultado);
     }

@@ -179,16 +179,16 @@ $(document).ready(function () {
     var forms = document.querySelectorAll('.needs-validation')
     // Loop over them and prevent submission
     Array.prototype.slice.call(forms)
-    .forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-            if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-            }
-            
-            form.classList.add('was-validated')
-        }, false)
-    })
+        .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
 });
 
 $(document).ready(function () {
@@ -204,18 +204,130 @@ $(document).ready(function () {
         console.log(password);
         console.log(url);
         console.log(formData);
-        
+
         // Llama a la función para enviar el formulario de forma asíncrona.
         enviarFormulario(url, formData, function (response) {
             if (response.success) {
-                location.href ="http://localhost/proyectoTienda/page/home";
+                location.href = "http://localhost/proyectoTienda/page/home";
             } else {
                 alertLogin.classList.remove('invalid-feedback');
             }
         });
     });
 });
-function addClassAlertLogin(){
+function addClassAlertLogin() {
     var alertLogin = document.getElementById('alert-login');
     alertLogin.classList.add('invalid-feedback');
 }
+$(function () {
+    var tabCounter = 2; // Define un contador de pestañas
+    var tabs = $("#tabs").tabs(); // Inicializa las pestañas utilizando jQuery UI
+
+    // Función para restaurar pestañas desde localStorage
+    function restoreTabs() {
+        var savedTabs = JSON.parse(localStorage.getItem("tabs") || "[]"); // Obtiene las pestañas guardadas o un array vacío si no hay ninguna
+        savedTabs.forEach(function (tab) {
+            addTab(tab.url, tab.name, tab.icon, false); // Agrega cada pestaña guardada, pasando también el icono
+        });
+        highlightCurrentTab(); // Resaltar la pestaña actual después de restaurar
+    }
+
+    // Función para agregar una nueva pestaña
+    function addTab(url, name, icon, save = true) {
+        var existingTab = $(".tab-" + name); // Busca si ya existe una pestaña con la clase 'tab-name'
+
+        if (existingTab.length > 0) {
+            // Si ya existe, redirecciona a la URL de la nueva pestaña
+            redireccionar(url);
+            return;
+        }
+
+        var label = name || "Tab " + tabCounter,
+            id = "tabs-" + tabCounter,
+            li = $("<li class='d-flex align-items-center justify-content-center '></li>");
+
+        // Crea el botón con redireccionamiento
+        var button = $("<button class='btn btn-secondary tab-" + name + " d-flex align-items-center justify-content-center'></button>") // Agrega la clase 'tab-name' al botón
+            .text(label)
+            .attr("onclick", "redireccionar('" + url + "')")
+            .append('&nbsp;&nbsp;<i class="fs-4 ' + icon + '"></i>');
+
+        // Crea el icono de cierre
+        var closeIcon = $("<span class='cursor-pointer ui-icon ui-icon-close' role='presentation' onclick='removeTab(" + tabCounter + ", \"" + url + "\")'></span>");
+
+        // Agrega el botón y el icono de cierre al elemento li
+        li.append(button).append(closeIcon);
+
+        // Agrega el elemento li a la navegación de pestañas
+        tabs.find(".ui-tabs-nav").append(li);
+
+        // Refresca el widget de pestañas para reconocer la nueva pestaña
+        tabs.tabs("refresh");
+        tabCounter++;
+
+        if (save) {
+            saveTab(url, name, icon); // Guarda la pestaña, pasando también el icono
+            redireccionar(url); // Redirecciona a la URL de la nueva pestaña
+        }
+    }
+
+    // Función para guardar una pestaña en localStorage
+    function saveTab(url, name, icon) {
+        var savedTabs = JSON.parse(localStorage.getItem("tabs") || "[]"); // Obtiene las pestañas guardadas o un array vacío si no hay ninguna
+        savedTabs.push({ url: url, name: name, icon: icon }); // Guarda la pestaña con la URL, nombre e icono
+        localStorage.setItem("tabs", JSON.stringify(savedTabs)); // Almacena las pestañas en localStorage
+    }
+
+    // Función para eliminar una pestaña
+    function removeTab(tabId, url) {
+        // Elimina la pestaña
+        $("#tabs-" + tabId).remove();
+
+        // Elimina el botón de la pestaña correspondiente
+        tabs.find(".ui-tabs-nav li").eq(tabId - 1).remove();
+
+        // Refresca el widget de pestañas
+        tabs.tabs("refresh");
+
+        // Elimina la pestaña de localStorage
+        var savedTabs = JSON.parse(localStorage.getItem("tabs") || "[]");
+        savedTabs = savedTabs.filter(tab => tab.url !== url);
+        localStorage.setItem("tabs", JSON.stringify(savedTabs));
+
+        // Si hay pestañas restantes, redirecciona a la última pestaña abierta
+        if ($("#tabs .ui-tabs-nav li").length > 0) {
+            var lastTab = $("#tabs .ui-tabs-nav li:last-child button");
+            redireccionar(lastTab.attr("onclick").match(/'([^']+)'/)[1]);
+        } else {
+            // Si no quedan pestañas, redirecciona a la página de inicio
+            redireccionar('home');
+        }
+    }
+
+    // Función para redireccionar a una URL y resaltar la pestaña actual
+    function redireccionar(url) {
+        location.href = 'http://localhost/proyectoTienda/page/' + url;
+        highlightCurrentTab();
+    }
+
+    // Función para resaltar la pestaña actual
+    function highlightCurrentTab() {
+        var currentUrl = window.location.href;
+        $("#tabs .ui-tabs-nav button").each(function () {
+            var buttonUrl = $(this).attr("onclick").match(/'([^']+)'/)[1];
+            if (currentUrl.includes(buttonUrl)) {
+                $(this).removeClass("btn-secondary").addClass("btn-primary");
+            } else {
+                $(this).removeClass("btn-primary").addClass("btn-secondary");
+            }
+        });
+    }
+
+    // Expone las funciones addTab, removeTab y redireccionar al ámbito global
+    window.addTab = addTab;
+    window.removeTab = removeTab;
+    window.redireccionar = redireccionar;
+
+    // Restaura las pestañas al cargar la página
+    restoreTabs();
+});

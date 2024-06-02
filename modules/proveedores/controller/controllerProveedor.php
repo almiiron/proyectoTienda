@@ -25,14 +25,11 @@ class ControllerProveedor
         $lista = $resultado[0];
         $pages = $resultado[1];
         $ids = $resultado[2];
-        $contenedor = "Proveedor";
         $base_url = 'http://localhost/proyectoTienda/page/listarProveedores';
-        $titulo = "Proveedor";
         $tituloTabla = "Proveedores";
         $mostrarBuscadorEnNavbar = true;
         $limpiarFiltros = False;
-        $encabezados = array("ID Proveedor", "Nombre Proveedor", "Contacto");
-        $view = './modules/views/listar/listar-table.php';
+        $view = './modules/proveedores/views/listar-proveedores.php';
         require_once ('./modules/views/layouts/main.php');
     }
 

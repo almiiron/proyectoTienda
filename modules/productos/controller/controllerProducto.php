@@ -37,15 +37,11 @@ class ControllerProducto
         $lista = $resultado[0];
         $pages = $resultado[1];
         $ids = $resultado[2];
-        $contenedor = "Producto";
         $base_url = 'http://localhost/proyectoTienda/page/listarProductos';
-        $titulo = "Producto";
         $tituloTabla = "Productos";
         $limpiarFiltros = False;
         $mostrarBuscadorEnNavbar = true;
-        $encabezados = array("ID Producto", "Nombre del Producto", "Categoria", "Proveedor", "Precio", "Stock");
-    
-        $view = './modules/views/listar/listar-table.php';
+        $view = './modules/productos/views/listar-productos.php';
         require_once ('./modules/views/layouts/main.php');
 
     }
@@ -81,23 +77,17 @@ class ControllerProducto
             $start = 0;
             header('location:http://localhost/proyectoTienda/page/filtrarListarProductoss/1');
         }
-       
+
         $resultado = $this->serviceProducto->filtrarListarProductos($filtro, $numPage);
         $lista = $resultado[0];
         $pages = $resultado[1];
         $ids = $resultado[2];
-
-        //si no hay categorias que mostrar, ejecuta esto
-        $contenedor = "Producto";
-        $titulo = "Producto";
         $mostrarBuscadorEnNavbar = true;
         $tituloTabla = "Productos";
         $base_url = 'http://localhost/proyectoTienda/page/filtrarListarProductos';
         $limpiarFiltros = True;
-        $encabezados = array("ID Producto", "Nombre del Producto", "Categoria", "Proveedor", "Precio", "Stock");
-        $view = './modules/views/listar/listar-table.php';
+        $view = './modules/productos/views/listar-productos.php';
         require_once ('./modules/views/layouts/main.php');
-
     }
 
     public function procesarCambiarEstadoProducto($id, $estadoActual)

@@ -23,13 +23,9 @@ class ControllerCliente
         $ids = $resultado[2];
         $limpiarFiltros = False;
         $base_url = 'http://localhost/proyectoTienda/page/listarClientes';
-        $tituloTabla = "Clientes";
-        $contenedor = "Cliente";
         $mostrarBuscadorEnNavbar = true;
-        $titulo = "Cliente";
-        $tituloTabla = "Clientes";
-        $encabezados = array("ID Cliente", "Nombre del Cliente", "Apellido del Cliente", "Contacto");
-        $view = './modules/views/listar/listar-table.php';
+        $tituloTabla = 'Clientes';
+        $view = './modules/clientes/views/listar-clientes.php';
         require_once ('./modules/views/layouts/main.php');
     }
 
@@ -82,7 +78,7 @@ class ControllerCliente
         $tituloTabla = "Clientes";
         $encabezados = array("ID Cliente", "Nombre del Cliente", "Apellido del Cliente", "Contacto");
 
-        $view = './modules/views/listar/listar-table.php';
+        $view = './modules/clientes/views/listar-clientes.php';
         require_once ('./modules/views/layouts/main.php');
     }
 
