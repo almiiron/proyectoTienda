@@ -1,20 +1,21 @@
 <div class="container-fluid ">
     <div class="row flex-nowrap w-100  col">
-        <div class="col-auto col-md-2 col-xl-2 px-sm-2 px-0 contentNavBar overflow-auto"
-            style="background-color:#0f5480;">
+        <div class="col-auto col-md-2 col-xl-2 px-sm-2 px-0 contentNavBar overflow-auto custom-bg-primary">
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 ">
-                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <a class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <span class="fs-5 d-none d-sm-inline">Tienda</span>
                 </a>
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                    <li class="nav-item">
+
+                    <li class="nav-item w-100 ">
                         <a href="/proyectoTienda/page/home" class="nav-link align-middle px-0  text-white">
                             <i class="fs-4 bi-house"></i>
-                            <span class="ms-1 d-none d-sm-inline">Inicio</span>
+                            <span class="ms-1 d-none d-sm-inline ">Inicio</span>
                         </a>
                     </li>
-                    <li>
-                        <button onclick="addTab('listarCategorias/1', 'Categorias', 'bi-tags')"
+
+                    <li class="w-100">
+                        <button onclick="addTab('listarCategorias', 'Categorias', 'bi-tags')"
                             class="nav-link px-0 align-middle  text-white">
                             <i class="fs-4 bi-tags"></i>
                             <span class="ms-1 d-none d-sm-inline">
@@ -22,7 +23,8 @@
                             </span>
                         </button>
                     </li>
-                    <li>
+
+                    <li class="w-100">
                         <button onclick="addTab('listarClientes/1', 'Clientes', 'bi-people')"
                             class="nav-link px-0 align-middle  text-white">
                             <i class="fs-4 bi-people"></i>
@@ -31,7 +33,8 @@
                             </span>
                         </button>
                     </li>
-                    <li>
+
+                    <li class="w-100">
                         <button onclick="addTab('listarEmpleados/1', 'Empleados', 'bi-people')"
                             class="nav-link px-0 align-middle  text-white">
                             <i class="fs-4 bi-people"></i>
@@ -40,10 +43,8 @@
                             </span>
                         </button>
                     </li>
-                    <li>
-                        <!-- <a href="/proyectoTienda/page/listarProductos/1" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-dropbox"></i> <span class="ms-1 d-none d-sm-inline">Productos</span></a> -->
 
+                    <li class="w-100">
                         <button onclick="addTab('listarProductos/1', 'Productos', 'bi-dropbox')"
                             class="nav-link px-0 align-middle  text-white">
                             <i class="fs-4 bi-dropbox"></i>
@@ -52,11 +53,8 @@
                             </span>
                         </button>
                     </li>
-                    <li>
-                        <!-- <a href="/proyectoTienda/page/listarProveedores/1"
-                            class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Proveedores</span> </a> -->
 
+                    <li class="w-100">
                         <button onclick="addTab('listarProveedores/1', 'Proveedores', 'bi-people')"
                             class="nav-link px-0 align-middle  text-white">
                             <i class="fs-4 bi-people"></i>
@@ -65,79 +63,90 @@
                             </span>
                         </button>
                     </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle  text-white">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <!-- <li>
-                        <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span>
-                        </a>
-                        <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+
+                    <li class="w-100">
+                        <button class="nav-link px-0 align-middle" data-bs-toggle="collapse" data-bs-target="#submenu1">
+                            <i class="fs-4 bi-bag-fill text-white"></i>
+                            <span class="ms-1 d-none d-sm-inline text-white">Ventas</span>
+                        </button>
+                        <ul class="collapse nav flex-column" id="submenu1" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>
+                                <button class="nav-link px-0" onclick="addTab('listarVentas/1', 'Ventas', 'bi-cart3')">
+                                    <i class="fs-4 bi-cart3 text-white"></i>
+                                    <span class="d-none d-sm-inline text-white">
+                                        Ventas
+                                    </span>
+                                </button>
                             </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>
+                            <li class="w-100">
+                                <button class="nav-link px-0">
+                                    <i class="bi bi-graph-up text-white"></i>
+                                    <span class="d-none d-sm-inline text-white">
+                                        Panel de <br> Control
+                                    </span>
+                                </button>
                             </li>
                         </ul>
-                    </li> -->
+                    </li>
+
+
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle  text-white">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+
                     <!-- <li>
                         <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
                             <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Bootstrap</span></a>
@@ -171,7 +180,7 @@
 
                 </ul>
                 <hr>
-                <div class="dropdown pb-4 sticky-bottom w-100">
+                <div class="dropdown pb-4 sticky-bottom w-100 custom-bg-primary" style="margin-left:-5px">
                     &nbsp;
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                         id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -181,27 +190,28 @@
                             <?php echo $_SESSION['user']; ?>
                         </span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow custom-bg-primary">
                         <li><a class="dropdown-item" href="#">New project...</a></li>
                         <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li><a class="dropdown-item" href="#">Profile</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="/proyectoTienda/page/cerrarSesion">Cerrar Sesión</a></li>
+                        <li>
+                            <a class="dropdown-item" href="/proyectoTienda/page/cerrarSesion">
+                                <i class="bi bi-box-arrow-right"></i>
+                                Cerrar Sesión
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="col py-3 content ">
-            <?php
-            require_once('./modules/views/layouts/buscador.php');
-            ?>
-            <br>
+        <div class="col py-3 content custom-bg-light w-100">
             <div id="tabs" class="w-100" style="background-color: transparent; border:none;">
-                <ul class="pb-1 rounded">
+                <ul class="pb-1 rounded custom-bg-white">
                     <li>
-                        <button class="btn btn-success" onclick="redireccionar('home')">
+                        <button class="btn btn-success rounded-1" onclick="redireccionar('home')">
                             <i class="fs-4 bi-house"></i>
 
                             <!-- <span class="ui-icon ui-icon-close" role="presentation">
@@ -211,6 +221,10 @@
                     </li>
                 </ul>
             </div>
+            <?php
+            require_once ('./modules/views/layouts/buscador.php');
+            ?>
+            <br>
             <?php
             if (isset($view)) {
                 require_once ($view);

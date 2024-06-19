@@ -237,8 +237,6 @@ class ServiceCliente
         }
     }
 
-
-    
     public function filtrarListarClientes($filtro, $numPage)
     {
 
@@ -259,6 +257,12 @@ class ServiceCliente
             }
         }
         return [$lista, $pages, $ids];
+    }
+
+    public function mostrarTodosClientes()
+    {
+        $mostrarTodosClientes = $this->modeloCliente->mostrarTodosClientes();
+        return $mostrarTodosClientes;
     }
 }
 

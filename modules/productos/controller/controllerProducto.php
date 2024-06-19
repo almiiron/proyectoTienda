@@ -29,7 +29,7 @@ class ControllerProducto
     {
         if ($numPage == "" || $numPage <= 0) {
 
-            header('location:http://localhost/proyectoTienda/page/listarProductos/1');
+            header('location:http://' . IP_HOST . '/proyectoTienda/page/listarProductos/1');
             //si en mi url el numPage es letra o numero menor a 0, entonces me redirecciona
         }
 
@@ -37,7 +37,7 @@ class ControllerProducto
         $lista = $resultado[0];
         $pages = $resultado[1];
         $ids = $resultado[2];
-        $base_url = 'http://localhost/proyectoTienda/page/listarProductos';
+        $base_url = 'http://' . IP_HOST . '/proyectoTienda/page/listarProductos';
         $tituloTabla = "Productos";
         $limpiarFiltros = False;
         $mostrarBuscadorEnNavbar = true;
@@ -49,7 +49,7 @@ class ControllerProducto
     public function mostrarModificarProducto($id)
     {
         if (empty($id)) {
-            header('location:http://localhost/proyectoTienda/page/listarProductos/1');
+            header('location:http://' . IP_HOST . '/proyectoTienda/page/listarProductos/1');
             exit();
         }
 
@@ -75,7 +75,7 @@ class ControllerProducto
 
         if ($numPage == "" || $numPage <= 0) {
             $start = 0;
-            header('location:http://localhost/proyectoTienda/page/filtrarListarProductoss/1');
+            header('location:http://' . IP_HOST . '/proyectoTienda/page/filtrarListarProductoss/1');
         }
 
         $resultado = $this->serviceProducto->filtrarListarProductos($filtro, $numPage);
@@ -84,7 +84,7 @@ class ControllerProducto
         $ids = $resultado[2];
         $mostrarBuscadorEnNavbar = true;
         $tituloTabla = "Productos";
-        $base_url = 'http://localhost/proyectoTienda/page/filtrarListarProductos';
+        $base_url = 'http://' . IP_HOST . '/proyectoTienda/page/filtrarListarProductos';
         $limpiarFiltros = True;
         $view = './modules/productos/views/listar-productos.php';
         require_once ('./modules/views/layouts/main.php');

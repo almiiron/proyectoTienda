@@ -287,5 +287,10 @@ class ServiceEmpleado
             }
         }
     }
+
+    public function mostrarTodosEmpleados(){
+        $resultado = $this->modeloEmpleado->mostrarTodosEmpleados();
+        return $resultado;
+    }
 }
 ?>

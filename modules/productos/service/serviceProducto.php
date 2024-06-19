@@ -145,6 +145,11 @@ class ServiceProducto
         $resultado = $this->modeloProductos->listarUnProducto($id);
         return $resultado;
     }
+
+    public function mostrarTodosProductosVenta(){
+        $resultado = $this->modeloProductos->mostrarTodosProductosVenta();
+        return $resultado;
+    }
 }
 
 ?>

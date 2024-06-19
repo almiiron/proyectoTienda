@@ -14,7 +14,7 @@ class ControllerCliente
     {
 
         if ($numPage == "" || $numPage <= 0) {
-            header('location:http://localhost/proyectoTienda/page/listarClientes/1');
+            header('location:http://' . IP_HOST . '/proyectoTienda/page/listarClientes/1');
             //si en mi url el numPage es letra o numero menor a 0, entonces me redirecciona
         }
         $resultado = $this->serviceCliente->listarClientes($numPage);
@@ -22,7 +22,7 @@ class ControllerCliente
         $pages = $resultado[1];
         $ids = $resultado[2];
         $limpiarFiltros = False;
-        $base_url = 'http://localhost/proyectoTienda/page/listarClientes';
+        $base_url = 'http://' . IP_HOST . '/proyectoTienda/page/listarClientes';
         $mostrarBuscadorEnNavbar = true;
         $tituloTabla = 'Clientes';
         $view = './modules/clientes/views/listar-clientes.php';
@@ -60,9 +60,10 @@ class ControllerCliente
         echo json_encode($resultado);
     }
 
-    public function filtrarListarClientes($filtro, $numPage){
+    public function filtrarListarClientes($filtro, $numPage)
+    {
         if ($numPage == "" || $numPage <= 0) {
-            header('location:http://localhost/proyectoTienda/page/filtrarListarClientes/1');
+            header('location:http://' . IP_HOST . '/proyectoTienda/page/filtrarListarClientes/1');
             //si en mi url el numPage es letra o numero menor a 0, entonces me redirecciona
         }
         $resultado = $this->serviceCliente->filtrarListarClientes($filtro, $numPage);
@@ -70,14 +71,9 @@ class ControllerCliente
         $pages = $resultado[1];
         $ids = $resultado[2];
         $limpiarFiltros = True;
-        $base_url = 'http://localhost/proyectoTienda/page/filtrarListarClientes';
+        $base_url = 'http://' . IP_HOST . '/proyectoTienda/page/filtrarListarClientes';
         $tituloTabla = "Clientes";
-        $contenedor = "Cliente";
         $mostrarBuscadorEnNavbar = true;
-        $titulo = "Cliente";
-        $tituloTabla = "Clientes";
-        $encabezados = array("ID Cliente", "Nombre del Cliente", "Apellido del Cliente", "Contacto");
-
         $view = './modules/clientes/views/listar-clientes.php';
         require_once ('./modules/views/layouts/main.php');
     }

@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="containerForm col-md-6 col-sm-12">
                 <h5 class="modal-title text-center">Modificar Cliente</h5>
-                <form action="http://localhost/proyectoTienda/page/procesarModificarCliente" method="post" class="form ajax-form">
+                <form action="http://<?php echo IP_HOST; ?>/proyectoTienda/page/procesarModificarCliente" method="post" class="form ajax-form">
                     <div class="form-group mb-4">
                         <label for="nombreCliente">Nombre del Cliente</label>
                         <input type="text" class="form-control" id="nombreCliente" name="nombreCliente"

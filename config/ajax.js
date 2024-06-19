@@ -1,3 +1,5 @@
+var ipHost = '192.168.100.8';
+
 $(document).ready(function () {
     // Captura el evento de envío del formulario
     $('form.ajax-form').submit(function (e) {
@@ -58,7 +60,7 @@ function cambiarEstado(id, estadoActual) {
     }).then(function (confirmDelete) {
         if (confirmDelete) {
             var metodo = $('#metodoEstado').val();
-            var url = 'http://localhost/proyectoTienda/page/procesarCambiarEstado' + metodo; // Concatenando la variable método a la URL
+            var url = 'http://' + ipHost + '/proyectoTienda/page/procesarCambiarEstado' + metodo; // Concatenando la variable método a la URL
 
             console.log('URL:', url);
             var formData = {
@@ -163,6 +165,8 @@ $(document).ready(function () {
     $("#IdCategoriaProducto").select2({
         dropdownParent: $("#cargarProducto")
     });
+
+    // si no esta en un modal, lo cargo asi 
     $("#IdProveedorProductoModificar").select2();
     $("#IdCategoriaProductoModificar").select2();
     ////////////////////////////////////////////
@@ -170,11 +174,16 @@ $(document).ready(function () {
         dropdownParent: $("#cargarEmpleado")
     });
     $("#IdRolUsuarioModificar").select2();
+    ////////////////////////////////////////
+    $("#IdClienteVenta").select2();
+    $("#IdEmpleadoVenta").select2();
+    $("#IdProductoVenta").select2();
+    $("#IdMetodoPagoVenta").select2();
 });
 
 $(document).ready(function () {
     'use strict'
-
+    // para el login 
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.querySelectorAll('.needs-validation')
     // Loop over them and prevent submission
@@ -208,7 +217,7 @@ $(document).ready(function () {
         // Llama a la función para enviar el formulario de forma asíncrona.
         enviarFormulario(url, formData, function (response) {
             if (response.success) {
-                location.href = "http://localhost/proyectoTienda/page/home";
+                location.href = "http://" + ipHost + "/proyectoTienda/page/home";
             } else {
                 alertLogin.classList.remove('invalid-feedback');
             }
@@ -219,6 +228,8 @@ function addClassAlertLogin() {
     var alertLogin = document.getElementById('alert-login');
     alertLogin.classList.add('invalid-feedback');
 }
+
+
 $(function () {
     var tabCounter = 2; // Define un contador de pestañas
     var tabs = $("#tabs").tabs(); // Inicializa las pestañas utilizando jQuery UI
@@ -247,7 +258,7 @@ $(function () {
             li = $("<li class='d-flex align-items-center justify-content-center '></li>");
 
         // Crea el botón con redireccionamiento
-        var button = $("<button class='btn btn-secondary tab-" + name + " d-flex align-items-center justify-content-center'></button>") // Agrega la clase 'tab-name' al botón
+        var button = $("<button class='btn btn-secondary tab-" + name + " d-flex align-items-center justify-content-center rounded-1'></button>") // Agrega la clase 'tab-name' al botón
             .text(label)
             .attr("onclick", "redireccionar('" + url + "')")
             .append('&nbsp;&nbsp;<i class="fs-4 ' + icon + '"></i>');
@@ -306,22 +317,24 @@ $(function () {
 
     // Función para redireccionar a una URL y resaltar la pestaña actual
     function redireccionar(url) {
-        location.href = 'http://localhost/proyectoTienda/page/' + url;
+        location.href = 'http://' + ipHost + '/proyectoTienda/page/' + url;
         highlightCurrentTab();
     }
 
     // Función para resaltar la pestaña actual
-    function highlightCurrentTab() {
-        var currentUrl = window.location.href;
-        $("#tabs .ui-tabs-nav button").each(function () {
-            var buttonUrl = $(this).attr("onclick").match(/'([^']+)'/)[1];
-            if (currentUrl.includes(buttonUrl)) {
-                $(this).removeClass("btn-secondary").addClass("btn-primary");
-            } else {
-                $(this).removeClass("btn-primary").addClass("btn-secondary");
-            }
-        });
-    }
+   // Función para resaltar la pestaña actual
+function highlightCurrentTab() {
+    var currentUrl = window.location.href.toLowerCase(); // Convertir la URL actual a minúsculas para comparar
+    $("#tabs .ui-tabs-nav button").each(function () {
+        var buttonUrl = $(this).attr("onclick").match(/'([^']+)'/)[1].toLowerCase(); // Convertir la URL de la pestaña a minúsculas para comparar
+        if (currentUrl.includes(buttonUrl)) {
+            $(this).removeClass("btn-secondary").addClass("btn-primary");
+        } else {
+            $(this).removeClass("btn-primary").addClass("btn-secondary");
+        }
+    });
+}
+
 
     // Expone las funciones addTab, removeTab y redireccionar al ámbito global
     window.addTab = addTab;
@@ -330,4 +343,78 @@ $(function () {
 
     // Restaura las pestañas al cargar la página
     restoreTabs();
+});
+
+
+
+////////////////////////////
+// para enviar el form de venta 
+$(document).ready(function () {
+    // Captura el evento de envío del formulario
+    $('form.ajax-form-mostrarVenta').submit(function (e) {
+        e.preventDefault(); // Evita que se envíe el formulario de manera predeterminada.
+
+        // Verificar si se han seleccionado productos
+        if ($('#tablaProductos tbody tr').length === 0) {
+            swal({
+                title: 'Error',
+                text: 'Debes seleccionar al menos un producto para la venta.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
+            return; // Detiene el envío del formulario si no hay productos seleccionados
+        }
+
+        // Mostrar mensaje de confirmación
+        swal({
+            title: '¿Seguro de cargar la venta?',
+            text: 'Compruebe los datos y cargue la venta.',
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Cancelar',
+                    value: null,
+                    visible: true,
+                    className: 'btn btn-secondary',
+                    closeModal: true,
+                },
+                confirm: {
+                    text: 'Cargar',
+                    value: true,
+                    visible: true,
+                    className: 'btn btn-primary',
+                    closeModal: true
+                }
+            }
+        }).then(function (confirm) {
+            if (confirm) {
+                var form = $('form.ajax-form-mostrarVenta');
+                var url = form.attr('action');
+                var formData = form.serialize();
+
+                // Llama a la función para enviar el formulario de forma asíncrona.
+                enviarFormulario(url, formData, function (response) {
+                    if (response.success) {
+                        swal({
+                            title: 'Éxito',
+                            text: response.message || 'La operación se realizó correctamente.',
+                            icon: 'success',
+                            confirmButtonText: 'Aceptar'
+                        }).then((result) => {
+                            if (result) {
+                                location.reload(); // Recarga la página después de cerrar el Sweet Alert
+                            }
+                        });
+                    } else {
+                        swal({
+                            title: 'Error',
+                            text: response.message || 'Hubo un error al procesar la solicitud.',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    }
+                });
+            }
+        });
+    });
 });

@@ -8,7 +8,7 @@
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <form action="http://localhost/proyectoTienda/page/procesarCargarCategoria" method="post"
+            <form action="http://<?php echo IP_HOST; ?>/proyectoTienda/page/procesarCargarCategoria" method="post"
                 class="form ajax-form">
                 <div class="modal-body">
 

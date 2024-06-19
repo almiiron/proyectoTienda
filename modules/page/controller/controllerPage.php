@@ -7,6 +7,7 @@ require_once './modules/pagination/controller/controllerPagination.php';
 require_once './modules/clientes/controller/controllerCliente.php';
 require_once './modules/users/controller/controllerUser.php';
 require_once './modules/empleados/controller/controllerEmpleado.php';
+require_once './modules/ventas/controller/controllerVenta.php';
 class ControllerPage
 {
     private $conexion;
@@ -18,6 +19,7 @@ class ControllerPage
     private $clienteController;
     private $userLoginController;
     private $empleadoController;
+    private $ventaController;
 
     public function __construct($conexion, $numPage)
     {
@@ -29,6 +31,7 @@ class ControllerPage
         $this->clienteController = new ControllerCliente($conexion);
         $this->userLoginController = new ControllerUser($conexion);
         $this->empleadoController = new ControllerEmpleado($conexion);
+        $this->ventaController = new ControllerVenta($conexion);
     }
     // Helper function to check for empty fields and redirect
     private function validarCamposYRedirigir($campos, $rutaRedireccion)
@@ -291,13 +294,13 @@ class ControllerPage
         $this->validarCamposYRedirigir([$id, $estadoActual], '/proyectoTienda/page/listarEmpleados/1');
         $this->empleadoController->procesarCambiarEstadoEmpleado($id, $estadoActual);
     }
-    
+
     public function filtrarListarEmpleados()
     {
         $filtro = (empty($_GET['filtro'])) ? null : $_GET['filtro'];
         $this->empleadoController->filtrarListarEmpleados($filtro, $this->numPage);
     }
-    
+
     public function mostrarModificarEmpleado()
     {
         $id = $_POST['idModificar'];
@@ -305,7 +308,8 @@ class ControllerPage
         $this->empleadoController->mostrarModificarEmpleado($id);
     }
 
-    public function procesarModificarEmpleado(){
+    public function procesarModificarEmpleado()
+    {
         $nombreEmpleado = $_POST['nombreEmpleado'];
         $apellidoEmpleado = $_POST['apellidoEmpleado'];
         $contactoEmpleado = $_POST['contactoEmpleado'];
@@ -321,5 +325,36 @@ class ControllerPage
         $this->empleadoController->procesarModificarEmpleado($nombreEmpleado, $apellidoEmpleado, $contactoEmpleado, $idRol, $idEmpleado, $idPersona, $idContacto, $idUsuario);
     }
     // metodos de empleado //
+
+    // metodos ventas //
+    public function listarVentas()
+    {
+        $this->ventaController->listarVentas($this->numPage);
+    }
+    public function mostrarCargarVenta()
+    {
+        $this->ventaController->mostrarCargarVenta();
+    }
+    public function procesarCargarVenta()
+    {
+        $idCliente = $_POST['IdClienteVenta'];
+        $idEmpleado = $_POST['IdEmpleadoVenta'];
+        $productos = $_POST['productos'];
+        $subTotalVenta = $_POST['subTotalVenta'];
+        $totalVenta = $_POST['totalVenta'];
+        $idMetodoPago = $_POST['IdMetodoPagoVenta'];
+        $this->validarCamposYRedirigir(
+            [$idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago],
+            '/proyectoTienda/page/listarVentas/1'
+        );
+        $this->ventaController->procesarCargarVenta($idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago);
+    }
+
+    public function filtrarListarVentas()
+    {
+        $filtro = (empty($_GET['filtro'])) ? null : $_GET['filtro'];
+        $this->ventaController->filtrarListarVentas($filtro, $this->numPage);
+    }
+    // metodos ventas //
 }
 ?>

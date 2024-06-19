@@ -18,14 +18,14 @@ class ControllerProveedor
     public function listarProveedores($numPage)
     {
         if ($numPage == "" || $numPage <= 0) {
-            header('location:http://localhost/proyectoTienda/page/listarProveedores/1');
+            header('location:http://' . IP_HOST . '/proyectoTienda/page/listarProveedores/1');
         }
 
         $resultado = $this->serviceProveedor->listarProveedores($numPage);
         $lista = $resultado[0];
         $pages = $resultado[1];
         $ids = $resultado[2];
-        $base_url = 'http://localhost/proyectoTienda/page/listarProveedores';
+        $base_url = 'http://' . IP_HOST . '/proyectoTienda/page/listarProveedores';
         $tituloTabla = "Proveedores";
         $mostrarBuscadorEnNavbar = true;
         $limpiarFiltros = False;
@@ -43,7 +43,7 @@ class ControllerProveedor
     public function mostrarModificarProveedor($id)
     {
         if (empty($id)) {
-            header('location:http://localhost/proyectoTienda/page/listarProveedores/1');
+            header('location:http://' . IP_HOST . '/proyectoTienda/page/listarProveedores/1');
             exit();
         }
         $buscarProveedor = $this->serviceProveedor->listarUnProveedor($id);
@@ -63,7 +63,7 @@ class ControllerProveedor
     public function filtrarListarProveedores($filtro, $numPage)
     {
         if ($numPage == "" || $numPage <= 0) {
-            header('location:http://localhost/proyectoTienda/page/filtrarListarProveedores/1');
+            header('location:http://' . IP_HOST . '/proyectoTienda/page/filtrarListarProveedores/1');
         }
 
         $resultado = $this->serviceProveedor->filtrarListarProveedores($filtro, $numPage);
@@ -72,7 +72,7 @@ class ControllerProveedor
         $ids = $resultado[2];
         $contenedor = "Proveedor";
         $titulo = "Proveedor";
-        $base_url = 'http://localhost/proyectoTienda/page/filtrarListarProveedores';
+        $base_url = 'http://' . IP_HOST . '/proyectoTienda/page/filtrarListarProveedores';
         $tituloTabla = "Proveedores";
         $mostrarBuscadorEnNavbar = true;
         $limpiarFiltros = True;

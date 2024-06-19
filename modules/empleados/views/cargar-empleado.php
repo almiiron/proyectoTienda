@@ -12,7 +12,7 @@ $rolesUsuarios = $serviceUser->listarRolesUsuarios();
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <form action="http://localhost/proyectoTienda/page/procesarCargarEmpleado" method="post"
+            <form action="http://<?php echo IP_HOST; ?>/proyectoTienda/page/procesarCargarEmpleado" method="post"
                 class="form ajax-form">
                 <div class="modal-body">
                     <div class="form-group mb-4">

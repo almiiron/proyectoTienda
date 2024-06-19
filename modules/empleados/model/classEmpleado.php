@@ -65,5 +65,20 @@ class Empleado
         }
         return $empleados;
     }
+    public function mostrarTodosEmpleados()
+    {
+        $query = "SELECT em.id_empleado, pe.nombre, pe.apellido, us.nombre_usuario, c.telefono, em.estado FROM empleados em 
+        INNER JOIN personas pe ON pe.id_persona = em.id_persona 
+        INNER JOIN usuarios us ON em.id_usuario = us.id_usuario
+        INNER JOIN contactos c ON c.id_contacto = pe.id_contacto";
+        
+        $resultado = $this->conexion->ejecutarConsulta($query);
+        $empleados = array(); // Array para almacenar 
+        while ($row = mysqli_fetch_assoc($resultado)) {
+            $empleados[] = $row; // Agrega el resultado al array
+        }
+        return $empleados;
+    }
+
 }
 ?>

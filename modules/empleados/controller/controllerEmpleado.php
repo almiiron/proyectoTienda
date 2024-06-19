@@ -12,7 +12,7 @@ class ControllerEmpleado
 
         if ($numPage == "" || $numPage <= 0) {
 
-            header('location:http://localhost/proyectoTienda/page/listarEmpleados/1');
+            header('location:http://' . IP_HOST . '/proyectoTienda/page/listarEmpleados/1');
             //si en mi url el numPage es letra o numero menor a 0, entonces me redirecciona
         }
 
@@ -20,7 +20,7 @@ class ControllerEmpleado
         $lista = $resultado[0];
         $pages = $resultado[1];
         $ids = $resultado[2];
-        $base_url = 'http://localhost/proyectoTienda/page/listarEmpleados';
+        $base_url = 'http://' . IP_HOST . '/proyectoTienda/page/listarEmpleados';
         $tituloTabla = "Empleados";
         $limpiarFiltros = False;
         $mostrarBuscadorEnNavbar = true;
@@ -51,7 +51,7 @@ class ControllerEmpleado
 
         if ($numPage == "" || $numPage <= 0) {
             $start = 0;
-            header('location:http://localhost/proyectoTienda/page/filtrarListarEmpleados/1');
+            header('location:http://' . IP_HOST . '/proyectoTienda/page/filtrarListarEmpleados/1');
         }
 
         $resultado = $this->serviceEmpleado->filtrarListarEmpleados($filtro, $numPage);
@@ -64,10 +64,14 @@ class ControllerEmpleado
         $titulo = "Empleado";
         $mostrarBuscadorEnNavbar = true;
         $tituloTabla = "Empleados";
-        $base_url = 'http://localhost/proyectoTienda/page/filtrarListarEmpleados';
+        $base_url = 'http://' . IP_HOST . '/proyectoTienda/page/filtrarListarEmpleados';
         $limpiarFiltros = True;
+
+        require_once ('./modules/conexion/model/classConexion.php');
+        $conexion = new Conexion();
+        $conexion->obtenerConexion();
         $encabezados = array("ID Empleado", "Nombre del Empleado", "Apellido del Empleado", "Nombre de Usuario", "Contacto");
-        $view = './modules/views/listar/listar-table.php';
+        $view = './modules/empleados/views/listar-empleados.php';
         require_once ('./modules/views/layouts/main.php');
     }
 

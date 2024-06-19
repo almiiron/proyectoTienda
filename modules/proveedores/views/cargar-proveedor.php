@@ -8,7 +8,7 @@
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <form action="http://localhost/proyectoTienda/page/procesarCargarProveedor" method="post" class="form ajax-form">
+            <form action="http://<?php echo IP_HOST; ?>/proyectoTienda/page/procesarCargarProveedor" method="post" class="form ajax-form">
                 <div class="modal-body">
                     <div class="form-group mb-4">
                         <label for="nombreProveedor">Nombre del Proveedor</label>

@@ -26,6 +26,28 @@ class Conexion
     {
         return $this->conexion->query($query);
     }
+    // método para ejecutar consultas preparadas
+    public function ejecutarConsultaPreparada($query, $tipos, ...$params)
+    {
+        $stmt = $this->conexion->prepare($query);
+        // if ($stmt === false) {
+        //     die('Error en la preparación de la consulta: ' . $this->conexion->error);
+        // }
 
+        // Vincular los parámetros
+        $stmt->bind_param($tipos, ...$params);
+
+        // Ejecutar la consulta preparada
+        $resultado = $stmt->execute();
+
+        // Verificar si la ejecución fue exitosa
+        // if ($resultado === false) {
+        //     die('Error en la ejecución de la consulta: ' . $stmt->error);
+        // }
+
+        $stmt->close();
+
+        return $resultado;
+    }
 }
 ?>

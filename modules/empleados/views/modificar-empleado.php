@@ -7,9 +7,9 @@
 <div class="container my-4">
     <div class="row justify-content-center">
         <div class="containerForm col-md-6 col-sm-12">
-            <h5 class="modal-title text-center">Modificar Cliente</h5>
+            <h5 class="modal-title text-center">Modificar Empleado</h5>
 
-            <form action="http://localhost/proyectoTienda/page/procesarModificarEmpleado" method="post"
+            <form action="http://<?php echo IP_HOST; ?>/proyectoTienda/page/procesarModificarEmpleado" method="post"
                 class="form ajax-form">
                 <div class="modal-body">
                     <div class="form-group mb-4">

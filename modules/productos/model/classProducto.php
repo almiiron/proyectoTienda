@@ -116,5 +116,19 @@ class Productos
             return False;
         }
     }
+
+    public function mostrarTodosProductosVenta()
+    {
+        $query = "SELECT prod.id_producto, prod.nombre_producto, c.nombre_categoria, prov.nombre, prod.precio, prod.stock, prod.estado FROM productos prod
+        INNER JOIN categorias c ON c.id_categoria = prod.id_categoria
+        INNER JOIN proveedores prov ON prod.id_proveedor = prov.id_proveedor";
+        $resultado = $this->conexion->ejecutarConsulta($query);
+
+        $productos = array(); // Array para almacenar las categorías
+        while ($row = mysqli_fetch_assoc($resultado)) {
+            $productos[] = $row; // Agrega el resultado al array
+        }
+        return $productos;
+    }
 }
 ?>

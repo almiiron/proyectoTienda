@@ -66,7 +66,7 @@ class Clientes
 
     public function listaFiltradaClientes($where_clause, $start, $size)
     {
-  // aca hago una consulta para traer todas mis clientes de la bd
+        // aca hago una consulta para traer todas mis clientes de la bd
         // Construye la consulta SQL con los filtros
         $query = "SELECT cl.id_cliente, p.nombre, p.apellido, co.telefono, cl.estado  FROM clientes cl 
         INNER JOIN personas p ON p.id_persona = cl.id_persona INNER JOIN contactos co ON co.id_contacto = p.id_contacto  
@@ -80,6 +80,18 @@ class Clientes
 
         $clientes = array(); // Array para almacenar las categorías
         while ($row = mysqli_fetch_assoc($resultado)) {
+            $clientes[] = $row; // Agrega el resultado al array
+        }
+        return $clientes;
+    }
+
+    public function mostrarTodosClientes()
+    {
+        $query = "SELECT cl.id_cliente, p.nombre, p.apellido, co.telefono, cl.estado  FROM clientes cl 
+        INNER JOIN personas p ON p.id_persona = cl.id_persona INNER JOIN contactos co ON co.id_contacto = p.id_contacto";
+        $sql = $this->conexion->ejecutarConsulta($query);
+        $clientes = array(); // Array para almacenar las categorías
+        while ($row = mysqli_fetch_assoc($sql)) {
             $clientes[] = $row; // Agrega el resultado al array
         }
         return $clientes;

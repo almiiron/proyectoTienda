@@ -1,4 +1,4 @@
-<section class="h-100">
+<section class="h-100 custom-bg-light">
     <div class="container h-100">
         <div class="row justify-content-sm-center h-100">
             <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
@@ -13,10 +13,10 @@
                 <div class="card shadow-lg">
                     <div class="card-body p-5">
                         <h1 class="fs-4 card-title fw-bold mb-4 text-center">Iniciar Sesión</h1>
-                        <form method="POST" action="http://localhost/proyectoTienda/page/procesarIniciarSesion" class="needs-validation form" novalidate="" autocomplete="off">
+                        <form method="POST" action="http://<?php echo IP_HOST; ?>/proyectoTienda/page/procesarIniciarSesion" class="needs-validation form" novalidate="" autocomplete="off">
                             <div class="mb-3">
                                 <label class="mb-2 text-muted" for="user">Nombre de Usuario</label>
-                                <input id="user" type="text" class="form-control" name="user" value="" required
+                                <input id="user" type="text" class="form-control shadow" name="user" value="" required
                                     autofocus>
                                 <div class="invalid-feedback">
                                     ¡Nombre de usuario es requerido!
@@ -30,7 +30,7 @@
                                             Forgot Password?
                                         </a> -->
                                 </div>
-                                <input id="password" type="password" class="form-control" name="password" required>
+                                <input id="password" type="password" class="form-control shadow" name="password" required>
                                 <div class="invalid-feedback">
                                     ¡Contraseña es requerida!
                                 </div>
