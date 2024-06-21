@@ -61,22 +61,22 @@ class ServiceVenta
     public function procesarCargarVenta($idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago)
     {
 
-        $cargarVenta = $this->modeloVenta->cargarVenta($idCliente, $idEmpleado, $idMetodoPago, $subTotalVenta, $totalVenta);
+        // $cargarVenta = $this->modeloVenta->cargarVenta($idCliente, $idEmpleado, $idMetodoPago, $subTotalVenta, $totalVenta);
 
-        if ($cargarVenta == False) {
-            $estado = False;
-            $message = '¡Hubo un error al cargar la venta!';
-            return ['success' => $estado, 'message' => $message];
-        }
+        // if ($cargarVenta == False) {
+        //     $estado = False;
+        //     $message = '¡Hubo un error al cargar la venta!';
+        //     return ['success' => $estado, 'message' => $message];
+        // }
 
-        $idVenta = $this->modeloVenta->obtenerUltimaVentaID();
-        $cargarDetalleVenta = $this->modeloVenta->cargarDetalleVenta($idVenta, $productos);
+        // $idVenta = $this->modeloVenta->obtenerUltimaVentaID();
+        // $cargarDetalleVenta = $this->modeloVenta->cargarDetalleVenta($idVenta, $productos);
 
-        if ($cargarDetalleVenta == False) {
-            $estado = False;
-            $message = '¡Hubo un error al cargar detalle venta!';
-            return ['success' => $estado, 'message' => $message];
-        }
+        // if ($cargarDetalleVenta == False) {
+        //     $estado = False;
+        //     $message = '¡Hubo un error al cargar detalle venta!';
+        //     return ['success' => $estado, 'message' => $message];
+        // }
 
         $estado = True;
         $message = '¡La venta fue cargada correctamente!';

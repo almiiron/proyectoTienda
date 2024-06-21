@@ -1,4 +1,5 @@
-var ipHost = '192.168.100.8';
+var ipHost = '192.168.100.2';
+// var ipHost = 'localhost';
 
 $(document).ready(function () {
     // Captura el evento de envío del formulario
@@ -322,18 +323,18 @@ $(function () {
     }
 
     // Función para resaltar la pestaña actual
-   // Función para resaltar la pestaña actual
-function highlightCurrentTab() {
-    var currentUrl = window.location.href.toLowerCase(); // Convertir la URL actual a minúsculas para comparar
-    $("#tabs .ui-tabs-nav button").each(function () {
-        var buttonUrl = $(this).attr("onclick").match(/'([^']+)'/)[1].toLowerCase(); // Convertir la URL de la pestaña a minúsculas para comparar
-        if (currentUrl.includes(buttonUrl)) {
-            $(this).removeClass("btn-secondary").addClass("btn-primary");
-        } else {
-            $(this).removeClass("btn-primary").addClass("btn-secondary");
-        }
-    });
-}
+    // Función para resaltar la pestaña actual
+    function highlightCurrentTab() {
+        var currentUrl = window.location.href.toLowerCase(); // Convertir la URL actual a minúsculas para comparar
+        $("#tabs .ui-tabs-nav button").each(function () {
+            var buttonUrl = $(this).attr("onclick").match(/'([^']+)'/)[1].toLowerCase(); // Convertir la URL de la pestaña a minúsculas para comparar
+            if (currentUrl.includes(buttonUrl)) {
+                $(this).removeClass("btn-secondary").addClass("btn-primary");
+            } else {
+                $(this).removeClass("btn-primary").addClass("btn-secondary");
+            }
+        });
+    }
 
 
     // Expone las funciones addTab, removeTab y redireccionar al ámbito global
@@ -350,11 +351,9 @@ function highlightCurrentTab() {
 ////////////////////////////
 // para enviar el form de venta 
 $(document).ready(function () {
-    // Captura el evento de envío del formulario
     $('form.ajax-form-mostrarVenta').submit(function (e) {
-        e.preventDefault(); // Evita que se envíe el formulario de manera predeterminada.
+        e.preventDefault();
 
-        // Verificar si se han seleccionado productos
         if ($('#tablaProductos tbody tr').length === 0) {
             swal({
                 title: 'Error',
@@ -362,10 +361,9 @@ $(document).ready(function () {
                 icon: 'error',
                 confirmButtonText: 'Aceptar'
             });
-            return; // Detiene el envío del formulario si no hay productos seleccionados
+            return;
         }
 
-        // Mostrar mensaje de confirmación
         swal({
             title: '¿Seguro de cargar la venta?',
             text: 'Compruebe los datos y cargue la venta.',
@@ -391,30 +389,126 @@ $(document).ready(function () {
                 var form = $('form.ajax-form-mostrarVenta');
                 var url = form.attr('action');
                 var formData = form.serialize();
+                var totalVenta = form.find('#inputTotal').val(); // Obtener totalVenta correctamente desde formData
+                console.log('Total Venta:', totalVenta);
 
-                // Llama a la función para enviar el formulario de forma asíncrona.
-                enviarFormulario(url, formData, function (response) {
-                    if (response.success) {
-                        swal({
-                            title: 'Éxito',
-                            text: response.message || 'La operación se realizó correctamente.',
-                            icon: 'success',
-                            confirmButtonText: 'Aceptar'
-                        }).then((result) => {
-                            if (result) {
-                                location.reload(); // Recarga la página después de cerrar el Sweet Alert
-                            }
-                        });
-                    } else {
-                        swal({
-                            title: 'Error',
-                            text: response.message || 'Hubo un error al procesar la solicitud.',
-                            icon: 'error',
-                            confirmButtonText: 'Aceptar'
-                        });
-                    }
-                });
+                var metodoPago = $('#IdMetodoPagoVenta').val();
+                if (metodoPago == '2') { // ID de Transferencia
+                    mostrarConfirmacionQR(totalVenta);
+                } else {
+                    enviarFormulario(url, formData, function (response) {
+                        handleResponse(response);
+                    });
+                }
             }
         });
     });
+
+    function mostrarConfirmacionQR(totalVenta) {
+        swal({
+            title: '¿Desea crear un QR para pagar la venta o cargar directamente la venta?',
+            icon: 'info',
+            buttons: {
+                qr: {
+                    text: 'Crear QR para pagar',
+                    className: 'btn btn-primary',
+                    value: 'qr'
+                },
+                cargar: {
+                    text: 'Cargar directamente la venta',
+                    className: 'btn btn-success',
+                    value: 'cargar'
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    className: 'btn btn-secondary',
+                    value: null
+                }
+            }
+        }).then(function (option) {
+            if (option === 'qr') {
+                generarQrMercadoPago(totalVenta);
+            } else if (option === 'cargar') {
+                cargarVentaDirectamente(totalVenta);
+            }
+        });
+    }
+
+    function generarQrMercadoPago(totalVenta) {
+        let url = 'http://' + ipHost + '/proyectoTienda/modules/ventas/obtenerVentaQR/obtenerVentaQR.php';
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: { total_amount: totalVenta },
+            success: function (response) {
+                var qrApiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(response);
+
+                swal({
+                    title: 'Escaneá y pagá',
+                    content: {
+                        element: "img",
+                        attributes: {
+                            src: qrApiUrl
+                        }
+                    },
+                    buttons: {
+                        cancelar: {
+                            text: 'Cancelar',
+                            className: 'btn btn-secondary'
+                        },
+                        cargarVenta: {
+                            text: 'Listo, cargar venta',
+                            className: 'btn btn-success'
+                        }
+                    }
+                }).then(function (option) {
+                    if (option === 'cargarVenta') {
+                        cargarVentaDirectamente(totalVenta);
+                    } else if (option === 'cancelar') {
+                        location.reload(); // Recargar la página si se cancela
+                    }
+                });
+            },
+            error: function () {
+                swal({
+                    title: 'Error',
+                    text: 'Hubo un error en la solicitud.',
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
+            }
+        });
+    }
+
+
+    function cargarVentaDirectamente(totalVenta) {
+        var form = $('form.ajax-form-mostrarVenta');
+        var url = form.attr('action');
+        var formData = form.serialize();
+
+        enviarFormulario(url, formData, function (response) {
+            handleResponse(response);
+        });
+    }
+    function handleResponse(response) {
+        if (response.success) {
+            swal({
+                title: 'Éxito',
+                text: response.message || 'La operación se realizó correctamente.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result) {
+                    location.reload(); // Recarga la página después de cerrar el Sweet Alert
+                }
+            });
+        } else {
+            swal({
+                title: 'Error',
+                text: response.message || 'Hubo un error al procesar la solicitud.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
+        }
+    }
 });
