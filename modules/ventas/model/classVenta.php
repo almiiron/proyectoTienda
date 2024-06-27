@@ -47,7 +47,8 @@ class Ventas
     dv.cantidad_producto,
     dv.precio_producto,
     dv.estado as estado_detalle_venta,
-    p.nombre_producto as nombre_producto
+    p.nombre_producto as nombre_producto,
+    v.interes
 FROM 
     ventas v
 JOIN 
@@ -93,6 +94,7 @@ JOIN
                     'hora' => $row['hora'],
                     'precio_subtotal' => $row['precio_subtotal'],
                     'precio_total' => $row['precio_total'],
+                    'interes' => $row['interes'],
                     'estado_venta' => $row['estado_venta'],
                     'detalles' => array()
                 );
@@ -133,11 +135,11 @@ JOIN
     }
 
 
-    public function cargarVenta($idCliente, $idEmpleado, $idMetodoPago, $subTotalVenta, $totalVenta)
+    public function cargarVenta($idCliente, $idEmpleado, $idMetodoPago, $subTotalVenta, $totalVenta, $interes_venta)
     {
-        $query = "INSERT INTO ventas (id_cliente, id_empleado, id_metodo_pago, fecha, hora, precio_subtotal, precio_total, estado) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, 'Activo')";
-        $tipos = 'iiissii'; // i para enteros (id_cliente, id_empleado, id_metodo_pago), d para dobles (sub_total_venta, total_venta)
+        $query = "INSERT INTO ventas (id_cliente, id_empleado, id_metodo_pago, fecha, hora, precio_subtotal, precio_total, interes, estado) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Activo')";
+        $tipos = 'iiissiis'; // i para enteros (id_cliente, id_empleado, id_metodo_pago), d para dobles (sub_total_venta, total_venta)
 
         // Usar la función ejecutarConsultaPreparada
         $resultado = $this->conexion->ejecutarConsultaPreparada(
@@ -149,7 +151,8 @@ JOIN
             $this->fecha,
             $this->hora,
             $subTotalVenta,
-            $totalVenta
+            $totalVenta,
+            $interes_venta
         );
 
         if ($resultado !== false) {
@@ -174,9 +177,9 @@ JOIN
     public function cargarDetalleVenta($idVenta, $productos)
     {
         // Preparar la consulta para insertar los detalles de la venta
-        $query = "INSERT INTO detalle_venta (id_venta, id_producto, cantidad_producto, precio_producto, estado) VALUES (?, ?, ?, ?, 'Activo')";
-        $tipos = 'iiis';
-
+        $queryInsertDetalle = "INSERT INTO detalle_venta (id_venta, id_producto, cantidad_producto, precio_producto, estado) VALUES (?, ?, ?, ?, 'Activo')";
+        $tiposInsertDetalle = 'iiis';
+       
         // Iterar sobre los productos y agregar los detalles de la venta
         foreach ($productos as $producto) {
             // Obtener los valores del producto
@@ -185,19 +188,18 @@ JOIN
             $cantidadProducto = $producto['cantidad'];
 
             // Ejecutar la consulta preparada para insertar el detalle de la venta
-            $resultado = $this->conexion->ejecutarConsultaPreparada($query, $tipos, $idVenta, $idProducto, $cantidadProducto, $precioProducto);
+            $resultadoInsertDetalle = $this->conexion->ejecutarConsultaPreparada($queryInsertDetalle, $tiposInsertDetalle, $idVenta, $idProducto, $cantidadProducto, $precioProducto);
 
-            // Verificar si la consulta se ejecutó correctamente
-            if (!$resultado) {
-                // Manejar el error si la consulta falla
-                // echo "Error al cargar el detalle de la venta: " . $this->conexion->obtenerConexion()->error;
+            // Verificar si la inserción del detalle fue exitosa
+            if (!$resultadoInsertDetalle) {
                 return false; // Salir del método si hay un error
             }
-        }
 
-        // Si todas las inserciones fueron exitosas, retornar true
+        }
+        // Si todas las inserciones y actualizaciones fueron exitosas, retornar true
         return true;
     }
+
 
 
     public function prepararFiltrosVenta($filtro)
@@ -319,5 +321,13 @@ JOIN
         return array_values($ventas);
     }
 
+    public function ultimoIdVenta()
+    {
+        $query = "SELECT MAX(id_venta) as id_contacto FROM contactos";
+        $resultado = $this->conexion->ejecutarConsulta($query);
+        $fila = $resultado->fetch_assoc();      // Extraer el valor de id_contacto
+        $id_contacto = $fila['id_contacto'];    // Devolver el valor de id_contacto
+        return $id_contacto;
+    }
 }
 ?>

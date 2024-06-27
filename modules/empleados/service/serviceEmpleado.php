@@ -4,6 +4,8 @@ require_once ('./modules/pagination/controller/controllerPagination.php');
 require_once ('./modules/personas/service/servicePersona.php');
 require_once ('./modules/contactos/service/serviceContacto.php');
 require_once ('./modules/users/service/serviceUser.php');
+require_once './modules/notificaciones/service/serviceNotificaciones.php';
+
 class ServiceEmpleado
 {
     private $modeloEmpleado;
@@ -11,6 +13,8 @@ class ServiceEmpleado
     private $servicePersona;
     private $serviceContacto;
     private $serviceUser;
+    private $serviceNotificaciones;
+
     public function __construct($conexion)
     {
         $this->modeloEmpleado = new Empleado($conexion);
@@ -18,6 +22,8 @@ class ServiceEmpleado
         $this->servicePersona = new ServicePersona($conexion);
         $this->serviceContacto = new ServiceContacto($conexion);
         $this->serviceUser = new ServiceUser($conexion);
+        $this->serviceNotificaciones = new ServiceNotificaciones($conexion);
+
     }
 
     public function listarEmpleados($numPage)
@@ -92,7 +98,15 @@ class ServiceEmpleado
         if ($cargarEmpleado) {
             $estado = True;
             $message = "¡El empleado fue cargado correctamente!";
+            $mensajeNotificacion = 'Se cargó correctamente el empleado: ' . $nombreEmpleado . ' ' . $apellidoEmpleado;
+            $tipoNotificacion = 'Información';
+        } else {
+            $estado = False;
+            $message = "¡Hubo un error al cargar el empleado!";
+            $mensajeNotificacion = 'Hubo un error al cargar el empleado: ' . $apellidoEmpleado . ' ' . $apellidoEmpleado;
+            $tipoNotificacion = 'Error';
         }
+        $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
         return ['success' => $estado, 'message' => $message];
     }
 
@@ -121,9 +135,17 @@ class ServiceEmpleado
         if (!$cambiarEstadoContacto || !$cambiarEstadoPersona || !$cambiarEstadoUsuario || !$cambiarEstadoEmpleado) {
             $estado = False;
             $message = "¡Hubo un error al modificar el empleado!";
+            $mensajeNotificacion = 'Hubo un error al modificar el empleado: ' . $persona['nombre'] . ' ' . $persona['apellido'];
+            $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
+            $tipoNotificacion = 'Error';
         }
         $estado = True;
         $message = "¡Se modificó correctamente el empleado!";
+        $mensajeNotificacion = 'Se modificó correctamente el empleado: ' . $persona['nombre'] . ' ' . $persona['apellido'];
+        $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
+        $tipoNotificacion = 'Información';
+        $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
+
         return ['success' => $estado, 'message' => $message];
     }
 
@@ -191,7 +213,17 @@ class ServiceEmpleado
                 $modificarRol = $this->serviceUser->modificarRolUser($idUsuario, $idRol);
                 if ($modificarPersona && $modificarContacto && $modificarRol) {
                     $estado = True;
-                    $message = '¡El empleado se modificó correctamente!';
+                    $message = 'Se modificó correctamente el empleado!';
+                    $mensajeNotificacion = 'Se modificó correctamente el empleado de ID ' . $idEmpleado;
+                    $tipoNotificacion = 'Error';
+                    $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
+                    return ['success' => $estado, 'message' => $message];
+                } else {
+                    $estado = False;
+                    $message = '¡Hubo un error al modificar el empleado!';
+                    $mensajeNotificacion = 'Hubo un error al modificar el empleado de ID ' . $idEmpleado;
+                    $tipoNotificacion = 'Error';
+                    $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
                     return ['success' => $estado, 'message' => $message];
                 }
                 if (!$modificarPersona) {
@@ -288,7 +320,8 @@ class ServiceEmpleado
         }
     }
 
-    public function mostrarTodosEmpleados(){
+    public function mostrarTodosEmpleados()
+    {
         $resultado = $this->modeloEmpleado->mostrarTodosEmpleados();
         return $resultado;
     }

@@ -1,18 +1,22 @@
 <?php
 require_once ('./modules/proveedores/model/classProveedor.php');
 require_once ('./modules/contactos/service/serviceContacto.php');
+require_once './modules/notificaciones/service/serviceNotificaciones.php';
+
 class ServiceProveedor
 {
     private $conexion;
     private $serviceContacto;
     private $modeloProveedores;
     private $paginationController;
+    private $serviceNotificaciones;
     public function __construct($conexion)
     {
         $this->conexion = $conexion;
         $this->serviceContacto = new serviceContacto($this->conexion);
         $this->modeloProveedores = new Proveedores($this->conexion);
         $this->paginationController = new ControllerPagination($this->conexion, 30);
+        $this->serviceNotificaciones = new ServiceNotificaciones($conexion);
     }
 
     public function cargarProveedor($nombreProveedor, $contactoProveedor)
@@ -48,11 +52,16 @@ class ServiceProveedor
             $cargarProveedor = $this->modeloProveedores->cargarProveedor($idContacto, $nombreProveedor);
             if ($cargarProveedor) {
                 $estado = True;
-                $message = "¡El proveedor se cargó con correctamente!";
+                $message = "¡Se cargó correctamente el proveedor!";
+                $mensajeNotificacion = 'Se cargó correctamente el proveedor: ' . $nombreProveedor;
+                $tipoNotificacion = 'Información';
             } else {
                 $estado = False;
                 $message = "¡Hubo un error al cargar el Proveedor!";
+                $mensajeNotificacion = 'Hubo un error al cargar el proveedor: ' . $nombreProveedor;
+                $tipoNotificacion = 'Error';
             }
+            $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
             return ['success' => $estado, 'message' => $message];
         } else {
             $estado = False;
@@ -88,10 +97,17 @@ class ServiceProveedor
         if ($cambiarEstadoContacto && $cambiarEstadoProveedor) {
             $estado = True;
             $message = "¡Se modificó correctamente el Proveedor!";
+            $mensajeNotificacion = 'Se modificó correctamente el proveedor de ID ' . $id;
+            $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
+            $tipoNotificacion = 'Información';
         } else {
             $estado = False;
             $message = "¡Hubo un error al modificar el Proveedor!";
+            $mensajeNotificacion = '¡Hubo un error al modificar el proveedor de ID ' . $id;
+            $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
+            $tipoNotificacion = 'Error';
         }
+        $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
         return ['success' => $estado, 'message' => $message];
     }
 
@@ -131,7 +147,15 @@ class ServiceProveedor
                 if ($modificarContacto == True && $modificarProveedor == True) {
                     //si ambas funciones son True, es que se modificó correctamente todo
                     $estado = True;
-                    $message = "¡Se modificó correctamente los datos del Proveedor!";
+                    $message = "¡Se modificó correctamente el proveedor!";
+                    $mensajeNotificacion = 'Se modificó correctamente el proveedor de ID ' . $idProveedor;
+                    $tipoNotificacion = 'Información';
+                } else if ($modificarContacto == False && $modificarProveedor == False) {
+                    $estado = False;
+                    $message = "¡Hubo un error al modificar el proveedor!";
+                    $mensajeNotificacion = 'Hubo un error al modificar el proveedor de ID ' . $idProveedor;
+                    $tipoNotificacion = 'Error';
+
                 } else if ($modificarContacto == False) {
                     $estado = False;
                     $message = "¡Hubo un error al modificar el contacto del Proveedor!";
@@ -196,6 +220,7 @@ class ServiceProveedor
             }
 
         }
+        $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
         return ['success' => $estado, 'message' => $message];
     }
 

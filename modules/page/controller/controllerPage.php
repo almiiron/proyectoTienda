@@ -8,6 +8,8 @@ require_once './modules/clientes/controller/controllerCliente.php';
 require_once './modules/users/controller/controllerUser.php';
 require_once './modules/empleados/controller/controllerEmpleado.php';
 require_once './modules/ventas/controller/controllerVenta.php';
+require_once './modules/controlVentas/controller/controllerControlVenta.php';
+require_once './modules/notificaciones/controller/controllerNotificaciones.php';
 class ControllerPage
 {
     private $conexion;
@@ -20,7 +22,8 @@ class ControllerPage
     private $userLoginController;
     private $empleadoController;
     private $ventaController;
-
+    private $controlVentaController;
+    private $notificacionesController;
     public function __construct($conexion, $numPage)
     {
         $this->homeController = new ControllerHome();
@@ -32,6 +35,8 @@ class ControllerPage
         $this->userLoginController = new ControllerUser($conexion);
         $this->empleadoController = new ControllerEmpleado($conexion);
         $this->ventaController = new ControllerVenta($conexion);
+        $this->controlVentaController = new ControllerControlVenta($conexion);
+        $this->notificacionesController = new ControllerNotificaciones($conexion);
     }
     // Helper function to check for empty fields and redirect
     private function validarCamposYRedirigir($campos, $rutaRedireccion)
@@ -343,11 +348,12 @@ class ControllerPage
         $subTotalVenta = $_POST['subTotalVenta'];
         $totalVenta = $_POST['totalVenta'];
         $idMetodoPago = $_POST['IdMetodoPagoVenta'];
+        $interesVenta = $_POST['interesVenta'];
         $this->validarCamposYRedirigir(
-            [$idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago],
+            [$idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago, $interesVenta],
             '/proyectoTienda/page/listarVentas/1'
         );
-        $this->ventaController->procesarCargarVenta($idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago);
+        $this->ventaController->procesarCargarVenta($idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago, $interesVenta);
     }
 
     public function filtrarListarVentas()
@@ -355,6 +361,52 @@ class ControllerPage
         $filtro = (empty($_GET['filtro'])) ? null : $_GET['filtro'];
         $this->ventaController->filtrarListarVentas($filtro, $this->numPage);
     }
+
     // metodos ventas //
+
+    // metodos control de ventas //  
+    public function controlVentas()
+    {
+        $this->controlVentaController->controlVentas();
+    }
+
+    public function productosMasVendidos(){
+        $this->controlVentaController->productosMasVendidos();
+    }
+    
+    public function categoriasConMasVentas(){
+        $this->controlVentaController->categoriasConMasVentas();
+    }
+    
+    public function totalVentasCadaMesDelAnio(){
+        $this->controlVentaController->totalVentasCadaMesDelAnio();
+    }
+
+    public function ingresosUltimosSieteDias(){
+        $this->controlVentaController->ingresosUltimosSieteDias();
+    }
+    
+    public function ingresosUltimasCuatroSemanas(){
+        $this->controlVentaController->ingresosUltimasCuatroSemanas();
+    }
+    // metodos control de ventas //  
+
+    // metodos de nofiticaciones //
+    public function listarNotificaciones(){
+        $this->notificacionesController->listarNotificaciones($this->numPage);
+    }
+
+    public function procesarCambiarEstadoNotificacion(){
+        $id = $_POST['id'];
+        $estadoActual = $_POST['estadoActual'];
+        $this->validarCamposYRedirigir([$id, $estadoActual], '/proyectoTienda/page/listarNotificaciones/1');
+        $this->notificacionesController->procesarCambiarEstadoNotificacion($id, $estadoActual);
+    }
+
+    public function obtenerNotificacionesNoLeidas() {
+        $this->notificacionesController->obtenerNotificacionesNoLeidas();
+      
+    }
+    // metodos de nofiticaciones //
 }
 ?>

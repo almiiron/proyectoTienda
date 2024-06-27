@@ -1,8 +1,9 @@
 <?php
 require_once ('./modules/clientes/model/classCliente.php');
-// require_once ('./modules/clienteservices/serviceCliente.php');
 require_once ('./modules/personas/service/servicePersona.php');
 require_once ('./modules/contactos/service/serviceContacto.php');
+require_once './modules/notificaciones/service/serviceNotificaciones.php';
+
 class ServiceCliente
 {
     private $conexion;
@@ -10,6 +11,7 @@ class ServiceCliente
     private $paginationController;
     private $servicePersona;
     private $serviceContacto;
+    private $serviceNotificaciones;
     public function __construct($conexion)
     {
         $this->conexion = $conexion;
@@ -17,6 +19,7 @@ class ServiceCliente
         $this->paginationController = new ControllerPagination($this->conexion, 30);
         $this->servicePersona = new ServicePersona($this->conexion);
         $this->serviceContacto = new ServiceContacto($this->conexion);
+        $this->serviceNotificaciones = new ServiceNotificaciones($conexion);
     }
 
     public function listarClientes($numPage)
@@ -70,10 +73,16 @@ class ServiceCliente
                 if ($cargarCliente) {
                     $estado = True;
                     $message = '¡Se cargó correctamente el cliente!';
+                    $mensajeNotificacion = 'Se cargó correctamente el cliente: ' . $nombreCliente . ' ' . $apellidoCliente;
+                    $tipoNotificacion = 'Información';
+                    $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
                     return ['success' => $estado, 'message' => $message];
                 } else {
                     $estado = False;
                     $message = '¡Hubo un error al cargar el cliente!';
+                    $mensajeNotificacion = 'Hubo un error al cargar el cliente: ' . $nombreCliente . ' ' . $apellidoCliente;
+                    $tipoNotificacion = 'Error';
+                    $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
                     return ['success' => $estado, 'message' => $message];
                 }
             } else {
@@ -86,6 +95,7 @@ class ServiceCliente
             $message = '¡Hubo un error al cargar el contacto!';
             return ['success' => $estado, 'message' => $message];
         }
+
     }
 
     public function cambiarEstadoCliente($id, $estadoActual)
@@ -108,10 +118,17 @@ class ServiceCliente
         if ($cambiarEstadoContacto && $cambiarEstadoPersona && $cambiarEstadoCliente) {
             $estado = True;
             $message = '¡Se modificó correctamente el cliente!';
+            $mensajeNotificacion = 'Se modificó correctamente el cliente: ' . $persona['nombre'] . ' ' . $persona['apellido'];
+            $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
+            $tipoNotificacion = 'Información';
         } else {
             $estado = False;
             $message = '¡Hubo un error al modificar el cliente!';
+            $mensajeNotificacion = 'Hubo un error al modificar el cliente: ' . $persona['nombre'] . ' ' . $persona['apellido'];
+            $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
+            $tipoNotificacion = 'Información';
         }
+        $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
         return ['success' => $estado, 'message' => $message];
     }
 
@@ -154,6 +171,16 @@ class ServiceCliente
                 if ($modificarPersona && $modificarContacto) {
                     $estado = True;
                     $message = '¡El cliente se modificó correctamente!';
+                    $mensajeNotificacion = 'Se modificó correctamente el cliente de ID ' . $idCliente;
+                    $tipoNotificacion = 'Información';
+                    $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
+                    return ['success' => $estado, 'message' => $message];
+                } else {
+                    $estado = False;
+                    $message = '¡Hubo un error al modificar el cliente!';
+                    $mensajeNotificacion = 'Hubo un error al modificar el cliente de ID ' . $idCliente;
+                    $tipoNotificacion = 'Error';
+                    $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
                     return ['success' => $estado, 'message' => $message];
 
                 }
@@ -192,12 +219,18 @@ class ServiceCliente
                 if ($modificarPersona) {
                     $estado = True;
                     $message = '¡El nombre y/o apellido del cliente se modificó correctamente!';
+                    $mensajeNotificacion = 'Se modificó correctamente el cliente de ID ' . $idCliente;
+                    $tipoNotificacion = 'Información';
+                    $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
                     return ['success' => $estado, 'message' => $message];
 
                 }
                 if (!$modificarPersona) {
                     $estado = False;
                     $message = '¡Hubo un error al modificar el nombre y apellido del Cliente!';
+                    $mensajeNotificacion = 'Hubo un error al modificar el cliente de ID ' . $idCliente;
+                    $tipoNotificacion = 'Error';
+                    $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
                     return ['success' => $estado, 'message' => $message];
                 }
             }
@@ -219,12 +252,18 @@ class ServiceCliente
                 if ($modificarContacto) {
                     $estado = True;
                     $message = '¡El telefono del cliente se modificó correctamente!';
+                    $mensajeNotificacion = 'Se modificó correctamente el cliente de ID ' . $idCliente;
+                    $tipoNotificacion = 'Información';
+                    $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
                     return ['success' => $estado, 'message' => $message];
 
                 }
                 if (!$modificarContacto) {
                     $estado = False;
                     $message = '¡Hubo un error al modificar el contacto del Cliente!';
+                    $mensajeNotificacion = 'Hubo un error al modificar el cliente de ID ' . $idCliente;
+                    $tipoNotificacion = 'Error';
+                    $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
                     return ['success' => $estado, 'message' => $message];
                 }
             }

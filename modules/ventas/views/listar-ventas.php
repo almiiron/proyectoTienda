@@ -15,6 +15,7 @@
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Fecha</th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Hora</th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Precio Total</th>
+                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Interes</th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Estado</th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col"
                         style="border-top-right-radius: 5px;">Acción</th>
@@ -31,7 +32,8 @@
                             <td class="text-center custom-bg-tertiary"><?php echo $fila['metodo_pago']; ?></td>
                             <td class="text-center custom-bg-tertiary"><?php echo $fila['fecha']; ?></td>
                             <td class="text-center custom-bg-tertiary"><?php echo $fila['hora']; ?></td>
-                            <td class="text-center custom-bg-tertiary"><?php echo $fila['precio_total']; ?></td>
+                            <td class="text-center custom-bg-tertiary todosPreciosFormateados"><?php echo $fila['precio_total']; ?></td>
+                            <td class="text-center custom-bg-tertiary"><?php echo $fila['interes']; ?></td>
                             <td class="text-center custom-bg-tertiary">
                                 <form method="post">
                                     <input type="hidden" name="idEstado" value="<?php echo $fila['id_venta']; ?>">
@@ -49,7 +51,7 @@
                             </td>
                         </tr>
                         <tr id="details-<?php echo $index; ?>" class="hidden-row details-row">
-                            <td colspan="8" style="padding:0px;">
+                            <td colspan="9" style="padding:0px;">
                                 <div class="details-content">
                                     <table class="table table-striped">
                                         <thead>

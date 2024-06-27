@@ -41,9 +41,9 @@ class ControllerVenta
         require_once ('./modules/views/layouts/main.php');
     }
 
-    public function procesarCargarVenta($idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago)
+    public function procesarCargarVenta($idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago, $interesVenta)
     {
-        $resultado = $this->serviceVenta->procesarCargarVenta($idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago);
+        $resultado = $this->serviceVenta->procesarCargarVenta($idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago, $interesVenta);
         header('Content-Type: application/json');
         echo json_encode($resultado);
     }

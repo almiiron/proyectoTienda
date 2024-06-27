@@ -1,15 +1,19 @@
 <?php
 require_once ('./modules/categorias/model/classCategoria.php');
+require_once './modules/notificaciones/service/serviceNotificaciones.php';
+
 class ServiceCategoria
 {
     private $conexion;
     private $modeloCategorias;
     private $paginationController;
+    private $serviceNotificaciones;
     public function __construct($conexion)
     {
         $this->conexion = $conexion;
         $this->modeloCategorias = new Categorias($this->conexion);
         $this->paginationController = new ControllerPagination($this->conexion, 30);
+        $this->serviceNotificaciones = new ServiceNotificaciones($conexion);
     }
 
     public function cargarCategoria($nombreCategoria)
@@ -26,10 +30,16 @@ class ServiceCategoria
         if ($cargarCategoria) {
             $estado = True;
             $message = "¡Se cargó correctamente la categoria!";
+            $mensajeNotificacion = 'Se cargó correctamente la categoria: '. $nombreCategoria;
+            $tipoNotificacion = 'Información';
         } else {
             $message = "¡Hubo un error al cargar la categoria!";
             $estado = False;
+            $mensajeNotificacion = 'Hubo un error al cargar la categoria: '. $nombreCategoria;
+            $tipoNotificacion = 'Error';
         }
+        $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
+    
         return ['success' => $estado, 'message' => $message];
     }
 
@@ -41,14 +51,23 @@ class ServiceCategoria
         } else if ($estadoActual == 'Inactivo') {
             $nuevoEstado = "Activo";
         }
+        $categoria = $this->listarUnaCategoria($id, null);
+
         $cambiarEstadoCategoria = $this->modeloCategorias->cambiarEstadoCategoria($id, $nuevoEstado);
         if ($cambiarEstadoCategoria) {
             $estado = True;
             $message = '¡La categoría se modificó correctamente!';
+            $mensajeNotificacion = 'La categoría se modificó correctamente: '. $categoria['nombre_categoria'];
+            $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
+            $tipoNotificacion = 'Información';
         } else {
             $estado = False;
             $message = 'Hubo un error al intentar modificar la categoría.';
+            $mensajeNotificacion = 'Hubo un error al intentar modificar la categoría: '. $categoria['nombre_categoria'];
+            $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
+            $tipoNotificacion = 'Error';
         }
+        $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
         return ['success' => $estado, 'message' => $message];
     }
 
@@ -61,15 +80,23 @@ class ServiceCategoria
             $message = '¡La categoria cargada ya existe!';
             return ['success' => $estado, 'message' => $message];
         }
+        $categoria = $this->listarUnaCategoria($id, null);
 
         $modificarCategoria = $this->modeloCategorias->procesarModificarCategoria($id, $nombreCategoria);
         if ($modificarCategoria) {
             $estado = True;
             $message = '¡La categoria se modificó con correctamente!';
+            $mensajeNotificacion = 'La categoria se modificó con correctamente: de '. $categoria['nombre_categoria'];
+            $mensajeNotificacion .= ' a '. $nombreCategoria;
+            $tipoNotificacion = 'Información';
         } else {
             $estado = False;
             $message = 'Hubo un error al intentar modificar la categoría.';
+            $mensajeNotificacion = 'Hubo un error al intentar modificar la categoría: de '. $categoria['nombre_categoria'];
+            $mensajeNotificacion .= ' a '. $nombreCategoria;
+            $tipoNotificacion = 'Error';
         }
+        $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
         return ['success' => $estado, 'message' => $message];
     }
 
@@ -109,12 +136,14 @@ class ServiceCategoria
         return [$lista, $pages, $ids];
     }
 
-    public function listarUnaCategoria($id, $nombreCategoria){
+    public function listarUnaCategoria($id, $nombreCategoria)
+    {
         $categoria = $this->modeloCategorias->listarUnaCategoria($id, $nombreCategoria);
         return $categoria;
     }
 
-    public function mostrarCategorias(){
+    public function mostrarCategorias()
+    {
         $lista = $this->modeloCategorias->mostrarCategorias(); //los datos a mostrar
         if ($lista) {
             // Si hay categorías, devuelve la lista

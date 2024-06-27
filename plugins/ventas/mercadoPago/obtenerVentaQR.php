@@ -1,5 +1,4 @@
 <?php
-// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     function generarQrMercadoPago($totalAmount)
     {
 
@@ -55,5 +54,4 @@
 
     header('Content-Type: application/json');
     echo json_encode($respuesta['qr_data']);
-// }
 ?>

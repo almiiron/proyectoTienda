@@ -1,3 +1,4 @@
+<div class="container">
 <div class="w-100 buscador">
     <?php if (isset($mostrarBuscadorEnNavbar) && $mostrarBuscadorEnNavbar) { ?>
         <li class="nav-item d-flex align-items-center w-100">
@@ -14,4 +15,5 @@
             </form>
         </li>
     <?php } ?>
+</div>
 </div>

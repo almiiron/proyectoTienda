@@ -84,8 +84,11 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 let productosSeleccionados = [];
 
 function actualizarTotales() {
+    let interesElement = document.getElementById('interesVenta');
+    let interes = interesElement.value ? parseFloat(interesElement.value) : 0; // Default to 0 if no interest is selected
+    console.log(interes);
     let subtotal = productosSeleccionados.reduce((sum, producto) => sum + producto.precio * producto.cantidad, 0);
-    let total = subtotal; // Puedes agregar impuestos o descuentos aquí si es necesario
+    let total = subtotal + (subtotal * interes); // Puedes agregar impuestos o descuentos aquí si es necesario
 
     // Formatear subtotal y total con comas y puntos
     let subtotalFormateado = subtotal.toLocaleString('es-AR', { minimumFractionDigits: 2 });
@@ -172,6 +175,7 @@ function eliminarProducto(button, id) {
     actualizarTotales();
 }
 
+//////////////////////////////////////////////////////////////
 
 // para cuando cargo una venta, mientras se escribe en el buscador se actualiza la tabla que muestra todos los productos //
 document.getElementById('searchInputVenta').addEventListener('input', function () {
@@ -194,9 +198,9 @@ document.getElementById('searchInputVenta').addEventListener('input', function (
 // para cuando cargo una venta, mientras se escribe en el buscador se actualiza la tabla que muestra todos los productos //
 
 // para ver detalle venta en mi listar-ventas //
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Controlador de eventos para cerrar los detalles de venta
-    document.addEventListener("click", function(event) {
+    document.addEventListener("click", function (event) {
         var target = event.target;
         // Si se hace clic fuera de la fila de venta abierta o fuera de la tabla de detalle de venta abierta, cierra el detalle de venta
         if (!target.closest('.details-row') && !target.closest('.details-content')) {
@@ -217,11 +221,45 @@ function toggleDetails(index) {
 
 function closeAllDetails(indexToKeepOpen) {
     var detailsRows = document.querySelectorAll('.details-row');
-    detailsRows.forEach(function(row) {
+    detailsRows.forEach(function (row) {
         if (row.id !== 'details-' + indexToKeepOpen) { // Si el id del detalle de venta no coincide con el índice a mantener abierto
             row.classList.add('hidden-row');
         }
     });
 }
 
-// para ver detalle venta en mi listar-ventas //
+// ocultar loader despues de haber cargado toda la pagina //
+function ocultarLoader() {
+    let loader = document.querySelector('.overlay');
+    // agrego un retraso de 500 milisegundos
+    setTimeout(function () {
+        loader.classList.add('d-none');
+    }, 500);
+}
+
+// para pasar todos los precios con formato //
+// Verifica si existe un elemento con la clase 'todosPreciosFormateados'
+// if (document.querySelector('.todosPreciosFormateados') !== null) {
+    // Selecciona todos los elementos con la clase 'todosPreciosFormateados'
+    let elementos = document.querySelectorAll('.todosPreciosFormateados');
+
+    if (elementos.length > 0) {
+        console.log('existen elementos');
+
+        // Itera sobre cada elemento y formatea su contenido
+        elementos.forEach(function (elemento) {
+            // Elimina el símbolo de dólar y los espacios en blanco del contenido del elemento
+            let contenido = elemento.textContent.replace(/[^\d.-]/g, '');
+            let precio = parseFloat(contenido);
+
+            if (!isNaN(precio)) {
+                let precioFormateado = "$ " + precio.toLocaleString('es-AR', { minimumFractionDigits: 2 });
+                elemento.textContent = precioFormateado;
+            } else {
+                console.log('No se pudo convertir el precio para el elemento:', elemento);
+            }
+        });
+    } else {
+        console.log('No hay elementos con la clase todosPreciosFormateados');
+    }
+// }

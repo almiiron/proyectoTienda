@@ -27,7 +27,11 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-touchspin/4.3.0/jquery.bootstrap-touchspin.min.js"></script>
 
     <!-- touchspin bootstrap -->
+
+    <!-- animation css  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- animation css  -->
     <title>Tienda</title>
 </head>
 
-<body>
+<body onload="ocultarLoader()">

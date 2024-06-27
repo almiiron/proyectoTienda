@@ -1,6 +1,8 @@
 <?php
 require_once ('./modules/ventas/model/classVenta.php');
 require_once ('./modules/clientes/service/serviceCliente.php');
+require_once './modules/notificaciones/service/serviceNotificaciones.php';
+
 class ServiceVenta
 {
     private $modeloVenta;
@@ -8,6 +10,8 @@ class ServiceVenta
     private $serviceEmpleado;
     private $serviceCliente;
     private $serviceProducto;
+    private $serviceNotificaciones;
+
     public function __construct($conexion)
     {
         $this->modeloVenta = new Ventas($conexion);
@@ -15,6 +19,8 @@ class ServiceVenta
         $this->serviceEmpleado = new ServiceEmpleado($conexion);
         $this->serviceCliente = new ServiceCliente($conexion);
         $this->serviceProducto = new ServiceProducto($conexion);
+        $this->serviceNotificaciones = new ServiceNotificaciones($conexion);
+
     }
 
 
@@ -58,28 +64,65 @@ class ServiceVenta
         return [$mostrarTodosClientes, $mostrarTodosEmpleados, $mostrarTodosProductos, $mostrarTodosMetodosPagos];
     }
 
-    public function procesarCargarVenta($idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago)
+    public function procesarCargarVenta($idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago, $interesVenta)
     {
+        switch ($interesVenta) {
+            case '0':
+                $interes_venta = '0%';
+                break;
+            case '0.05':
+                $interes_venta = '5%';
+                break;
+            case '0.10':
+                $interes_venta = '10%';
+                break;
+            case '0.15':
+                $interes_venta = '15%';
+                break;
+            case '0.20':
+                $interes_venta = '20%';
+                break;
+            case '0.25':
+                $interes_venta = '25%';
+                break;
+            default:
+                $interes_venta = '';
+                break;
+        }
+        $cargarVenta = $this->modeloVenta->cargarVenta($idCliente, $idEmpleado, $idMetodoPago, $subTotalVenta, $totalVenta, $interes_venta);
 
-        // $cargarVenta = $this->modeloVenta->cargarVenta($idCliente, $idEmpleado, $idMetodoPago, $subTotalVenta, $totalVenta);
+        if ($cargarVenta == False) {
+            $estado = False;
+            $message = '¡Hubo un error al cargar la venta!';
+            $mensajeNotificacion = '¡Hubo un error al cargar la venta!';
+            $tipoNotificacion = 'Error';
+            return ['success' => $estado, 'message' => $message];
+        }
 
-        // if ($cargarVenta == False) {
-        //     $estado = False;
-        //     $message = '¡Hubo un error al cargar la venta!';
-        //     return ['success' => $estado, 'message' => $message];
-        // }
+        $idVenta = $this->obtenerUltimaVentaID();
+        $cargarDetalleVenta = $this->modeloVenta->cargarDetalleVenta($idVenta, $productos);
 
-        // $idVenta = $this->modeloVenta->obtenerUltimaVentaID();
-        // $cargarDetalleVenta = $this->modeloVenta->cargarDetalleVenta($idVenta, $productos);
+        if ($cargarDetalleVenta == False) {
+            $estado = False;
+            $message = '¡Hubo un error al cargar detalle venta!';
+            $mensajeNotificacion = '¡Hubo un error al cargar detalle venta!';
+            $tipoNotificacion = 'Error';
+            return ['success' => $estado, 'message' => $message];
+        }
 
-        // if ($cargarDetalleVenta == False) {
-        //     $estado = False;
-        //     $message = '¡Hubo un error al cargar detalle venta!';
-        //     return ['success' => $estado, 'message' => $message];
-        // }
+        $accionStock = 'sumar';
+        $actualizarStock = $this->serviceProducto->actualizarStock($productos, $accionStock);
+        if ($actualizarStock == False) {
+            $estado = False;
+            $message = '¡Hubo un error al actualizar stock!';
+            return ['success' => $estado, 'message' => $message];
+        }
 
         $estado = True;
-        $message = '¡La venta fue cargada correctamente!';
+        $message = '¡Se cargó correctamente la venta!';
+        $mensajeNotificacion = 'Se cargó correctamente la venta con ID' . $idVenta;
+        $tipoNotificacion = 'Información';
+        $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
         return ['success' => $estado, 'message' => $message];
     }
 
@@ -115,6 +158,12 @@ class ServiceVenta
             }
         }
         return [$lista, $pages, $ids];
+    }
+
+    public function obtenerUltimaVentaID()
+    {
+        $idVenta = $this->modeloVenta->obtenerUltimaVentaID();
+        return $idVenta;
     }
 }
 ?>

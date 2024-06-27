@@ -1,6 +1,6 @@
-<div class="container w-100">
-    <div class="row justify-content-center w-100">
-        <div class="containerForm col-md-12 col-sm-12 custom-bg-tertiary-alternative">
+<div class="container w-100" >
+    <div class="row justify-content-center w-100" >
+        <div class="containerForm col-md-12 col-sm-12 custom-bg-tertiary-alternative" >
             <!-- <h5 class="modal-title">Nueva Venta</h5> -->
             <!-- <br> -->
             <form action="http://<?php echo IP_HOST; ?>/proyectoTienda/page/procesarCargarVenta" method="post"
@@ -10,7 +10,7 @@
                         <div class="w-100 py-1">
                             <input class="form-control me-2 shadow-sm mb-4" type="search" placeholder="Buscar"
                                 aria-label="Search" id="searchInputVenta">
-                            <div style="height:520px;" class="table-responsive">
+                            <div style="height:550px;" class="table-responsive">
                                 <table class="table table-striped " id="productTableVenta">
                                     <thead style="height:80px;">
                                         <tr>
@@ -39,7 +39,7 @@
                                                 <tr>
                                                     <td class="text-center"><?= $producto['id_producto']; ?></td>
                                                     <td class="text-center"><?= $producto['nombre_producto']; ?></td>
-                                                    <td class="text-center"><?= "$ " . $producto['precio']; ?></td>
+                                                    <td class="text-center todosPreciosFormateados"><?= "$ " . $producto['precio']; ?></td>
                                                     <td class="text-center"><?= $producto['stock']; ?></td>
                                                     <td class="text-center">
                                                         <button type="button"
@@ -62,15 +62,15 @@
                     <div class="containerInfo rounded custom-bg-white p-3">
                         <div class="w-100  py-1 h-100">
                             <div id="productosSeleccionados"></div>
-                            <div class="table-responsive" style="height:45%">
-                                <h5 class="text-center">Productos Seleccionados</h5>
+                            <div class="table-responsive" style="height:35%">
+                                <h5 class="text-center fw-bold">Productos Seleccionados</h5>
                                 <table class="table" id="tablaProductos">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Producto</th>
-                                            <th>Cantidad</th>
-                                            <th>Accion</th>
+                                            <th class="text-body-secondary" >#</th>
+                                            <th class="text-body-secondary" >Producto</th>
+                                            <th class="text-body-secondary" >Cantidad</th>
+                                            <th class="text-body-secondary" >Accion</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tablaProductos">
@@ -118,20 +118,45 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
+                                <div class="w-100 mb-2">
+                                    <select class="form-control col-12 mb-2" id="interesVenta" name="interesVenta"
+                                        required onchange="actualizarTotales()">
+                                        <option value="" disabled selected>Seleccione interes...</option>
+                                       
+                                            <option value="0">
+                                                0%
+                                            </option>
+                                            <option value="0.05">
+                                                5%
+                                            </option>
+                                            <option value="0.10">
+                                                10%
+                                            </option>
+                                            <option value="0.15">
+                                                15%
+                                            </option>
+                                            <option value="0.20">
+                                                20%
+                                            </option>
+                                            <option value="0.25">
+                                                25%
+                                            </option>
+                                    </select>
+                                </div>
                                 <hr class="border-top border-dark">
                                 <div
                                     class="custom-bg-light-alternative rounded shadow-custom p-2 border-secondary-subtle">
                                     <div>
                                         <div class="form-group d-flex align-items-center mb-2">
-                                            <label for="subtotal" class="text-start me-2  fs-5">Subtotal</label>
-                                            <span class="ms-auto fs-5 ">$</span>
-                                            <span id="spanSubtotal" class="ms-2 me-2  fs-5 ">0</span>
+                                            <label for="subtotal" class="text-start me-2  fs-5 text-body-secondary">Subtotal</label>
+                                            <span class="ms-auto fs-5 text-body-secondary">$</span>
+                                            <span id="spanSubtotal" class="ms-2 me-2  fs-5 text-body-secondary">0</span>
                                             <input type="hidden" id="inputSubtotal" name="subTotalVenta">
                                         </div>
                                         <div class="form-group d-flex align-items-center">
-                                            <label for="total" class="text-start me-2 fs-3">Total</label>
-                                            <span class="ms-auto  fs-3 ">$</span>
-                                            <span id="spanTotal" class="ms-2 me-2 fs-3 ">0</span>
+                                            <label for="total" class="text-start me-2 fs-4 fw-bold">Total</label>
+                                            <span class="ms-auto  fs-4 fw-bold">$</span>
+                                            <span id="spanTotal" class="ms-2 me-2 fs-4 fw-bold">0</span>
                                             <input type="hidden" id="inputTotal" name="totalVenta">
                                         </div>
                                     </div>

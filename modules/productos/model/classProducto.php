@@ -130,5 +130,38 @@ class Productos
         }
         return $productos;
     }
+
+    public function actualizarStock($productos, $accionStock)
+    {
+        // Preparar la consulta para actualizar el stock del producto
+        $queryUpdateStock = '';
+        if ($accionStock === 'sumar') {
+        }
+        switch ($accionStock) {
+            case 'sumar':
+                $queryUpdateStock = "UPDATE productos SET stock = stock + ? WHERE id_producto = ?";
+                break;
+            case 'restar':
+                $queryUpdateStock = "UPDATE productos SET stock = stock - ? WHERE id_producto = ?";
+                break;
+            default:
+                $queryUpdateStock = false;
+                break;
+        }
+        foreach ($productos as $producto) {
+            $idProducto = $producto['id'];
+            $cantidadProducto = $producto['cantidad'];
+            $tiposUpdateStock = 'ii';
+
+            // Ejecutar la consulta preparada para actualizar el stock del producto
+            $resultadoUpdateStock = $this->conexion->ejecutarConsultaPreparada($queryUpdateStock, $tiposUpdateStock, $cantidadProducto, $idProducto);
+
+            // Verificar si la actualización del stock fue exitosa
+            if (!$resultadoUpdateStock) {
+                return false; // Salir del método si hay un error
+            }
+        }
+        return true;
+    }
 }
 ?>

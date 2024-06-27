@@ -1,5 +1,5 @@
-var ipHost = '192.168.100.2';
-// var ipHost = 'localhost';
+var host = '192.168.100.13';
+// var host = 'localhost';
 
 $(document).ready(function () {
     // Captura el evento de envío del formulario
@@ -61,7 +61,7 @@ function cambiarEstado(id, estadoActual) {
     }).then(function (confirmDelete) {
         if (confirmDelete) {
             var metodo = $('#metodoEstado').val();
-            var url = 'http://' + ipHost + '/proyectoTienda/page/procesarCambiarEstado' + metodo; // Concatenando la variable método a la URL
+            var url = 'http://' + host + '/proyectoTienda/page/procesarCambiarEstado' + metodo; // Concatenando la variable método a la URL
 
             console.log('URL:', url);
             var formData = {
@@ -180,6 +180,7 @@ $(document).ready(function () {
     $("#IdEmpleadoVenta").select2();
     $("#IdProductoVenta").select2();
     $("#IdMetodoPagoVenta").select2();
+    $("#interesVenta").select2();
 });
 
 $(document).ready(function () {
@@ -218,7 +219,7 @@ $(document).ready(function () {
         // Llama a la función para enviar el formulario de forma asíncrona.
         enviarFormulario(url, formData, function (response) {
             if (response.success) {
-                location.href = "http://" + ipHost + "/proyectoTienda/page/home";
+                location.href = "http://" + host + "/proyectoTienda/page/home";
             } else {
                 alertLogin.classList.remove('invalid-feedback');
             }
@@ -318,8 +319,10 @@ $(function () {
 
     // Función para redireccionar a una URL y resaltar la pestaña actual
     function redireccionar(url) {
-        location.href = 'http://' + ipHost + '/proyectoTienda/page/' + url;
-        highlightCurrentTab();
+        if (url != 'noAction') {
+            location.href = 'http://' + host + '/proyectoTienda/page/' + url;
+            highlightCurrentTab();
+        }
     }
 
     // Función para resaltar la pestaña actual
@@ -435,7 +438,7 @@ $(document).ready(function () {
     }
 
     function generarQrMercadoPago(totalVenta) {
-        let url = 'http://' + ipHost + '/proyectoTienda/modules/ventas/obtenerVentaQR/obtenerVentaQR.php';
+        let url = 'http://' + host + '/proyectoTienda/plugins/ventas/mercadoPago/obtenerVentaQR.php';
         $.ajax({
             url: url,
             type: 'POST',
@@ -511,4 +514,109 @@ $(document).ready(function () {
             });
         }
     }
+});
+
+// como para cambiar de estado una notificacion no debo mostrar todo un swal alert, solo simplifico el ajax y agrego una animacion
+$(document).ready(function () {
+    $('.marcar-leido-notififacion').click(function (e) {
+        e.preventDefault();
+        var button = $(this);
+        var icon = button.find('i');
+        var id = button.closest('form').find('input[name="idEstado"]').val();
+        var estadoActual = button.closest('form').find('input[name="estadoActual"]').val();
+        var metodoEstado = button.closest('form').find('input[name="metodoEstado"]').val();
+
+        marcarLeidoNotificacion(id, estadoActual, metodoEstado, button, icon);
+    });
+});
+
+function marcarLeidoNotificacion(id, estadoActual, metodoEstado, button, icon) {
+    var host = window.location.hostname; // Asegúrate de que la variable 'host' esté definida
+    var url = 'http://' + host + '/proyectoTienda/page/procesarCambiarEstado' + metodoEstado;
+
+    console.log('URL:', url);
+    var formData = {
+        id: id,
+        metodo: metodoEstado,
+        estadoActual: estadoActual
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: formData,
+        success: function (response) {
+            console.log('Respuesta del servidor:', response);
+
+            // Eliminar todas las clases posibles del ícono antes de agregar las nuevas
+            icon.removeClass('bi-check-square-fill text-primary text-secondary text-success bi-exclamation-square text-danger animate__animated animate__bounceIn animate__shakeX');
+
+            // Manejo de clases según la respuesta del servidor
+            if (response.success) {
+                if (estadoActual == 'Activo') {
+                    icon.addClass('bi-check-square-fill text-success animate__animated animate__bounceIn');
+                } else {
+                    icon.addClass('bi-check-square-fill text-secondary animate__animated animate__bounceIn');
+                }
+                button.addClass('animate__animated animate__bounceIn');
+                setTimeout(function () {
+                    location.reload();
+                }, 500);
+            } else {
+                icon.addClass('bi-exclamation-square text-danger animate__animated animate__shakeX');
+                button.addClass('animate__animated animate__bounceIn');
+                setTimeout(function () {
+                    location.reload();
+                }, 500);
+            }
+        },
+        error: function () {
+            // En caso de error, eliminar las clases y agregar las de error
+            icon.removeClass('bi-check-square-fill text-primary text-secondary text-success bi-exclamation-square text-danger animate__animated animate__bounceIn animate__shakeX');
+            icon.addClass('bi-exclamation-square text-danger animate__animated animate__shakeX');
+
+            console.error('Hubo un error al procesar la solicitud.');
+            swal({
+                title: '¡Error de servidor!',
+                text: 'Hubo un problema al comunicarse con el servidor.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
+        }
+    });
+}
+
+// para mostrar una campana llena o vacia dependiendo si hay notificaciones sin leer, ademas muestro el total de notifacones sin leer //
+$(document).ready(function () {
+    function actualizarNotificaciones() {
+        console.log('se llama a la funcion bien');
+        $.ajax({
+            type: 'POST',
+            url: `http://${host}/proyectoTienda/page/obtenerNotificacionesNoLeidas`,
+            success: function (response) {
+                console.log('notificaciones sin leer: ', response);
+                var notificaciones = JSON.parse(response);
+                console.log('depur', notificaciones);
+                var icon = $('#notificaciones-icon');
+                var iconTab = $('.notificaciones-icon');
+                var count = $('#notificaciones-count');
+
+                if (notificaciones > 0) {
+                    icon.removeClass('bi-bell').addClass('bi-bell-fill');
+                    iconTab.removeClass('bi-bell').addClass('bi-bell-fill');
+                    count.text('+' + notificaciones);
+                } else {
+                    icon.removeClass('bi-bell-fill').addClass('bi-bell');
+                    iconTab.removeClass('bi-bell-fill').addClass('bi-bell');
+                    count.text('');
+                }
+            },
+            error: function () {
+                console.error('Hubo un error al obtener las notificaciones.');
+            }
+        });
+    }
+
+    actualizarNotificaciones();
+    setInterval(actualizarNotificaciones, 60000); // Actualizar cada minuto
 });
