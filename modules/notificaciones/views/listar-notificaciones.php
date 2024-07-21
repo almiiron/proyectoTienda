@@ -39,27 +39,30 @@
                         $claseBootstrap = 'border-end'; // Clase por defecto
                         foreach ($fila as $clave => $valor) {
                             if ($clave === 'tipo') { // Asegúrate de que la clave sea la que contiene el tipo
+                               
+                                $styleCustom = 'style="background-color"';
                                 switch ($valor) {
-                                    case 'Información':
-                                        $claseBootstrap = 'alert alert-info';
-                                        break;
-                                    case 'Advertencia':
-                                        $claseBootstrap = 'alert alert-warning';
-                                        break;
-                                    case 'Error':
-                                        $claseBootstrap = 'alert alert-danger';
-                                        break;
-                                    case 'Éxito':
-                                        $claseBootstrap = 'alert alert-success';
-                                        break;
-                                    default:
-                                        $claseBootstrap = '';
-                                        break;
+                                  case 'Información':
+                                    $claseCustom = 'custom-alert-info';
+                                    break;
+                                  case 'Advertencia':
+                                    $claseCustom = 'custom-alert-warning';
+                                    break;
+                                  case 'Error':
+                                    $claseCustom = 'custom-alert-danger';
+                                    break;
+                                  case 'Éxito':
+                                    $claseCustom = 'custom-alert-success';
+                                    break;
+                                  default:
+                                    $claseCustom = '';
+                                    break;
                                 }
+
                             }
                         }
                         ?>
-                        <tr class="<?php echo $claseBootstrap; ?>">
+                        <tr class="<?php echo $claseCustom;?>">
                             <?php foreach ($fila as $valor): ?>
                                 <td class="text-center" style="background-color:transparent !important; mb-5">
                                     <?php if ($valor != 'Activo' && $valor != 'Inactivo') {
@@ -68,8 +71,7 @@
                                         $btnClass = ($valor == 'Activo') ? 'btn btn-primary' : 'btn btn-secondary';
                                         $btnLeido = ($valor == 'Inactivo') ? 'text-success' : 'text-secondary';
                                         ?>
-                                        <button type="button" class="<?php echo $btnClass; ?>" id="button-submit"
-                                            disabled>
+                                        <button type="button" class="<?php echo $btnClass; ?>" id="button-submit" disabled>
                                             <?php echo $valor; ?>
                                         </button>
                                     <?php } ?>

@@ -22,8 +22,8 @@ require_once ('./modules/views/layouts/navBar.php');
 
             <li>
                 <button class="btn custom-bg-primary rounded-1" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" onclick="redireccionar('noAction')">
-                    <!-- <i class="fs-4 bi bi-funnel-fill text-white"></i> -->
+                    data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"
+                    onclick="redireccionar('noAction')">
                     <i class="fs-4 bi bi-list text-white"></i>
                 </button>
             </li>
@@ -39,18 +39,38 @@ require_once ('./modules/views/layouts/navBar.php');
 
     <!-- incluyo el buscador -->
     <?php
-    require_once ('./modules/views/layouts/buscador.php');
+    require_once './modules/views/layouts/buscador.php';
     ?>
     <br>
 
     <!-- si es que existe la variable vista, la incluyo -->
     <?php
-    if (isset($view)) {
-        require_once ($view);
+    if (isset($view) && file_exists($view)) {
+        require_once $view;
+    } else { ?>
+
+        <div class="text-center">
+
+            <h1 class="display-1 fw-bold">404</h1>
+            <p class="fs-3">
+                <span class="text-danger">¡Ups!</span>
+                Página no encontrada.
+            </p>
+            <p class="lead">
+                La página que buscas no existe o fue removida.
+            </p>
+
+            <button class="btn btn-primary " onclick="redireccionar('home')">
+                Volver a Inicio
+            </button>
+
+        </div>
+
+        <?php
     }
     ?>
 </div>
 <?php
-require_once ('./modules/views/layouts/footer.php');
+require_once './modules/views/layouts/footer.php';
 
 ?>

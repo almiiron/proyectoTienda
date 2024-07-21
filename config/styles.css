@@ -379,3 +379,83 @@ html {
 }
 
 /* el slider  */
+
+
+.custom-alert-info {
+  background-color: #a3f1ff;
+  /* Color de fondo para información */
+  color: #0c5460;
+  /* Color del texto */
+}
+
+.custom-alert-warning {
+  background-color: #ffe389;
+  /* Color de fondo para advertencia */
+  color: #856404;
+  /* Color del texto */
+}
+
+.custom-alert-danger {
+  background-color: #ff9ca5;
+  /* Color de fondo para error */
+  color: #721c24;
+  /* Color del texto */
+}
+
+.custom-alert-success {
+  background-color: #82ff9f;
+  /* Color de fondo para éxito */
+  color: #155724;
+  /* Color del texto */
+}
+
+
+/* para las notificaciones personalizadas  */
+.toast {
+  opacity: 1 !important;
+}
+
+#toast-container>div {
+  opacity: 1 !important;
+}
+
+/* para las notificaciones personalizadas  */
+
+
+#currentTime:focus,
+#currentDate:focus {
+  outline: none;
+  box-shadow: none;
+  border-style: none !important;
+  outline: none !important;
+}
+
+#currentTime,
+#currentDate {
+  outline: none;
+  box-shadow: none;
+  border-style: none !important;
+  outline: none !important;
+}
+
+/* Estilos para pantalla grande */
+#time,
+#date {
+  width: 70%;
+  outline: none;
+
+  /* box-shadow: none; */
+  /* border-style: none !important; */
+  /* outline: none !important; */
+}
+
+
+/* Estilos para pantalla pequeña */
+@media (max-width: 436px) {
+
+  #time,
+  #date {
+    width: 90%;
+  }
+
+}

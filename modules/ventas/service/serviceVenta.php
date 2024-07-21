@@ -1,6 +1,6 @@
 <?php
-require_once ('./modules/ventas/model/classVenta.php');
-require_once ('./modules/clientes/service/serviceCliente.php');
+require_once './modules/ventas/model/classVenta.php';
+require_once './modules/clientes/service/serviceCliente.php';
 require_once './modules/notificaciones/service/serviceNotificaciones.php';
 
 class ServiceVenta
@@ -67,7 +67,7 @@ class ServiceVenta
     public function procesarCargarVenta($idCliente, $idEmpleado, $productos, $subTotalVenta, $totalVenta, $idMetodoPago, $interesVenta)
     {
         switch ($interesVenta) {
-            case '0':
+            case '0.00':
                 $interes_venta = '0%';
                 break;
             case '0.05':
@@ -110,7 +110,7 @@ class ServiceVenta
             return ['success' => $estado, 'message' => $message];
         }
 
-        $accionStock = 'sumar';
+        $accionStock = 'restar';
         $actualizarStock = $this->serviceProducto->actualizarStock($productos, $accionStock);
         if ($actualizarStock == False) {
             $estado = False;
@@ -120,8 +120,8 @@ class ServiceVenta
 
         $estado = True;
         $message = '¡Se cargó correctamente la venta!';
-        $mensajeNotificacion = 'Se cargó correctamente la venta con ID' . $idVenta;
-        $tipoNotificacion = 'Información';
+        $mensajeNotificacion = 'Se cargó correctamente la venta con ID ' . $idVenta;
+        $tipoNotificacion = 'Éxito';
         $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
         return ['success' => $estado, 'message' => $message];
     }

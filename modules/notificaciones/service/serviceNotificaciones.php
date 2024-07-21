@@ -5,10 +5,13 @@ class ServiceNotificaciones
 {
     private $modelNotificaciones;
     private $paginationController;
-    public function __construct($conexion)
+    private  $servicioProducto;
+    public function __construct($conexion, $serviceProducto = null)
     {
         $this->modelNotificaciones = new ClassNotificaciones($conexion);
         $this->paginationController = new ControllerPagination($conexion, 30);
+        $this->servicioProducto = $serviceProducto;
+        // var_dump($this->servicioProducto);
     }
 
     public function listarNotificaciones($numPage)
@@ -50,9 +53,26 @@ class ServiceNotificaciones
         return ['success' => $estado, 'message' => $message];
     }
 
-    public function obtenerNotificacionesNoLeidas() {
+    public function obtenerNotificacionesNoLeidas()
+    {
         return $this->modelNotificaciones->obtenerNotificacionesNoLeidas();
     }
+    public function filtrarListarNotificaciones($filtro, $numPage)
+    {
+        $start = $numPage * $this->paginationController->size - $this->paginationController->size;
 
+        $where_clause = $this->modelNotificaciones->prepararFiltrosNotificaciones($filtro); //preparo los filtros
+        $totalRows = $this->paginationController->getTotalRows('notificaciones ', $where_clause); //obtengo el total de filas con el filtro para paginar
+        $pages = $this->paginationController->getTotalPages($totalRows, $this->paginationController->size); //obtengo el numero total de paginas
+        $lista = $this->modelNotificaciones->listaFiltradaNotificaciones($where_clause, $start, $this->paginationController->size); //obtengo los datos filtrados
+
+        $ids = []; // Inicializar un array para almacenar los IDs
+        if ($lista) { //si hay categorias para mostrar, ejecuta esto
+            foreach ($lista as $fila) {
+                $ids[] = $fila['id_notif']; // Agregar cada ID al array
+            }
+        }
+        return [$lista, $pages, $ids];
+    }
 }
 ?>

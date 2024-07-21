@@ -21,6 +21,7 @@ class ControllerUser
             // session_start();
             $_SESSION['user'] = $user; // Almacena el usuario en la sesión
             $_SESSION['logged_in'] = true; // Marca como iniciado sesión
+            $_SESSION['show_notifications'] = true;
         }
 
         header('Content-Type: application/json');

@@ -9,6 +9,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="\proyectoTienda\config\estadisticasVentas.js"> </script>
 
+
+
 </body>
 
 </html>

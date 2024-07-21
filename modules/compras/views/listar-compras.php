@@ -1,7 +1,7 @@
 <div class="container my-5 ">
     <div class="table-responsive " style="height:400px;">
         <button type="button" class="btn btn-primary mb-1 text-center float-end" data-bs-placement="bottom"
-            data-bs-title="Nueva Venta" onclick="addTab('mostrarCargarVenta', 'Venta', ' bi-plus-circle')">
+            data-bs-title="Nueva Venta" onclick="addTab('mostrarCargarCompra', 'Compra', ' bi-plus-circle')">
             <i class="bi bi-plus-circle"></i>
         </button>
 
@@ -9,13 +9,13 @@
             <thead style="height:80px;">
                 <tr>
                     <th scope="col" class="custom-bg-secondary text-light text-center align-middle"
-                        style="border-top-left-radius: 5px;">ID Venta</th>
-                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Cliente</th>
+                        style="border-top-left-radius: 5px;">ID Compra</th>
+                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Empleado</th>
+                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Proveedor</th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Metodo de Pago</th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Fecha</th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Hora</th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Precio Total</th>
-                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Interes</th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Estado</th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col"
                         style="border-top-right-radius: 5px;">Acción</th>
@@ -25,23 +25,25 @@
                 <?php if ($lista): ?>
                     <?php foreach ($lista as $index => $fila): ?>
                         <tr>
-                            <td class="text-center custom-bg-tertiary"><?php echo $fila['id_venta']; ?></td>
+                            <td class="text-center custom-bg-tertiary"><?php echo $fila['id_compra']; ?></td>
                             <td class="text-center custom-bg-tertiary">
-                                <?php echo $fila['nombreCliente'] . ' ' . $fila['apellidoCliente']; ?>
+                                <?php echo $fila['nombreEmpleado'] . ' ' . $fila['apellidoEmpleado']; ?>
+                            </td>
+                            <td class="text-center custom-bg-tertiary">
+                                <?php echo $fila['nombreProveedor']; ?>
                             </td>
                             <td class="text-center custom-bg-tertiary"><?php echo $fila['metodo_pago']; ?></td>
                             <td class="text-center custom-bg-tertiary"><?php echo $fila['fecha']; ?></td>
                             <td class="text-center custom-bg-tertiary"><?php echo $fila['hora']; ?></td>
                             <td class="text-center custom-bg-tertiary todosPreciosFormateados"><?php echo $fila['precio_total']; ?></td>
-                            <td class="text-center custom-bg-tertiary"><?php echo $fila['interes']; ?></td>
                             <td class="text-center custom-bg-tertiary">
                                 <form method="post">
-                                    <input type="hidden" name="idEstado" value="<?php echo $fila['id_venta']; ?>">
-                                    <input type="hidden" name="metodo" value="Proveedor">
-                                    <input type="hidden" name="estadoActual" value="<?php echo $fila['estado_venta']; ?>">
+                                    <input type="hidden" name="idEstado" value="<?php echo $fila['id_compra']; ?>">
+                                    <input type="hidden" name="metodo" value="Compra">
+                                    <input type="hidden" name="estadoActual" value="<?php echo $fila['estado_compra']; ?>">
                                     <button type="submit"
-                                        class="<?php echo ($fila['estado_venta'] == 'Activo') ? 'btn btn-primary' : 'btn btn-secondary'; ?> button-estado">
-                                        <?php echo $fila['estado_venta']; ?>
+                                        class="<?php echo ($fila['estado_compra'] == 'Activo') ? 'btn btn-primary' : 'btn btn-secondary'; ?> button-estado">
+                                        <?php echo $fila['estado_compra']; ?>
                                     </button>
                                 </form>
                             </td>
@@ -68,7 +70,7 @@
                                                     <td  class="text-center custom-bg-tertiary"><?php echo $detalle['id_producto']; ?></td>
                                                     <td  class="text-center custom-bg-tertiary"><?php echo $detalle['nombre_producto']; ?></td>
                                                     <td  class="text-center custom-bg-tertiary"><?php echo $detalle['cantidad_producto']; ?></td>
-                                                    <td  class="text-center custom-bg-tertiary todosPreciosFormateados"><?php echo $detalle['precio_producto']; ?></td>
+                                                    <td  class="text-center custom-bg-tertiary"><?php echo $detalle['precio_producto']; ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>

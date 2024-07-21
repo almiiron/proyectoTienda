@@ -61,8 +61,7 @@
                                     <button type="submit" class="btn btn-warning" data-bs-toggle="modal"
                                         data-bs-placement="bottom" data-bs-target="#modificarCategoria">
                                         <!-- Modificar -->
-                                        <img src="/proyectoTienda/modules/views/layouts/img/icons8-crear-nuevo-50.png" alt=""
-                                            style="width:22px;height:22px;margin-left:2px;margin-top:-5px;">
+                                        <i class="bi bi-pencil-square" style="font-size:1.1rem;"></i>
                                     </button>
                                 </form>
                             </td>

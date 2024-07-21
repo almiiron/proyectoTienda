@@ -14,10 +14,14 @@
                         style="border-top-left-radius: 5px;">
                         ID Producto
                     </th>
-                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Nombre del Producto</th>
-                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Categoria del Producto</th>
-                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Proveedor del Producto</th>
-                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Precio</th>
+                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Nombre del Producto
+                    </th>
+                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Categoria del
+                        Producto</th>
+                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Proveedor del
+                        Producto</th>
+                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Precio Compra</th>
+                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Precio Venta</th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Stock</th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">Estado</th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col"
@@ -29,34 +33,67 @@
                 <?php if ($lista): ?>
                     <?php foreach ($lista as $index => $fila): ?>
                         <tr>
-                            <?php foreach ($fila as $valor): ?>
-                                <td class="text-center custom-bg-tertiary">
-                                    <?php if ($valor != 'Activo' && $valor != 'Inactivo') {
-                                        echo $valor;
-                                    } else {
-                                        $btnClass = ($valor == 'Activo') ? 'btn btn-primary' : 'btn btn-secondary';
-                                        ?>
-                                        <form method="post">
-                                            <input type="hidden" name="idEstado" id="idEstado" value="<?php echo $ids[$index]; ?>">
-                                            <input type="hidden" name="metodo" id="metodoEstado" value="Producto">
-                                            <input type="hidden" name="estadoActual" id="estadoActual" value="<?php echo $valor; ?>">
-                                            <button type="submit" class="<?php echo $btnClass; ?> button-estado" id="button-submit">
-                                                <?php echo $valor; ?>
-                                            </button>
-                                        </form>
-                                    <?php } ?>
-                                </td>
-                            <?php endforeach; ?>
+
+                            <?php if ($fila['estado'] == 'Activo' || $fila['estado'] == 'Inactivo') {
+                                $btnClass = ($fila['estado'] == 'Activo') ? 'btn btn-primary' : 'btn btn-secondary';
+                            } ?>
+
+                            <td class="text-center custom-bg-tertiary">
+                                <?php
+                                echo $fila['id_producto'];
+                                ?>
+                            </td>
+                            <td class="text-center custom-bg-tertiary">
+                                <?php
+                                echo $fila['nombre_producto'];
+                                ?>
+                            </td>
+                            <td class="text-center custom-bg-tertiary">
+                                <?php
+                                echo $fila['nombre_categoria'];
+                                ?>
+                            </td>
+                            <td class="text-center custom-bg-tertiary">
+                                <?php
+                                echo $fila['nombre_proveedor'];
+                                ?>
+                            </td>
+                            <td class="text-center custom-bg-tertiary todosPreciosFormateados">
+                                <?php
+                                echo $fila['precio_compra'];
+                                ?>
+                            </td>
+                            <td class="text-center custom-bg-tertiary todosPreciosFormateados">
+                                <?php
+                                echo $fila['precio_venta'];
+                                ?>
+                            </td>
+                            <td class="text-center custom-bg-tertiary">
+                                <?php
+                                echo $fila['stock'];
+                                ?>
+                            </td>
+
+                            <td class="text-center custom-bg-tertiary">
+                                <form method="post">
+                                    <input type="hidden" name="idEstado" id="idEstado" value="<?php echo $ids[$index]; ?>">
+                                    <input type="hidden" name="metodo" id="metodoEstado" value="Producto">
+                                    <input type="hidden" name="estadoActual" id="estadoActual"
+                                        value="<?php echo $fila['estado']; ?>">
+                                    <button type="submit" class="<?php echo $btnClass; ?> button-estado" id="button-submit">
+                                        <?php echo $fila['estado']; ?>
+                                    </button>
+                                </form>
+                            </td>
                             <td class="text-center custom-bg-tertiary">
                                 <!-- Botón Modificar -->
-                                <form action="http://<?php echo IP_HOST; ?>/proyectoTienda/page/mostrarModificarProducto" method="post"
-                                    class="modal-modificar">
+                                <form action="http://<?php echo IP_HOST; ?>/proyectoTienda/page/mostrarModificarProducto"
+                                    method="post" class="modal-modificar">
                                     <input type="hidden" name="idModificar" value="<?php echo $ids[$index]; ?>">
                                     <button type="submit" class="btn btn-warning" data-bs-toggle="modal"
                                         data-bs-placement="bottom" data-bs-target="#modificarProducto">
                                         <!-- Modificar -->
-                                        <img src="/proyectoTienda/modules/views/layouts/img/icons8-crear-nuevo-50.png" alt=""
-                                            style="width:22px;height:22px;margin-left:2px;margin-top:-5px;">
+                                        <i class="bi bi-pencil-square" style="font-size:1.1rem;"></i>
                                     </button>
                                 </form>
                             </td>

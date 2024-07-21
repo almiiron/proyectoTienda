@@ -1,38 +1,33 @@
 <div class="container my-5 ">
     <div class="table-responsive " style="height:400px;">
+
         <button type="button" class="btn btn-primary mb-1 text-center float-end" data-bs-toggle="modal"
-            data-bs-placement="bottom" data-bs-title="Nuevo Empleado" data-bs-target="#cargarEmpleado" id="abrirModal">
+            data-bs-placement="bottom" data-bs-title="Nuevo Cliente" data-bs-target="#cargarGasto" id="abrirModal">
             <img src="/proyectoTienda/modules/views/layouts/img/icons8-añadir-50.png" alt=""
                 style="width:22px;height:22px;margin-left:2px;margin-top:-5px;">
         </button>
+        <?php require_once './modules/gastos/views/cargar-gasto.php'; ?>
+        <?php require_once './modules/gastos/views/detalle-gasto.php'; ?>
 
-        <?php require_once ('./modules/empleados/views/cargar-empleado.php'); ?>
-
-        <table class="table table-striped">
+        <table class="table table-striped" id="tabla-gastos">
             <thead style="height:80px;">
                 <tr>
-                    <!-- <?php foreach ($encabezados as $index => $encabezado): ?>
-                        <th scope="col" class="bg-primary text-light text-center align-middle"
-                            style="<?php echo $index === 0 ? 'border-top-left-radius: 5px;' : ''; ?>">
-                            <?php echo $encabezado; ?>
-                        </th>
-                    <?php endforeach; ?> -->
-
                     <th scope="col" class="custom-bg-secondary text-light text-center align-middle"
                         style="border-top-left-radius: 5px;">
-                        ID Empleado
+                        ID Gasto
+                    </th>
+
+                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">
+                        Empleado
                     </th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">
-                        Nombre del Empleado
+                        Categoria
                     </th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">
-                        Apellido del Empleado
+                        Fecha
                     </th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">
-                        Nombre de Usuario
-                    </th>
-                    <th class="custom-bg-secondary text-light text-center align-middle" scope="col">
-                        Contacto
+                        Precio Total
                     </th>
                     <th class="custom-bg-secondary text-light text-center align-middle" scope="col">
                         Estado
@@ -47,36 +42,62 @@
             <tbody>
                 <?php if ($lista): ?>
                     <?php foreach ($lista as $index => $fila): ?>
-                        <tr>
-                            <?php foreach ($fila as $valor): ?>
-                                <td class="text-center custom-bg-tertiary">
-                                    <?php if ($valor != 'Activo' && $valor != 'Inactivo') {
-                                        echo $valor;
-                                    } else {
-                                        $btnClass = ($valor == 'Activo') ? 'btn btn-primary' : 'btn btn-secondary';
-                                        ?>
-                                        <form method="post">
-                                            <input type="hidden" name="idEstado" id="idEstado" value="<?php echo $ids[$index]; ?>">
-                                            <input type="hidden" name="metodo" id="metodoEstado" value="Empleado">
-                                            <input type="hidden" name="estadoActual" id="estadoActual" value="<?php echo $valor; ?>">
-                                            <button type="submit" class="<?php echo $btnClass; ?> button-estado" id="button-submit">
-                                                <?php echo $valor; ?>
-                                            </button>
-                                        </form>
-                                    <?php } ?>
-                                </td>
-                            <?php endforeach; ?>
+                        <tr data-id-gasto="<?php echo $fila['id_gasto'] ?>"
+                            data-id-empleado="<?php echo $fila['id_empleado'] ?>"
+                            data-nombre-empleado="<?php echo $fila['nombreEmpleado'] ?>"
+                            data-apellido-empleado="<?php echo $fila['apellidoEmpleado'] ?>"
+                            data-metodo-pago="<?php echo $fila['metodo_pago'] ?>"
+                            data-categoria-gasto="<?php echo $fila['nombre_categoria_gasto'] ?>"
+                            data-descripcion-gasto="<?php echo $fila['descripcion'] ?>"
+                            data-fecha="<?php echo $fila['fecha'] ?>" data-hora="<?php echo $fila['hora'] ?>"
+                            data-precio-total="<?php echo $fila['precio_total'] ?>"
+                            data-comentario="<?php echo $fila['comentario'] ?>" data-estado="<?php echo $fila['estado'] ?>">
+
                             <td class="text-center custom-bg-tertiary">
-                                <!-- Botón Modificar -->
-                                <form action="http://<?php echo IP_HOST; ?>/proyectoTienda/page/mostrarModificarEmpleado" method="post"
-                                    class="modal-modificar">
+                                <?php echo $fila['id_gasto']; ?>
+                            </td>
+                            <td class="text-center custom-bg-tertiary">
+                                <?php echo $fila['nombreEmpleado']; ?>
+                            </td>
+                            <td class="text-center custom-bg-tertiary">
+                                <?php echo $fila['nombre_categoria_gasto']; ?>
+                            </td>
+
+                            </td>
+                            <td class="text-center custom-bg-tertiary">
+                                <?php echo $fila['fecha']; ?>
+                            </td>
+                            <td class="text-center custom-bg-tertiary todosPreciosFormateados">
+                                <?php echo $fila['precio_total']; ?>
+                            </td>
+                            <td class="text-center custom-bg-tertiary">
+                                <form method="post">
+                                    <input type="hidden" name="idEstado" value="<?php echo $fila['id_gasto']; ?>">
+                                    <input type="hidden" id="metodoEstado" name="metodo" value="Gasto">
+                                    <input type="hidden" name="estadoActual" value="<?php echo $fila['estado']; ?>">
+                                    <button type="submit"
+                                        class="<?php echo ($fila['estado'] == 'Activo') ? 'btn btn-primary' : 'btn btn-secondary'; ?> button-estado">
+                                        <?php echo $fila['estado']; ?>
+                                    </button>
+                                </form>
+                            </td>
+                            <td class="text-center custom-bg-tertiary d-flex justify-content-center">
+                                <button type="button" class="btn btn-info text-center  me-1" data-bs-toggle="modal"
+                                    data-bs-placement="bottom" data-bs-title="Detalles Gasto" data-bs-target="#detalleGasto"
+                                    id="buttonDetalleGasto">
+                                    <i class="bi bi-eye text-white" style="font-size:1.1rem;"></i>
+                                </button>
+
+                                <form action="http://<?php echo IP_HOST; ?>/proyectoTienda/page/mostrarModificarGasto"
+                                    method="post" class="modal-modificar">
                                     <input type="hidden" name="idModificar" value="<?php echo $ids[$index]; ?>">
                                     <button type="submit" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-placement="bottom" data-bs-target="#modificarEmpleado">
+                                        data-bs-placement="bottom" data-bs-target="#modificarGasto">
                                         <!-- Modificar -->
                                         <i class="bi bi-pencil-square" style="font-size:1.1rem;"></i>
                                     </button>
                                 </form>
+
                             </td>
                         </tr>
                     <?php endforeach; ?>

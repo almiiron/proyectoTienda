@@ -1,8 +1,8 @@
-var host = '192.168.100.13';
+// const host = '192.168.100.23';
 // var host = 'localhost';
 
 // si la URL contiene 'controlVentas' llamo a las funciones
-if (window.location.href.indexOf('controlVentas') !== -1) {
+if (window.location.href.indexOf('panelControl') !== -1) {
     ProductosMasVendidos();
     CategoriasConMasVentas();
     TotalVentasCadaMesDelAño();

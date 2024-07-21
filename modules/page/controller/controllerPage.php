@@ -8,8 +8,10 @@ require_once './modules/clientes/controller/controllerCliente.php';
 require_once './modules/users/controller/controllerUser.php';
 require_once './modules/empleados/controller/controllerEmpleado.php';
 require_once './modules/ventas/controller/controllerVenta.php';
-require_once './modules/controlVentas/controller/controllerControlVenta.php';
+require_once './modules/panelControl/controller/controllerPanelControl.php';
 require_once './modules/notificaciones/controller/controllerNotificaciones.php';
+require_once './modules/compras/controller/controllerCompra.php';
+require_once './modules/gastos/controller/controllerGasto.php';
 class ControllerPage
 {
     private $conexion;
@@ -22,8 +24,10 @@ class ControllerPage
     private $userLoginController;
     private $empleadoController;
     private $ventaController;
-    private $controlVentaController;
+    private $panelControlController;
     private $notificacionesController;
+    private $compraController;
+    private $gastoController;
     public function __construct($conexion, $numPage)
     {
         $this->homeController = new ControllerHome();
@@ -35,8 +39,10 @@ class ControllerPage
         $this->userLoginController = new ControllerUser($conexion);
         $this->empleadoController = new ControllerEmpleado($conexion);
         $this->ventaController = new ControllerVenta($conexion);
-        $this->controlVentaController = new ControllerControlVenta($conexion);
+        $this->panelControlController = new ControllerPanelControl($conexion);
         $this->notificacionesController = new ControllerNotificaciones($conexion);
+        $this->compraController = new ControllerCompra($conexion);
+        $this->gastoController = new ControllerGasto($conexion);
     }
     // Helper function to check for empty fields and redirect
     private function validarCamposYRedirigir($campos, $rutaRedireccion)
@@ -155,13 +161,21 @@ class ControllerPage
         $nombreProducto = $_POST['nombreProducto'];
         $IdCategoriaProducto = $_POST['IdCategoriaProducto'];
         $IdProveedorProducto = $_POST['IdProveedorProducto'];
-        $precioProducto = $_POST['precioProducto'];
+        $precioProductoCompra = $_POST['precioProductoCompra'];
+        $precioProductoVenta = $_POST['precioProductoVenta'];
         $stockProducto = $_POST['stockProducto'];
         $this->validarCamposYRedirigir(
-            [$nombreProducto, $IdCategoriaProducto, $IdProveedorProducto, $precioProducto, $stockProducto],
+            [$nombreProducto, $IdCategoriaProducto, $IdProveedorProducto, $precioProductoCompra, $precioProductoVenta, $stockProducto],
             '/proyectoTienda/page/listarProductos/1'
         );
-        $this->productoController->procesarCargarProducto($nombreProducto, $IdCategoriaProducto, $IdProveedorProducto, $precioProducto, $stockProducto);
+        $this->productoController->procesarCargarProducto(
+            $nombreProducto,
+            $IdCategoriaProducto,
+            $IdProveedorProducto,
+            $precioProductoCompra,
+            $precioProductoVenta,
+            $stockProducto
+        );
     }
     public function listarProductos()
     {
@@ -179,13 +193,22 @@ class ControllerPage
         $nombreProducto = $_POST['nombreProducto'];
         $IdCategoriaProducto = $_POST['IdCategoriaProducto'];
         $IdProveedorProducto = $_POST['IdProveedorProducto'];
-        $precioProducto = $_POST['precioProducto'];
+        $precioProductoCompra = $_POST['precioProductoCompra'];
+        $precioProductoVenta = $_POST['precioProductoVenta'];
         $stockProducto = $_POST['stockProducto'];
         $this->validarCamposYRedirigir(
-            [$IdProducto, $nombreProducto, $IdCategoriaProducto, $IdProveedorProducto, $precioProducto, $stockProducto],
+            [$IdProducto, $nombreProducto, $IdCategoriaProducto, $IdProveedorProducto, $precioProductoCompra, $precioProductoVenta, $stockProducto],
             '/proyectoTienda/page/listarProductos/1'
         );
-        $this->productoController->procesarModificarProducto($IdProducto, $nombreProducto, $IdCategoriaProducto, $IdProveedorProducto, $precioProducto, $stockProducto);
+        $this->productoController->procesarModificarProducto(
+            $IdProducto,
+            $nombreProducto,
+            $IdCategoriaProducto,
+            $IdProveedorProducto,
+            $precioProductoCompra,
+            $precioProductoVenta,
+            $stockProducto
+        );
     }
 
     public function filtrarListarProductos()
@@ -365,48 +388,159 @@ class ControllerPage
     // metodos ventas //
 
     // metodos control de ventas //  
-    public function controlVentas()
+    public function panelControl()
     {
-        $this->controlVentaController->controlVentas();
+        $this->panelControlController->panelControl();
     }
 
-    public function productosMasVendidos(){
-        $this->controlVentaController->productosMasVendidos();
-    }
-    
-    public function categoriasConMasVentas(){
-        $this->controlVentaController->categoriasConMasVentas();
-    }
-    
-    public function totalVentasCadaMesDelAnio(){
-        $this->controlVentaController->totalVentasCadaMesDelAnio();
+    public function productosMasVendidos()
+    {
+        $this->panelControlController->productosMasVendidos();
     }
 
-    public function ingresosUltimosSieteDias(){
-        $this->controlVentaController->ingresosUltimosSieteDias();
+    public function categoriasConMasVentas()
+    {
+        $this->panelControlController->categoriasConMasVentas();
     }
-    
-    public function ingresosUltimasCuatroSemanas(){
-        $this->controlVentaController->ingresosUltimasCuatroSemanas();
+
+    public function totalVentasCadaMesDelAnio()
+    {
+        $this->panelControlController->totalVentasCadaMesDelAnio();
+    }
+
+    public function ingresosUltimosSieteDias()
+    {
+        $this->panelControlController->ingresosUltimosSieteDias();
+    }
+
+    public function ingresosUltimasCuatroSemanas()
+    {
+        $this->panelControlController->ingresosUltimasCuatroSemanas();
     }
     // metodos control de ventas //  
 
     // metodos de nofiticaciones //
-    public function listarNotificaciones(){
+    public function listarNotificaciones()
+    {
         $this->notificacionesController->listarNotificaciones($this->numPage);
     }
-
-    public function procesarCambiarEstadoNotificacion(){
+    public function filtrarListarNotificaciones()
+    {
+        $filtro = (empty($_GET['filtro'])) ? null : $_GET['filtro'];
+        $this->notificacionesController->filtrarListarNotificaciones($filtro, $this->numPage);
+    }
+    public function procesarCambiarEstadoNotificacion()
+    {
         $id = $_POST['id'];
         $estadoActual = $_POST['estadoActual'];
         $this->validarCamposYRedirigir([$id, $estadoActual], '/proyectoTienda/page/listarNotificaciones/1');
         $this->notificacionesController->procesarCambiarEstadoNotificacion($id, $estadoActual);
     }
 
-    public function obtenerNotificacionesNoLeidas() {
+    public function obtenerNotificacionesNoLeidas()
+    {
         $this->notificacionesController->obtenerNotificacionesNoLeidas();
-      
+
     }
+    // son notificaciones pero utilizo los controladores de cada modulo //
+    public function obtenerCantidadProductosBajoStock()
+    {
+        $this->productoController->obtenerCantidadProductosBajoStock();
+    }
+    public function obtenerCantidadProductosSinStock()
+    {
+        $this->productoController->obtenerCantidadProductosSinStock();
+    }
+
+    // son notificaciones pero utilizo los controladores de cada modulo //
+
     // metodos de nofiticaciones //
+
+    // metodos de compra //     // metodos de compra //     // metodos de compra //
+
+    public function listarCompras()
+    {
+        $this->compraController->listarCompras($this->numPage);
+    }
+
+    public function mostrarCargarCompra()
+    {
+        $this->compraController->mostrarCargarCompra();
+    }
+
+    public function procesarCargarCompra()
+    {
+        $IdProveedorCompra = $_POST['IdProveedorCompra'];
+        $idEmpleado = $_POST['IdEmpleadoCompra'];
+        $productos = $_POST['productos'];
+        $subTotalCompra = $_POST['subTotalCompra'];
+        $totalCompra = $_POST['totalCompra'];
+        $idMetodoPago = $_POST['IdMetodoPagoCompra'];
+        $this->validarCamposYRedirigir(
+            [$IdProveedorCompra, $idEmpleado, $productos, $subTotalCompra, $totalCompra, $idMetodoPago],
+            '/proyectoTienda/page/listarCompras/1'
+        );
+        $this->compraController->procesarCargarCompra($IdProveedorCompra, $idEmpleado, $productos, $subTotalCompra, $totalCompra, $idMetodoPago);
+    }
+
+
+    // metodos de compra //     // metodos de compra //     // metodos de compra //
+
+    // metodos de gasto //      // metodos de gasto //        // metodos de gasto //      // metodos de gasto //
+    public function listarGastos()
+    {
+        $this->gastoController->listarGastos($this->numPage);
+    }
+
+    public function procesarCargarGasto()
+    {
+        $categoriaGasto = $_POST['categoriaGasto'];
+        $descripcionGasto = $_POST['descripcionGasto'];
+        $empleadoGasto = $_POST['empleadoGasto'];
+        $metodoPagoGasto = $_POST['metodoPagoGasto'];
+        $precioTotalGasto = $_POST['precioTotalGasto'];
+        $fecha = !empty($_POST['hiddenDate']) ? $_POST['hiddenDate'] : $_POST['date'];
+        $hora = !empty($_POST['hiddenTime']) ? $_POST['hiddenTime'] : $_POST['time'];
+        $comentarioGasto = $_POST['comentarioGasto'];
+        $this->validarCamposYRedirigir(
+            [$categoriaGasto, $descripcionGasto, $empleadoGasto, $metodoPagoGasto, $precioTotalGasto, $fecha, $hora],
+            '/proyectoTienda/page/listarGastos/1'
+        );
+        $this->gastoController->procesarCargarGasto($categoriaGasto, $descripcionGasto, $empleadoGasto, $metodoPagoGasto, $precioTotalGasto, $fecha, $hora, $comentarioGasto);
+    }
+
+    public function mostrarModificarGasto()
+    {
+        $id = $_POST['idModificar'];
+        $this->validarCamposYRedirigir([$id], '/proyectoTienda/page/listarGastos/1');
+        $this->gastoController->mostrarModificarGasto($id);
+    }
+
+    public function procesarModificarGasto()
+    {
+        $idGasto = $_POST['idGastoModificar'];
+        $categoriaGasto = $_POST['categoriaGastoModificar'];
+        $descripcionGasto = $_POST['descripcionGastoModificar'];
+        $empleadoGasto = $_POST['empleadoGastoModificar'];
+        $metodoPagoGasto = $_POST['metodoPagoGastoModificar'];
+        $precioTotalGasto = $_POST['precioTotalGastoModificar'];
+        $fecha = !empty($_POST['hiddenDate']) ? $_POST['hiddenDate'] : $_POST['date'];
+        $hora = !empty($_POST['hiddenTime']) ? $_POST['hiddenTime'] : $_POST['time'];
+        $comentarioGasto = $_POST['comentarioGastoModificar'];
+        $this->validarCamposYRedirigir(
+            [$idGasto, $categoriaGasto, $descripcionGasto, $empleadoGasto, $metodoPagoGasto, $precioTotalGasto, $fecha, $hora],
+            '/proyectoTienda/page/listarGastos/1'
+        );
+        $this->gastoController->procesarModificarGasto($idGasto, $categoriaGasto, $descripcionGasto, $empleadoGasto, $metodoPagoGasto, $precioTotalGasto, $fecha, $hora, $comentarioGasto);
+    }
+
+    public function procesarCambiarEstadoGasto()
+    {
+        $id = $_POST['id'];
+        $estadoActual = $_POST['estadoActual'];
+        $this->validarCamposYRedirigir([$id, $estadoActual], '/proyectoTienda/page/listarGastos/1');
+        $this->gastoController->procesarCambiarEstadoGasto($id, $estadoActual);
+    }
+    // metodos de gasto //      // metodos de gasto //        // metodos de gasto //      // metodos de gasto //
 }
 ?>

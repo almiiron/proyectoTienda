@@ -1,26 +1,23 @@
 <?php
 require_once ('./modules/productos/model/classProducto.php');
 require_once ('./modules/productos/service/serviceProducto.php');
-require_once ('./modules/categorias/controller/controllerCategoria.php');
-require_once ('./modules/proveedores/controller/controllerProveedor.php');
+
 class ControllerProducto
 {
     private $conexion;
-    private $serviceProveedores;
-    private $serviceCategorias;
+ 
     private $serviceProducto;
 
     public function __construct($conexion)
     {
         $this->conexion = $conexion;
-        $this->serviceProveedores = new serviceProveedor($this->conexion);
-        $this->serviceCategorias = new serviceCategoria($this->conexion);
+     
         $this->serviceProducto = new ServiceProducto($this->conexion);
     }
 
-    public function procesarCargarProducto($nombreProducto, $IdCategoriaProducto, $IdProveedorProducto, $precioProducto, $stockProducto)
+    public function procesarCargarProducto($nombreProducto, $IdCategoriaProducto, $IdProveedorProducto, $precioProductoCompra, $precioProductoVenta, $stockProducto)
     {
-        $resultado = $this->serviceProducto->cargarProducto($nombreProducto, $IdCategoriaProducto, $IdProveedorProducto, $precioProducto, $stockProducto);
+        $resultado = $this->serviceProducto->cargarProducto($nombreProducto, $IdCategoriaProducto, $IdProveedorProducto, $precioProductoCompra, $precioProductoVenta, $stockProducto);
         header('Content-Type: application/json');
         echo json_encode($resultado);
     }
@@ -41,6 +38,10 @@ class ControllerProducto
         $tituloTabla = "Productos";
         $limpiarFiltros = False;
         $mostrarBuscadorEnNavbar = true;
+
+        $listaProveedores = $resultado[3];      // para el modal para cargar producto
+        $listaCategorias = $resultado[4];       // para el modal ppara cargar producto
+
         $view = './modules/productos/views/listar-productos.php';
         require_once ('./modules/views/layouts/main.php');
 
@@ -53,8 +54,9 @@ class ControllerProducto
             exit();
         }
 
-        $listaProveedores = $this->serviceProveedores->mostrarProveedores();
-        $listaCategorias = $this->serviceCategorias->mostrarCategorias();
+        $resultado = $this->serviceProducto->mostrarModificarProducto();
+        $listaProveedores = $resultado[0];
+        $listaCategorias = $resultado[1];
 
         $buscarProducto = $this->serviceProducto->listarUnProducto($id);
         $datosProducto = $buscarProducto;
@@ -62,9 +64,24 @@ class ControllerProducto
         require_once ('./modules/views/layouts/main.php');
     }
 
-    public function procesarModificarProducto($IdProducto, $nombreProducto, $IdCategoriaProducto, $IdProveedorProducto, $precioProducto, $stockProducto)
-    {
-        $resultado = $this->serviceProducto->modificarProducto($IdProducto, $nombreProducto, $IdCategoriaProducto, $IdProveedorProducto, $precioProducto, $stockProducto);
+    public function procesarModificarProducto(
+        $IdProducto,
+        $nombreProducto,
+        $IdCategoriaProducto,
+        $IdProveedorProducto,
+        $precioProductoCompra,
+        $precioProductoVenta,
+        $stockProducto
+    ) {
+        $resultado = $this->serviceProducto->modificarProducto(
+            $IdProducto,
+            $nombreProducto,
+            $IdCategoriaProducto,
+            $IdProveedorProducto,
+            $precioProductoCompra,
+            $precioProductoVenta,
+            $stockProducto
+        );
 
         header('Content-Type: application/json');
         echo json_encode($resultado);
@@ -86,6 +103,10 @@ class ControllerProducto
         $tituloTabla = "Productos";
         $base_url = 'http://' . IP_HOST . '/proyectoTienda/page/filtrarListarProductos';
         $limpiarFiltros = True;
+
+        $listaProveedores = $resultado[3];      // para el modal para cargar producto
+        $listaCategorias = $resultado[4];       // para el modal ppara cargar producto
+
         $view = './modules/productos/views/listar-productos.php';
         require_once ('./modules/views/layouts/main.php');
     }
@@ -95,6 +116,19 @@ class ControllerProducto
         $resultado = $this->serviceProducto->cambiarEstadoProducto($id, $estadoActual);
         header('Content-Type: application/json');
         echo json_encode($resultado);
+    }
+
+    public function obtenerCantidadProductosBajoStock()
+    {
+        $notificaciones = $this->serviceProducto->obtenerCantidadProductosBajoStock();
+        header('Content-Type: application/json');
+        echo json_encode($notificaciones);
+    }
+    public function obtenerCantidadProductosSinStock()
+    {
+        $notificaciones = $this->serviceProducto->obtenerCantidadProductosSinStock();
+        header('Content-Type: application/json');
+        echo json_encode($notificaciones);
     }
 
 }

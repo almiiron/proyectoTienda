@@ -1,24 +1,28 @@
-<section class="h-100 custom-bg-light">
+<section class=" custom-bg-light" style="height:100%;">
     <div class="container h-100">
         <div class="row justify-content-sm-center h-100">
-            <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+            <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9" style="margin-top:-4%;">
                 <div class="text-center my-5">
-                    <img src="/proyectoTienda/modules/views/layouts/img/las-compras-en-linea.png" alt="logo" width="100">
+                    <img src="/proyectoTienda/modules/views/layouts/img/las-compras-en-linea.png" alt="logo"
+                        width="100">
                 </div>
                 <div class="alert alert-danger shadow-sm invalid-feedback" role="alert" id="alert-login">
-                    <button type="button" class="btn-close float-end"  aria-label="Close" onclick="addClassAlertLogin()"></button>
+                    <button type="button" class="btn-close float-end" aria-label="Close"
+                        onclick="ClassAlertLogin('ocultar')"></button>
                     ¡Nombre de usuario o contraseña no es valido!
 
                 </div>
                 <div class="card shadow-lg">
                     <div class="card-body p-5">
                         <h1 class="fs-4 card-title fw-bold mb-4 text-center">Iniciar Sesión</h1>
-                        <form method="POST" action="http://<?php echo IP_HOST; ?>/proyectoTienda/page/procesarIniciarSesion" class="needs-validation form" novalidate="" autocomplete="off">
+                        <form method="POST"
+                            action="http://<?php echo IP_HOST; ?>/proyectoTienda/page/procesarIniciarSesion"
+                            class="needs-validation form" novalidate="" autocomplete="off">
                             <div class="mb-3">
                                 <label class="mb-2 text-muted" for="user">Nombre de Usuario</label>
-                                <input id="user" type="text" class="form-control shadow" name="user" value="" required
+                                <input id="user" type="text" class="form-control shadow " name="user" value="" required
                                     autofocus>
-                                <div class="invalid-feedback">
+                                <div id="validationServer01Feedback" class="invalid-feedback">
                                     ¡Nombre de usuario es requerido!
                                 </div>
                             </div>
@@ -30,14 +34,16 @@
                                             Forgot Password?
                                         </a> -->
                                 </div>
-                                <input id="password" type="password" class="form-control shadow" name="password" required>
-                                <div class="invalid-feedback">
+                                <input id="password" type="password" class="form-control shadow" name="password"
+                                    required>
+                                <div id="validationServer02Feedback" class="invalid-feedback">
                                     ¡Contraseña es requerida!
                                 </div>
                             </div>
 
                             <div class="w-100">
-                                <input type="submit" class="btn btn-primary w-100" id="buttonIniciarSesion" value="Iniciar Sesión">
+                                <input type="submit" class="btn btn-primary w-100" id="buttonIniciarSesion"
+                                    value="Iniciar Sesión">
                             </div>
                         </form>
                     </div>

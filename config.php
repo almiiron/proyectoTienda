@@ -14,6 +14,6 @@ if (count($urlSegments) >= 4) { // Si hay al menos 4 segmentos en la URL
 
 define('NUM_PAGE', $numPage); // Define la constante NUM_PAGE con el número de página
 
-define('IP_HOST', '192.168.100.13');
+define('IP_HOST', '192.168.100.10');
 // define('IP_HOST', 'localhost');
 ?>

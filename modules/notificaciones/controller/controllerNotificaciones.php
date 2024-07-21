@@ -24,9 +24,9 @@ class ControllerNotificaciones
         $limpiarFiltros = False;
         $base_url = 'http://' . IP_HOST . '/proyectoTienda/page/listarNotificaciones';
         $mostrarBuscadorEnNavbar = true;
-        $tituloTabla = "Categorias";
+        $tituloTabla = "Notificaciones";
         $view = './modules/notificaciones/views/listar-notificaciones.php';
-        require_once ('./modules/views/layouts/main.php');
+        require_once './modules/views/layouts/main.php';
     }
 
     public function procesarCambiarEstadoNotificacion($id, $estadoActual)
@@ -42,5 +42,24 @@ class ControllerNotificaciones
         header('Content-Type: application/json');
         echo json_encode($notificaciones);
     }
+    public function filtrarListarNotificaciones($filtro, $numPage)
+    {
+        if ($numPage == "" || $numPage <= 0) {
+            header('location:http://'. IP_HOST .'/proyectoTienda/page/filtrarListarNotificaciones/1');
+        }
+
+
+        $resultado = $this->serviceNotificaciones->filtrarListarNotificaciones($filtro, $numPage);
+        $lista = $resultado[0];
+        $pages = $resultado[1];
+        $ids = $resultado[2];
+        $limpiarFiltros = True;
+        $base_url = 'http://'. IP_HOST .'/proyectoTienda/page/filtrarListarNotificaciones';
+        $mostrarBuscadorEnNavbar = true;
+        $tituloTabla = "Notificaciones";
+        $view = './modules/notificaciones/views/listar-notificaciones.php';
+        require_once './modules/views/layouts/main.php';
+    }
+
 }
 ?>

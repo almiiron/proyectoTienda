@@ -1,5 +1,5 @@
 <?php
-class ClassControlVenta
+class ClassPanelControl
 {
     private $conexion;
 

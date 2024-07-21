@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . '/middlewares/AuthMiddleware.php');
+require_once (__DIR__ . '/middlewares/AuthMiddleware.php');
 class Router
 {
     private $controller;
@@ -27,14 +27,16 @@ class Router
     }
     public function run()
     {
-        AuthMiddleware::check($this->method);   
+        AuthMiddleware::check($this->method);
         $controller = new $this->controller($this->conexion, NUM_PAGE); // Pasar NUM_PAGE al constructor del controlador
         $method = $this->method;
-    
+
         if (method_exists($controller, $method)) {
             $controller->$method();
         } else {
-            header("Location:home");
+            $view = null;
+            require_once './modules/views/layouts/main.php'; // si en la url hay algo que no corresponde a una vista del sistema, muestra error 404 pagina no encontrada
+            // header("Location:home");
         }
     }
 }

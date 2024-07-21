@@ -45,10 +45,16 @@
                 </div>
 
                 <div class="form-group mb-4">
-                    <label for="precioProducto">Precio del Producto</label>
-                    <input type="text" class="form-control" id="precioProducto" name="precioProducto"
-                        placeholder="Precio del Producto..." required oncopy="return false" onpaste="return false"
-                        onkeypress="return solonumeros(event)" value="<?php echo $datosProducto['precio']; ?>">
+                    <label for="precioProductoCompra">Precio del Producto para Compra</label>
+                    <input type="text" class="form-control" id="precioProductoCompra" name="precioProductoCompra"
+                        placeholder="Precio del Producto para Compra..." required oncopy="return false" onpaste="return false"
+                        onkeypress="return solonumeros(event)" value="<?php echo $datosProducto['precio_compra']; ?>">
+                </div>
+                <div class="form-group mb-4">
+                    <label for="precioProductoVenta">Precio del Producto para Venta</label>
+                    <input type="text" class="form-control" id="precioProductoVenta" name="precioProductoVenta"
+                        placeholder="Precio del Producto para Venta..." required oncopy="return false" onpaste="return false"
+                        onkeypress="return solonumeros(event)" value="<?php echo $datosProducto['precio_venta']; ?>">
                 </div>
                 <div class=" form-group mb-4">
                     <label for="stockProducto">Stock del Producto</label>

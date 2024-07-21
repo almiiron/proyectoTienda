@@ -42,7 +42,7 @@ class ClassNotificaciones
 
     public function cargarNotificacion($mensaje, $tipo)
     {
-        // tipos de notificaciones: exito, info, advertencia, error //
+        // tipos de notificaciones: Éxito, Información, Advertencia, Error //
         $query = "INSERT INTO notificaciones(mensaje, tipo, fecha, hora, estado) 
         VALUES ('$mensaje','$tipo','$this->fecha','$this->hora','Activo')";
         $sql = $this->conexion->ejecutarConsulta($query);
@@ -79,6 +79,28 @@ class ClassNotificaciones
         $resultado = $this->conexion->ejecutarConsulta($query);
         $cantidadNot = mysqli_num_rows($resultado);
         return $cantidadNot;
+    }
+
+    public function prepararFiltrosNotificaciones($filtro)
+    {
+
+        $where_clause = "WHERE id_notif LIKE '%$filtro%' OR mensaje LIKE '%$filtro%' OR tipo LIKE '%$filtro%'
+        OR fecha LIKE '%$filtro%' OR hora LIKE '%$filtro%' OR estado = '%$filtro%' ";
+
+        return $where_clause;
+    }
+
+    public function listaFiltradaNotificaciones($where_clause, $start, $size)
+    {
+        // Construye la consulta SQL con los filtros y ordenamientos
+        $query = "SELECT * FROM notificaciones $where_clause LIMIT " . $start . "," . $size;
+        $resultado = $this->conexion->ejecutarConsulta($query);
+
+        $notificaciones = array();
+        while ($row = mysqli_fetch_assoc($resultado)) {
+            $notificaciones[] = $row; 
+        }
+        return $notificaciones;
     }
 }
 ?>

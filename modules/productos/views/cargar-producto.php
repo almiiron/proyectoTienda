@@ -1,12 +1,5 @@
 <!-- Modal para cargar producto -->
-<?php
-$conexion = new Conexion();
-$conexion->obtenerConexion();
-$proveedores = new ServiceProveedor($conexion);
-$categorias = new ServiceCategoria($conexion);
-$listaProveedores = $proveedores->mostrarProveedores();
-$listaCategorias = $categorias->mostrarCategorias();
-?>
+
 <div class="modal fade" id="cargarProducto" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -53,9 +46,16 @@ $listaCategorias = $categorias->mostrarCategorias();
                     </div>
 
                     <div class="form-group mb-4">
-                        <label for="precioProducto">Precio del Producto</label>
-                        <input type="text" class="form-control" id="precioProducto" name="precioProducto"
-                            placeholder="Precio del Producto..." required oncopy="return false" onpaste="return false"
+                        <label for="precioProductoCompra">Precio del Producto para Compra</label>
+                        <input type="text" class="form-control" id="precioProductoCompra" name="precioProductoCompra"
+                            placeholder="Precio del Producto para Compra..." required oncopy="return false" onpaste="return false"
+                            onkeypress="return solonumeros(event)">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="precioProductoVenta">Precio del Producto para Venta</label>
+                        <input type="text" class="form-control" id="precioProductoVenta" name="precioProductoVenta"
+                            placeholder="Precio del Producto para Venta..." required oncopy="return false" onpaste="return false"
                             onkeypress="return solonumeros(event)">
                     </div>
 
