@@ -23,40 +23,138 @@ class ServicePanelControl
         return $resultado;
     }
 
-    public function ingresosHoy(){
+    public function ingresosHoy()
+    {
         $resultado = $this->modelPanelControl->ingresosHoy();
         return $resultado;
     }
 
-    public function cantidadProductosVendidosHoy(){
+    public function cantidadProductosVendidosHoy()
+    {
         $resultado = $this->modelPanelControl->cantidadProductosVendidosHoy();
         return $resultado;
     }
 
-    public function cantidadClientesHoy(){
+    public function cantidadClientesHoy()
+    {
         $resultado = $this->modelPanelControl->cantidadClientesHoy();
         return $resultado;
     }
 
-    public function promedioVentasHoy(){
+    public function promedioVentasHoy()
+    {
         $resultado = $this->modelPanelControl->promedioVentasHoy();
         return $resultado;
     }
-   
-    public function totalVentasCadaMesDelAnio(){
+
+    public function totalVentasCadaMesDelAnio()
+    {
         $resultado = $this->modelPanelControl->totalVentasCadaMesDelAnio();
         return $resultado;
     }
-   
-    public function ingresosUltimosSieteDias(){
+
+    public function ingresosUltimosSieteDias()
+    {
         $resultado = $this->modelPanelControl->ingresosUltimosSieteDias();
         return $resultado;
     }
-    
-    public function ingresosUltimasCuatroSemanas(){
+
+    public function ingresosUltimasCuatroSemanas()
+    {
         $resultado = $this->modelPanelControl->ingresosUltimasCuatroSemanas();
         return $resultado;
     }
+
+    public function ingresosDiariosPorMes()
+    {
+        $resultado = $this->modelPanelControl->ingresosDiariosPorMes();
+        return $resultado;
+    }
+
+    public function ingresosTotalHistorico()
+    {
+        $resultado = $this->modelPanelControl->ingresosTotalHistorico();
+        return $resultado;
+    }
+
+    public function comprasTotalesHistorico()
+    {
+        $resultado = $this->modelPanelControl->comprasTotalesHistorico();
+        return $resultado;
+    }
+
+    public function gastosTotalesHistorico()
+    {
+        $resultado = $this->modelPanelControl->gastosTotalesHistorico();
+        return $resultado;
+    }
+
+    public function gananciaRealHistorico()
+    {
+        $resultado = $this->modelPanelControl->gananciaRealHistorico();
+        return $resultado;
+    }
+
+    public function totalComprasCadaMesDelAnio()
+    {
+        $resultado = $this->modelPanelControl->totalComprasCadaMesDelAnio();
+        return $resultado;
+    }
+
+    public function categoriasConMasCompras()
+    {
+        $resultado = $this->modelPanelControl->categoriasConMasCompras();
+        return $resultado;
+    }
+
+    public function productosMasComprados()
+    {
+        $resultado = $this->modelPanelControl->productosMasComprados();
+        return $resultado;
+    }
+
+    public function totalGastosCadaMesDelAnio()
+    {
+        $resultado = $this->modelPanelControl->totalGastosCadaMesDelAnio();
+        return $resultado;
+    }
+
+    public function categoriasConMasGastos()
+    {
+        $resultado = $this->modelPanelControl->categoriasConMasGastos();
+        return $resultado;
+    }
+
+    public function categoriasMasRepetidasGastos()
+    {
+        $resultado = $this->modelPanelControl->categoriasMasRepetidasGastos();
+        return $resultado;
+    }
+
+    public function datosDiariosPorMes()
+    {
+        $resultado = $this->modelPanelControl->datosDiariosPorMes();
+        return $resultado;
+    }
+
+    public function obtenerTotalesDelMes()
+    {
+        $resultado = $this->modelPanelControl->obtenerTotalesDelMes();
+        return $resultado;
+    }
+
+    public function obtenerDatosMensuales()
+    {
+        $resultado = $this->modelPanelControl->obtenerDatosMensuales();
+        return $resultado;
+    }
+
+    public function obtenerRentabilidadProductos()
+    {
+        $resultado = $this->modelPanelControl->obtenerRentabilidadProductos();
+        return $resultado;
+    }
+
 }
 
 ?>

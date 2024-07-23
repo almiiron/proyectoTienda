@@ -179,7 +179,7 @@ JOIN
         // Preparar la consulta para insertar los detalles de la venta
         $queryInsertDetalle = "INSERT INTO detalle_venta (id_venta, id_producto, cantidad_producto, precio_producto, estado) VALUES (?, ?, ?, ?, 'Activo')";
         $tiposInsertDetalle = 'iiis';
-       
+
         // Iterar sobre los productos y agregar los detalles de la venta
         foreach ($productos as $producto) {
             // Obtener los valores del producto
@@ -328,6 +328,37 @@ JOIN
         $fila = $resultado->fetch_assoc();      // Extraer el valor de id_contacto
         $id_contacto = $fila['id_contacto'];    // Devolver el valor de id_contacto
         return $id_contacto;
+    }
+
+    public function cambiarEstadoVenta($idVenta, $nuevoEstado)
+    {
+        $query = "UPDATE
+                    ventas
+                SET
+                    estado = ?
+                WHERE
+                    id_venta = ?";
+        $tipos = 'si';
+        $sql = $this->conexion->ejecutarConsultaPreparada($query, $tipos, $nuevoEstado, $idVenta);
+        if (!$sql) {
+            return false;
+        }
+        return true;
+    }
+    public function cambiarEstadoDetalleVenta($idVenta, $nuevoEstado)
+    {
+        $query = "UPDATE
+                    detalle_venta
+                SET
+                    estado = ?
+                WHERE
+                    id_venta = ?";
+        $tipos = 'si';
+        $sql = $this->conexion->ejecutarConsultaPreparada($query, $tipos, $nuevoEstado, $idVenta);
+        if (!$sql) {
+            return false;
+        }
+        return true;
     }
 }
 ?>

@@ -106,5 +106,32 @@ class ServiceCompra
         $idCompra = $this->modeloCompra->obtenerUltimaCompraID();
         return $idCompra;
     }
+
+    public function procesarCambiarEstadoCompra($idCompra, $estadoActual)
+    {
+        $nuevoEstado = "";
+        if ($estadoActual == 'Activo') {
+            $nuevoEstado = "Inactivo";
+        } else if ($estadoActual == 'Inactivo') {
+            $nuevoEstado = "Activo";
+        }
+        $cambiarEstadoCompra = $this->modeloCompra->cambiarEstadoCompra($idCompra, $nuevoEstado);
+        $cambiarEstadoDetalleCompra = $this->modeloCompra->cambiarEstadoDetalleCompra($idCompra, $nuevoEstado);
+        if ($cambiarEstadoCompra && $cambiarEstadoDetalleCompra) {
+            $estado = True;
+            $message = "¡Se modificó correctamente la compra!";
+            $mensajeNotificacion = 'Se modificó correctamente la compra de ID ' . $idCompra;
+            $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
+            $tipoNotificacion = 'Información';
+        } else {
+            $estado = False;
+            $message = "¡Hubo un error al modificar la compra!";
+            $mensajeNotificacion = '¡Hubo un error al modificar la compra de ID ' . $idCompra;
+            $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
+            $tipoNotificacion = 'Error';
+        }
+        $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
+        return ['success' => $estado, 'message' => $message];
+    }
 }
 ?>

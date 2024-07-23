@@ -37,7 +37,7 @@
                             <td class="text-center custom-bg-tertiary">
                                 <form method="post">
                                     <input type="hidden" name="idEstado" value="<?php echo $fila['id_venta']; ?>">
-                                    <input type="hidden" name="metodo" value="Proveedor">
+                                    <input type="hidden" name="metodoEstado" id="metodoEstado" value="Venta">
                                     <input type="hidden" name="estadoActual" value="<?php echo $fila['estado_venta']; ?>">
                                     <button type="submit"
                                         class="<?php echo ($fila['estado_venta'] == 'Activo') ? 'btn btn-primary' : 'btn btn-secondary'; ?> button-estado">

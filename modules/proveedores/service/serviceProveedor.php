@@ -96,13 +96,13 @@ class ServiceProveedor
         $cambiarEstadoProveedor = $this->modeloProveedores->cambiarEstadoProveedor($id, $nuevoEstado);
         if ($cambiarEstadoContacto && $cambiarEstadoProveedor) {
             $estado = True;
-            $message = "¡Se modificó correctamente el Proveedor!";
+            $message = "¡Se modificó correctamente el proveedor!";
             $mensajeNotificacion = 'Se modificó correctamente el proveedor de ID ' . $id;
             $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
             $tipoNotificacion = 'Información';
         } else {
             $estado = False;
-            $message = "¡Hubo un error al modificar el Proveedor!";
+            $message = "¡Hubo un error al modificar el proveedor!";
             $mensajeNotificacion = '¡Hubo un error al modificar el proveedor de ID ' . $id;
             $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
             $tipoNotificacion = 'Error';

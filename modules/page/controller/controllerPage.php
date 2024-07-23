@@ -385,6 +385,14 @@ class ControllerPage
         $this->ventaController->filtrarListarVentas($filtro, $this->numPage);
     }
 
+    public function procesarCambiarEstadoVenta()
+    {
+        $id = $_POST['id'];
+        $estadoActual = $_POST['estadoActual'];
+        $this->validarCamposYRedirigir([$id, $estadoActual], '/proyectoTienda/page/listarVentas/1');
+        $this->ventaController->procesarCambiarEstadoVenta($id, $estadoActual);
+    }
+
     // metodos ventas //
 
     // metodos control de ventas //  
@@ -417,6 +425,62 @@ class ControllerPage
     {
         $this->panelControlController->ingresosUltimasCuatroSemanas();
     }
+
+    public function ingresosDiariosPorMes()
+    {
+        $this->panelControlController->ingresosDiariosPorMes();
+    }
+
+    public function totalComprasCadaMesDelAnio()
+    {
+        $this->panelControlController->totalComprasCadaMesDelAnio();
+    }
+
+    public function categoriasConMasCompras()
+    {
+        $this->panelControlController->categoriasConMasCompras();
+    }
+
+    public function productosMasComprados()
+    {
+        $this->panelControlController->productosMasComprados();
+    }
+
+    public function totalGastosCadaMesDelAnio()
+    {
+        $this->panelControlController->totalGastosCadaMesDelAnio();
+    }
+
+    public function categoriasConMasGastos()
+    {
+        $this->panelControlController->categoriasConMasGastos();
+    }
+
+    public function categoriasMasRepetidasGastos()
+    {
+        $this->panelControlController->categoriasMasRepetidasGastos();
+    }
+
+    public function datosDiariosPorMes()
+    {
+        $this->panelControlController->datosDiariosPorMes();
+    }
+
+    public function obtenerTotalesDelMes()
+    {
+        $this->panelControlController->obtenerTotalesDelMes();
+    }
+
+    public function obtenerDatosMensuales()
+    {
+        $this->panelControlController->obtenerDatosMensuales();
+    }
+
+    public function obtenerRentabilidadProductos()
+    {
+        $this->panelControlController->obtenerRentabilidadProductos();
+    }
+
     // metodos control de ventas //  
 
     // metodos de nofiticaciones //
@@ -483,6 +547,13 @@ class ControllerPage
         $this->compraController->procesarCargarCompra($IdProveedorCompra, $idEmpleado, $productos, $subTotalCompra, $totalCompra, $idMetodoPago);
     }
 
+    public function procesarCambiarEstadoCompra()
+    {
+        $id = $_POST['id'];
+        $estadoActual = $_POST['estadoActual'];
+        $this->validarCamposYRedirigir([$id, $estadoActual], '/proyectoTienda/page/listarCompras/1');
+        $this->compraController->procesarCambiarEstadoCompra($id, $estadoActual);
+    }
 
     // metodos de compra //     // metodos de compra //     // metodos de compra //
 

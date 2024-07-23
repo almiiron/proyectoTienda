@@ -66,5 +66,12 @@ class ControllerVenta
         $view = './modules/ventas/views/listar-ventas.php';
         require_once ('./modules/views/layouts/main.php');
     }
+
+    public function procesarCambiarEstadoVenta($idVenta, $estadoActual)
+    {
+        $resultado = $this->serviceVenta->procesarCambiarEstadoVenta($idVenta, $estadoActual);
+        header('Content-Type: application/json');
+        echo json_encode($resultado);
+    }
 }
 ?>

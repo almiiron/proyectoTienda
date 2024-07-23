@@ -45,7 +45,7 @@
         return $response_data;
     }
 
-    $totalAmount = (isset($_POST['total_amount'])) ? $_POST['total_amount'] : 10;
+    $totalAmount = (isset($_POST['total_amount'])) ? $_POST['total_amount'] : 0;
     $totalAmount = intval($totalAmount);
     // $totalAmount = $_POST['total_amount'];
     $respuesta = generarQrMercadoPago($totalAmount);

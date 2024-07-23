@@ -45,5 +45,12 @@ class ControllerCompra
         header('Content-Type: application/json');
         echo json_encode($resultado);
     }
+
+    public function procesarCambiarEstadoCompra($idVenta, $estadoActual)
+    {
+        $resultado = $this->serviceCompras->procesarCambiarEstadoCompra($idVenta, $estadoActual);
+        header('Content-Type: application/json');
+        echo json_encode($resultado);
+    }
 }
 ?>

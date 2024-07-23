@@ -154,14 +154,14 @@ class ServiceGasto
         $cambiarEstadoCategoria = $this->modelGasto->cambiarEstadoGasto($id, $nuevoEstado);
         if ($cambiarEstadoCategoria) {
             $estado = True;
-            $message = '¡La notificación se modificó correctamente!';
-            $mensajeNotificacion = "La notificación con ID $id se modificó correctamente, ";
+            $message = '¡El gasto se modificó correctamente!';
+            $mensajeNotificacion = "El gasto con ID $id se modificó correctamente, ";
             $mensajeNotificacion .= 'de ' . $estadoActual . ' a ' . $nuevoEstado;
             $tipoNotificacion = 'Información';
         } else {
             $estado = False;
-            $message = 'Hubo un error al intentar modificar la notificación.';
-            $mensajeNotificacion = "Hubo un error al intentar modificar la notificación con ID $id, ";
+            $message = 'Hubo un error al intentar modificar el gasto.';
+            $mensajeNotificacion = "Hubo un error al intentar modificar el gasto con ID $id, ";
             $mensajeNotificacion .= 'de ' . $estadoActual . ' a ' . $nuevoEstado;
             $tipoNotificacion = 'Error';
         }

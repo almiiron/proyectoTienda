@@ -139,13 +139,13 @@ class ServiceProducto
         $cambiarEstadoProducto = $this->modeloProductos->cambiarEstadoProducto($id, $nuevoEstado);
         if ($cambiarEstadoProducto) {
             $estado = True;
-            $message = "¡Se modificó correctamente el Producto!";
+            $message = "¡Se modificó correctamente el producto!";
             $mensajeNotificacion = 'Se modificó correctamente el producto de ID ' . $id;
             $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
             $tipoNotificacion = 'Información';
         } else {
             $estado = False;
-            $message = "¡Hubo un error al modificar el Producto!";
+            $message = "¡Hubo un error al modificar el producto!";
             $mensajeNotificacion = 'Hubo un error al modificar el producto de ID ' . $id;
             $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
             $tipoNotificacion = 'Error';

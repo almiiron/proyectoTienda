@@ -1,7 +1,7 @@
 <section class=" custom-bg-light" style="height:100%;">
     <div class="container h-100">
         <div class="row justify-content-sm-center h-100">
-            <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9" style="margin-top:-4%;">
+            <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9" style="margin-top:-3%;">
                 <div class="text-center my-5">
                     <img src="/proyectoTienda/modules/views/layouts/img/las-compras-en-linea.png" alt="logo"
                         width="100">

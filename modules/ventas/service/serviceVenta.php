@@ -165,5 +165,32 @@ class ServiceVenta
         $idVenta = $this->modeloVenta->obtenerUltimaVentaID();
         return $idVenta;
     }
+
+    public function procesarCambiarEstadoVenta($idVenta, $estadoActual)
+    {
+        $nuevoEstado = "";
+        if ($estadoActual == 'Activo') {
+            $nuevoEstado = "Inactivo";
+        } else if ($estadoActual == 'Inactivo') {
+            $nuevoEstado = "Activo";
+        }
+        $cambiarEstadoVenta = $this->modeloVenta->cambiarEstadoVenta($idVenta, $nuevoEstado);
+        $cambiarEstadoDetalleVenta = $this->modeloVenta->cambiarEstadoDetalleVenta($idVenta, $nuevoEstado);
+        if ($cambiarEstadoVenta && $cambiarEstadoDetalleVenta) {
+            $estado = True;
+            $message = "¡Se modificó correctamente la venta!";
+            $mensajeNotificacion = 'Se modificó correctamente la venta de ID ' . $idVenta;
+            $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
+            $tipoNotificacion = 'Información';
+        } else {
+            $estado = False;
+            $message = "¡Hubo un error al modificar la venta!";
+            $mensajeNotificacion = '¡Hubo un error al modificar la venta de ID ' . $idVenta;
+            $mensajeNotificacion .= ', de ' . $estadoActual . ' a ' . $nuevoEstado;
+            $tipoNotificacion = 'Error';
+        }
+        $this->serviceNotificaciones->cargarNotificacion($mensajeNotificacion, $tipoNotificacion);
+        return ['success' => $estado, 'message' => $message];
+    }
 }
 ?>

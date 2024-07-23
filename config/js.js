@@ -262,7 +262,7 @@ if (elementos.length > 0) {
         }
     });
 } else {
-    console.log('No hay elementos con la clase todosPreciosFormateados');
+    // console.log('No hay elementos con la clase todosPreciosFormateados');
 }
 // }
 

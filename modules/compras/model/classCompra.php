@@ -192,5 +192,36 @@ class Compras {
         // Si todas las inserciones y actualizaciones fueron exitosas, retornar true
         return true;
     }
+
+    public function cambiarEstadoCompra($idCompra, $nuevoEstado)
+    {
+        $query = "UPDATE
+                    compras
+                SET
+                    estado = ?
+                WHERE
+                    id_compra = ?";
+        $tipos = 'si';
+        $sql = $this->conexion->ejecutarConsultaPreparada($query, $tipos, $nuevoEstado, $idCompra);
+        if (!$sql) {
+            return false;
+        }
+        return true;
+    }
+    public function cambiarEstadoDetalleCompra($idCompra, $nuevoEstado)
+    {
+        $query = "UPDATE
+                    detalle_compra
+                SET
+                    estado = ?
+                WHERE
+                    id_compra = ?";
+        $tipos = 'si';
+        $sql = $this->conexion->ejecutarConsultaPreparada($query, $tipos, $nuevoEstado, $idCompra);
+        if (!$sql) {
+            return false;
+        }
+        return true;
+    }
 }
 ?>
