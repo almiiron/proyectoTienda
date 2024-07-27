@@ -1,5 +1,7 @@
 Tobias Joel Almiron
+
 Perfil de GitHub: https://github.com/almiiron
+
 Perfil de LinkedIn: www.linkedin.com/in/tobias-joel-almiron
 
 Descripción
@@ -14,33 +16,44 @@ Tecnologías Utilizadas
     API de Pagos: Mercado Pago
     Interacciones Asíncronas: AJAX
 
-     Asíncronas: AJAX
 
 Funcionalidades
 El sistema incluye los siguientes módulos y funcionalidades:
+
     Categorías:
         Gestión de categorías de productos.
+
     Clientes:
         Registro y gestión de clientes.
+
     Compras:
         Registro de todas las compras de productos.
+
     Empleados:
         Gestión de información de empleados.
+
     Gastos:
         Registro y gestión de gastos diversos del negocio.
+
     Notificaciones:
         Sistema de notificaciones para diferentes eventos y actividades.
+
     Panel de Control:
         Visualización de estadísticas y gráficos sobre ventas, compras, gastos y ganancias.
+
     Productos:
         Gestión de productos y stock.
+
     Proveedores:
         Gestión de información de proveedores.
+
     Ventas:
         Registro y gestión de ventas de productos.
 
 Tobias Joel Almiron
+
 Perfil de GitHub: https://github.com/almiiron
+
 Perfil de LinkedIn: www.linkedin.com/in/tobias-joel-almiron
 
 [![Captura-de-pantalla-2024-07-22-165922.png](https://i.postimg.cc/fLX2SNzz/Captura-de-pantalla-2024-07-22-165922.png)](https://postimg.cc/KkGrCC3w)
