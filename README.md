@@ -9,11 +9,17 @@ Descripción
 Este es un proyecto personal de un sistema de gestión comercial desarrollado para manejar productos, stock, ventas, compras, gastos, y más. El sistema está diseñado utilizando el patrón de diseño MVC-S (Model-View-Controller-Service) y hace uso de varias tecnologías web modernas para garantizar una experiencia de usuario fluida y eficiente.
 
 Tecnologías Utilizadas
+    
     Backend: PHP
+
     Frontend: HTML, CSS, Bootstrap, JavaScript, jQuery
+
     Base de Datos: MySQL
+
     Patrón de Diseño: MVC-S
+
     API de Pagos: Mercado Pago
+
     Interacciones Asíncronas: AJAX
 
 
